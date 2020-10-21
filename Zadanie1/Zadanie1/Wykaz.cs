@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
+﻿using System.Collections.Generic;
 
 namespace Zadanie1
 {
     public class Wykaz
     {
-        public Wykaz(string Id, string imie, string nazwisko)
+        public Wykaz(string id, string imie, string nazwisko)
         {
-            this.Id = Id;
+            this.Id = id;
             this.Imie = imie;
             this.Nazwisko = nazwisko;
         }
