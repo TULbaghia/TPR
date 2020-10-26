@@ -2,9 +2,9 @@
 
 namespace Zadanie1
 {
-    public class Wykaz
+    public class Klient
     {
-        public Wykaz(int id, string imie, string nazwisko)
+        public Klient(int id, string imie, string nazwisko)
         {
             Id = id;
             Imie = imie;
@@ -17,10 +17,10 @@ namespace Zadanie1
 
         public override bool Equals(object obj)
         {
-            return obj is Wykaz wykaz &&
-                   Id == wykaz.Id &&
-                   Imie == wykaz.Imie &&
-                   Nazwisko == wykaz.Nazwisko;
+            return obj is Klient klient &&
+                   Id == klient.Id &&
+                   Imie == klient.Imie &&
+                   Nazwisko == klient.Nazwisko;
         }
 
         public override int GetHashCode()

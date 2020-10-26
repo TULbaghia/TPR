@@ -6,17 +6,17 @@ namespace Zadanie1
 {
     public class Wypozyczenie : Zdarzenie
     {
-        public Wypozyczenie(int id, Wykaz wykaz, OpisStanu opisStanu) : base(id, wykaz, opisStanu)
+        public Wypozyczenie(int id, Klient klient, Stan stan) : base(id, klient, stan)
         {
         }
 
-        public Wypozyczenie(int id, Wykaz wykaz, OpisStanu opisStanu, DateTime data) : base(id, wykaz, opisStanu, data)
+        public Wypozyczenie(int id, Klient klient, Stan stan, DateTime data) : base(id, klient, stan, data)
         {
         }
 
         public override string ToString()
         {
-            return "Wyporzyczenie{ " + base.ToString() + " }";
+            return "Wypozyczenie{ " + base.ToString() + " }";
         }
     }
 }

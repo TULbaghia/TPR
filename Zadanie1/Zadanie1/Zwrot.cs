@@ -6,11 +6,11 @@ namespace Zadanie1
 {
     public class Zwrot : Zdarzenie
     {
-        public Zwrot(int id, Wykaz wykaz, OpisStanu opisStanu) : base(id, wykaz, opisStanu)
+        public Zwrot(int id, Klient klient, Stan stan) : base(id, klient, stan)
         {
         }
 
-        public Zwrot(int id, Wykaz wykaz, OpisStanu opisStanu, DateTime data) : base(id, wykaz, opisStanu, data)
+        public Zwrot(int id, Klient klient, Stan stan, DateTime data) : base(id, klient, stan, data)
         {
         }
 

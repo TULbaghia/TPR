@@ -7,19 +7,19 @@ namespace Zadanie1
     public class Zdarzenie
     {
         public int Id { get; set; }
-        public Wykaz Wykaz { get; set; }
-        public OpisStanu OpisStanu { get; set; }
+        public Klient Klient { get; set; }
+        public Stan Stan { get; set; }
         public DateTime Data { get; set; }
 
-        public Zdarzenie(int id, Wykaz wykaz, OpisStanu opisStanu, DateTime data)
+        public Zdarzenie(int id, Klient klient, Stan stan, DateTime data)
         {
             Id = id;
-            Wykaz = wykaz;
-            OpisStanu = opisStanu;
+            Klient = klient;
+            Stan = stan;
             Data = data;
         }
 
-        public Zdarzenie(int id, Wykaz wykaz, OpisStanu opisStanu) : this(id, wykaz, opisStanu, DateTime.Now)
+        public Zdarzenie(int id, Klient klient, Stan stan) : this(id, klient, stan, DateTime.Now)
         {
         }
 
@@ -27,8 +27,8 @@ namespace Zadanie1
         {
             return obj is Zdarzenie zdarzenie &&
                    Id == zdarzenie.Id &&
-                   EqualityComparer<Wykaz>.Default.Equals(Wykaz, zdarzenie.Wykaz) &&
-                   EqualityComparer<OpisStanu>.Default.Equals(OpisStanu, zdarzenie.OpisStanu) &&
+                   EqualityComparer<Klient>.Default.Equals(Klient, zdarzenie.Klient) &&
+                   EqualityComparer<Stan>.Default.Equals(Stan, zdarzenie.Stan) &&
                    Data == zdarzenie.Data;
         }
 
@@ -36,15 +36,15 @@ namespace Zadanie1
         {
             int hashCode = -813586821;
             hashCode = hashCode * -1521134295 + Id.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<Wykaz>.Default.GetHashCode(Wykaz);
-            hashCode = hashCode * -1521134295 + EqualityComparer<OpisStanu>.Default.GetHashCode(OpisStanu);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Klient>.Default.GetHashCode(Klient);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Stan>.Default.GetHashCode(Stan);
             hashCode = hashCode * -1521134295 + Data.GetHashCode();
             return hashCode;
         }
 
         public override string ToString()
         {
-            return "Zdarzenie[ id(" + Id + "), wykaz(" + Wykaz + "), opisStanu(" + OpisStanu + "), data(" + Data + ") ]";
+            return "Zdarzenie[ id(" + Id + "), wykaz(" + Klient + "), opisStanu(" + Stan + "), data(" + Data + ") ]";
         }
     }
 }

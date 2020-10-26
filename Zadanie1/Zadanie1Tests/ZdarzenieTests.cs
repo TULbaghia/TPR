@@ -12,16 +12,16 @@ namespace Zadanie1Tests
         [TestMethod]
         public void ConstructorBezDatyTest()
         {
-            Wykaz wykaz = new Wykaz(1, "Jan", "Kowalski");
-            OpisStanu opisStanu = new OpisStanu(1, new Katalog(1, "Witaj swiecie", "Test"), "xyz", DateTime.Now);
+            Klient klient = new Klient(1, "Jan", "Kowalski");
+            Stan stan = new Stan(1, new Ksiazka(1, "Witaj swiecie", "Test"), "xyz", DateTime.Now);
 
             DateTime dateTimePrzed = DateTime.Now;
-            Zdarzenie zdarzenie = new Zdarzenie(1, wykaz, opisStanu);
+            Zdarzenie zdarzenie = new Zdarzenie(1, klient, stan);
             DateTime dateTimePo = DateTime.Now;
 
             Assert.AreEqual(1, zdarzenie.Id);
-            Assert.AreEqual(wykaz, zdarzenie.Wykaz);
-            Assert.AreEqual(opisStanu, zdarzenie.OpisStanu);
+            Assert.AreEqual(klient, zdarzenie.Klient);
+            Assert.AreEqual(stan, zdarzenie.Stan);
             Assert.IsTrue(zdarzenie.Data >= dateTimePrzed);
             Assert.IsTrue(zdarzenie.Data <= dateTimePo);
         }
@@ -29,37 +29,37 @@ namespace Zadanie1Tests
         [TestMethod]
         public void ConstructorzDataTest()
         {
-            Wykaz wykaz = new Wykaz(1, "Jan", "Kowalski");
-            OpisStanu opisStanu = new OpisStanu(1, new Katalog(1, "Witaj swiecie", "Test"), "xyz", DateTime.Now);
+            Klient klient = new Klient(1, "Jan", "Kowalski");
+            Stan stan = new Stan(1, new Ksiazka(1, "Witaj swiecie", "Test"), "xyz", DateTime.Now);
             DateTime dateTime = DateTime.Now;
 
-            Zdarzenie zdarzenie = new Zdarzenie(1, wykaz, opisStanu, dateTime);
+            Zdarzenie zdarzenie = new Zdarzenie(1, klient, stan, dateTime);
 
             Assert.AreEqual(1, zdarzenie.Id);
-            Assert.AreEqual(wykaz, zdarzenie.Wykaz);
-            Assert.AreEqual(opisStanu, zdarzenie.OpisStanu);
+            Assert.AreEqual(klient, zdarzenie.Klient);
+            Assert.AreEqual(stan, zdarzenie.Stan);
             Assert.AreEqual(dateTime, zdarzenie.Data);
         }
 
         [TestMethod]
         public void SetTest()
         {
-            Wykaz wykaz1 = new Wykaz(1, "Jan", "Kowalski");
-            Wykaz wykaz2 = new Wykaz(2, "Jan", "Kowalski");
-            OpisStanu opisStanu1 = new OpisStanu(1, new Katalog(1, "Witaj swiecie", "Test"), "xyz", DateTime.Now);
-            OpisStanu opisStanu2 = new OpisStanu(2, new Katalog(1, "Witaj swiecie", "Test"), "xyz", DateTime.Now);
+            Klient klient1 = new Klient(1, "Jan", "Kowalski");
+            Klient klient2 = new Klient(2, "Jan", "Kowalski");
+            Stan stan1 = new Stan(1, new Ksiazka(1, "Witaj swiecie", "Test"), "xyz", DateTime.Now);
+            Stan stan2 = new Stan(2, new Ksiazka(1, "Witaj swiecie", "Test"), "xyz", DateTime.Now);
             DateTime dateTime1 = DateTime.Now;
             DateTime dateTime2 = DateTime.Now.AddDays(1);
 
-            Zdarzenie zdarzenie = new Zdarzenie(1, wykaz1, opisStanu1, dateTime1);
+            Zdarzenie zdarzenie = new Zdarzenie(1, klient1, stan1, dateTime1);
             zdarzenie.Id = 2;
-            zdarzenie.Wykaz = wykaz2;
-            zdarzenie.OpisStanu = opisStanu2;
+            zdarzenie.Klient = klient2;
+            zdarzenie.Stan = stan2;
             zdarzenie.Data = dateTime2;
 
             Assert.AreEqual(2, zdarzenie.Id);
-            Assert.AreEqual(wykaz2, zdarzenie.Wykaz);
-            Assert.AreEqual(opisStanu2, zdarzenie.OpisStanu);
+            Assert.AreEqual(klient2, zdarzenie.Klient);
+            Assert.AreEqual(stan2, zdarzenie.Stan);
             Assert.AreEqual(dateTime2, zdarzenie.Data);
         }
     }
