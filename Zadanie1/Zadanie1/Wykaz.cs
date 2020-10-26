@@ -4,14 +4,14 @@ namespace Zadanie1
 {
     public class Wykaz
     {
-        public Wykaz(string id, string imie, string nazwisko)
+        public Wykaz(int id, string imie, string nazwisko)
         {
-            this.Id = id;
-            this.Imie = imie;
-            this.Nazwisko = nazwisko;
+            Id = id;
+            Imie = imie;
+            Nazwisko = nazwisko;
         }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Imie { get; set; }
         public string Nazwisko { get; set; }
 
@@ -25,8 +25,8 @@ namespace Zadanie1
 
         public override int GetHashCode()
         {
-            int hashCode = -1163834168;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Id);
+            int hashCode = 763000634;
+            hashCode = hashCode * -1521134295 + Id.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Imie);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Nazwisko);
             return hashCode;
