@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Zadanie1.Data.Model
+namespace Zadanie1.Data
 {
     public class Wypozyczenie : Zdarzenie
     {

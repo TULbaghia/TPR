@@ -1,11 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using Zadanie1.Data.Model;
+using Zadanie1.Data;
 
 namespace Zadanie1Tests
 {
     [TestClass]
-    class WypozyczenieTests
+    public class WypozyczenieTests
     {
         [TestMethod]
         public void ConstructorTest()
@@ -49,12 +49,14 @@ namespace Zadanie1Tests
             Zdarzenie zdarzenie = new Zdarzenie(klient, stan, dateTime);
 
             Assert.AreNotSame(wypozyczenie2, wypozyczenie1);
-            Assert.AreNotEqual(wypozyczenie2, wypozyczenie1);
-            Assert.AreNotEqual(wypozyczenie2.GetHashCode(), wypozyczenie1.GetHashCode());
+            Assert.AreEqual(wypozyczenie2, wypozyczenie1);
+            Assert.AreEqual(wypozyczenie2.GetHashCode(), wypozyczenie1.GetHashCode());
+
+            zdarzenie.Data = DateTime.Now.AddDays(1);
 
             Assert.AreNotSame(wypozyczenie1, zdarzenie);
             Assert.AreNotEqual(wypozyczenie1, zdarzenie);
-            Assert.AreEqual(zdarzenie, wypozyczenie1);
+            Assert.AreNotEqual(zdarzenie, wypozyczenie1);
             Assert.AreNotEqual(zdarzenie.GetHashCode(), wypozyczenie1.GetHashCode());
         }
     }

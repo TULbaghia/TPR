@@ -1,11 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using Zadanie1.Data.Model;
+using Zadanie1.Data;
 
 namespace Zadanie1Tests
 {
     [TestClass]
-    class ZwrotTests
+    public class ZwrotTests
     {
         [TestMethod]
         public void ConstructorTest()
@@ -49,8 +49,8 @@ namespace Zadanie1Tests
             Zdarzenie zdarzenie = new Zdarzenie(klient, stan, dateTime);
 
             Assert.AreNotSame(zwrot2, zwrot1);
-            Assert.AreNotEqual(zwrot2, zwrot1);
-            Assert.AreNotEqual(zwrot2.GetHashCode(), zwrot1.GetHashCode());
+            Assert.AreEqual(zwrot2, zwrot1);
+            Assert.AreEqual(zwrot2.GetHashCode(), zwrot1.GetHashCode());
 
             Assert.AreNotSame(zwrot1, zdarzenie);
             Assert.AreNotEqual(zwrot1, zdarzenie);

@@ -1,7 +1,6 @@
 ﻿using System;
 using Zadanie1;
 using Zadanie1.Data;
-using Zadanie1.Data.Model;
 
 namespace Zadanie1Tests
 {

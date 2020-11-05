@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Zadanie1;
 using Zadanie1.Data;
+using Zadanie1.Logic;
 
 namespace Zadanie1Tests
 {
