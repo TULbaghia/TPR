@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Zadanie1;
+using Zadanie1.Data.Model;
 
 namespace Zadanie1Tests
 {
@@ -9,8 +9,7 @@ namespace Zadanie1Tests
         [TestMethod]
         public void KlientConstructorTest()
         {
-            Klient klient = new Klient(999, "Jan", "Kowalski");
-            Assert.AreEqual(999, klient.Id);
+            Klient klient = new Klient("Jan", "Kowalski");
             Assert.AreEqual("Jan", klient.Imie);
             Assert.AreEqual("Kowalski", klient.Nazwisko);
         }
@@ -18,11 +17,9 @@ namespace Zadanie1Tests
         [TestMethod]
         public void KlientSetTest()
         {
-            Klient klient = new Klient(999, "Jan", "Kowalski");
-            klient.Id = 1000;
+            Klient klient = new Klient("Jan", "Kowalski");
             klient.Imie = "Karol";
             klient.Nazwisko = "Testowy";
-            Assert.AreEqual(1000, klient.Id);
             Assert.AreEqual("Karol", klient.Imie);
             Assert.AreEqual("Testowy", klient.Nazwisko);
         }

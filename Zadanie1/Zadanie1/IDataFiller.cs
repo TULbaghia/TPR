@@ -1,4 +1,6 @@
-﻿namespace Zadanie1
+﻿using Zadanie1.Data;
+
+namespace Zadanie1
 {
     public interface IDataFiller
     {

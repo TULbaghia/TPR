@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Runtime.InteropServices.ComTypes;
 using Zadanie1;
+using Zadanie1.Data;
+using Zadanie1.Data.Model;
 
 namespace Zadanie1Tests
 {
@@ -11,27 +12,27 @@ namespace Zadanie1Tests
 
             for (int i = 0; i < 10; i++)
             {
-                context.Klienci.Add(new Klient(i, "Jan" + i, "Testowy" + i));
+                context.Klienci.Add(new Klient("Jan" + i, "Testowy" + i));
             }
 
             for (int i = 0; i < 10; i++)
             {
-                context.Ksiazki.Add(i, new Ksiazka(i, "TestowyTytul" + i, "TestowyAutor" + i));
+                context.Ksiazki.Add(i, new Ksiazka("TestowyTytul" + i, "TestowyAutor" + i));
             }
 
             for (int i = 0; i < 10; i++)
             {
-                context.Stany.Add(new Stan(i, context.Ksiazki[i], "Testowy opis" + i, new DateTime(2020, 10, i + 1, 13, i + 1, 30))) ;
+                context.Stany.Add(new Stan(context.Ksiazki[i], "Testowy opis" + i, new DateTime(2020, 10, i + 1, 13, i + 1, 30))) ;
             }
 
             for (int i = 0; i < 10; i++)
             {
-                context.Zdarzenia.Add(new Wypozyczenie(i, context.Klienci[i], context.Stany[i], new DateTime(2020, 11, i + 1, 13, i + 1, 30)));
+                context.Zdarzenia.Add(new Wypozyczenie(context.Klienci[i], context.Stany[i], new DateTime(2020, 11, i + 1, 13, i + 1, 30)));
             }
 
             for (int i = 0; i < 10; i++)
             {
-                context.Zdarzenia.Add(new Zwrot(i, context.Klienci[i], context.Stany[i], new DateTime(2020, 12, i + 1, 13, i + 1, 30)));
+                context.Zdarzenia.Add(new Zwrot(context.Klienci[i], context.Stany[i], new DateTime(2020, 12, i + 1, 13, i + 1, 30)));
             }
 
         }

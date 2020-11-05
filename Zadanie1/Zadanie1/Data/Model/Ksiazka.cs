@@ -1,26 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace Zadanie1
+namespace Zadanie1.Data.Model
 {
     public class Ksiazka
     {
-        public Ksiazka(int id, string tytul, string autor)
+        public string Tytul { get; set; }
+        public string Autor { get; set; }
+
+        public Ksiazka(string tytul, string autor)
         {
-            Id = id;
             Tytul = tytul;
             Autor = autor;
         }
 
-        public int Id { get; set; }
-        public string Tytul { get; set; }
-        public string Autor { get; set; }
-
         public override bool Equals(object obj)
         {
             return obj is Ksiazka ksiazka &&
-                   Id == ksiazka.Id &&
                    Tytul == ksiazka.Tytul &&
                    Autor == ksiazka.Autor;
         }
@@ -28,7 +23,6 @@ namespace Zadanie1
         public override int GetHashCode()
         {
             int hashCode = 1728777499;
-            hashCode = hashCode * -1521134295 + Id.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Tytul);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Autor);
             return hashCode;
@@ -36,7 +30,7 @@ namespace Zadanie1
 
         public override string ToString()
         {
-            return this.Id + ", " + this.Tytul + ", " + this.Autor;
+            return "Ksiazka[ Tytul(" + Tytul + "), Autor(" + Autor + ") ]";
         }
     }
 

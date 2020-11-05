@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Zadanie1;
+using Zadanie1.Data.Model;
 
 namespace Zadanie1Tests
 {
@@ -9,8 +9,7 @@ namespace Zadanie1Tests
         [TestMethod]
         public void KsiazkaConstructorTest()
         {
-            Ksiazka ksiazka = new Ksiazka(1, "TestowyTytul", "TestowyAutor");
-            Assert.AreEqual(1, ksiazka.Id);
+            Ksiazka ksiazka = new Ksiazka("TestowyTytul", "TestowyAutor");
             Assert.AreEqual("TestowyTytul", ksiazka.Tytul);
             Assert.AreEqual("TestowyAutor", ksiazka.Autor);
 
@@ -19,11 +18,9 @@ namespace Zadanie1Tests
         [TestMethod]
         public void KsiazkaSetTest()
         {
-            Ksiazka ksiazka= new Ksiazka(1, "TestowaNazwa", "TestowyAutor");
-            ksiazka.Id = 2;
+            Ksiazka ksiazka= new Ksiazka("TestowaNazwa", "TestowyAutor");
             ksiazka.Tytul = "InnyTytul";
             ksiazka.Autor = "InnyAutor";
-            Assert.AreEqual(2, ksiazka.Id);
             Assert.AreEqual("InnyAutor", ksiazka.Autor);
             Assert.AreEqual("InnyTytul", ksiazka.Tytul);
         }

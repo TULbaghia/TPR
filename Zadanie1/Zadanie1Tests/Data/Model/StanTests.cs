@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Zadanie1;
+using Zadanie1.Data.Model;
 
 namespace Zadanie1Tests
 {
@@ -13,10 +11,9 @@ namespace Zadanie1Tests
         public void ConstructorTest()
         {
             DateTime dateTime = DateTime.Now;
-            Ksiazka ksiazka = new Ksiazka(1, "Witaj swiecie", "Test");
-            Stan opisStanu = new Stan(1, ksiazka, "xyz", dateTime);
+            Ksiazka ksiazka = new Ksiazka("Witaj swiecie", "Test");
+            Stan opisStanu = new Stan(ksiazka, "xyz", dateTime);
 
-            Assert.AreEqual(1, opisStanu.Id);
             Assert.AreSame(ksiazka, opisStanu.Ksiazka);
             Assert.AreEqual("xyz", opisStanu.Opis);
             Assert.AreEqual(dateTime, opisStanu.DataZakupu);
@@ -27,16 +24,14 @@ namespace Zadanie1Tests
         {
             DateTime dateTime1 = DateTime.Now;
             DateTime dateTime2 = DateTime.Now.AddDays(2);
-            Ksiazka ksiazka1 = new Ksiazka(1, "Witaj swiecie", "Test");
-            Ksiazka ksiazka2 = new Ksiazka(2, "Swiecie witaj", "Tset");
+            Ksiazka ksiazka1 = new Ksiazka("Witaj swiecie", "Test");
+            Ksiazka ksiazka2 = new Ksiazka("Swiecie witaj", "Tset");
 
-            Stan stan = new Stan(1, ksiazka1, "xyz1", dateTime1);
-            stan.Id = 2;
+            Stan stan = new Stan(ksiazka1, "xyz1", dateTime1);
             stan.Ksiazka = ksiazka2;
             stan.Opis = "xyz2";
             stan.DataZakupu = dateTime2;
 
-            Assert.AreEqual(2, stan.Id);
             Assert.AreSame(ksiazka2, stan.Ksiazka);
             Assert.AreEqual("xyz2", stan.Opis);
             Assert.AreEqual(dateTime2, stan.DataZakupu);
@@ -46,16 +41,16 @@ namespace Zadanie1Tests
         public void EqualsHashCodeTest()
         {
             DateTime dateTime = DateTime.Now;
-            Ksiazka ksiazka = new Ksiazka(1, "Witaj swiecie", "Test");
+            Ksiazka ksiazka = new Ksiazka("Witaj swiecie", "Test");
 
-            Stan stan = new Stan(1, ksiazka, "xyz", dateTime);
-            Stan stan1 = new Stan(1, ksiazka, "xyz", dateTime);
+            Stan stan = new Stan(ksiazka, "xyz", dateTime);
+            Stan stan1 = new Stan(ksiazka, "xyz", dateTime);
 
             Assert.AreNotSame(stan1, stan);
             Assert.AreEqual(stan1, stan);
             Assert.AreEqual(stan1.GetHashCode(), stan.GetHashCode());
 
-            stan1.Id = 2;
+            stan1.DataZakupu = DateTime.Now;
 
             Assert.AreNotSame(stan1, stan);
             Assert.AreNotEqual(stan1, stan);
