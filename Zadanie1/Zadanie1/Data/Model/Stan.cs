@@ -26,7 +26,7 @@ namespace Zadanie1.Data
 
         public override string ToString()
         {
-            return "OpisStanu[ Katalog(" + Ksiazka + "), Opis(" + Opis + "), DataZakupu(" + DataZakupu + ") ]";
+            return "OpisStanu[ Katalog(" + Ksiazka + "), Opis(" + Opis + "), Ilosc(" + Ilosc + "), DataZakupu(" + DataZakupu + ") ]";
         }
 
         public override bool Equals(object obj)

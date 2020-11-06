@@ -24,6 +24,15 @@ namespace Zadanie1Tests
         }
 
         [TestMethod]
+        public void GetKlientExceptionTest()
+        {
+            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
+
+            Assert.ThrowsException<KeyNotFoundException>( () => dataRepository.GetKlient(dataRepository.GetAllKlient().Count() + 1) ); 
+        }
+
+        [TestMethod]
         public void AddKlientTest()
         {
             WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
@@ -59,11 +68,20 @@ namespace Zadanie1Tests
             Assert.Inconclusive();
         }
 
-
         [TestMethod]
         public void DeleteKlientTest()
         {
-            Assert.Inconclusive();
+            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
+
+            Klient klient = dataRepository.GetKlient(0);
+
+            Assert.AreEqual(dataRepository.GetKlient(0), klient);
+            dataRepository.DeleteKlient(klient);
+            foreach (Klient k in dataRepository.GetAllKlient())
+            {
+                Assert.AreNotEqual(k, klient);
+            }
         }
 
         // Ksiazka
@@ -78,6 +96,15 @@ namespace Zadanie1Tests
                 Assert.AreEqual(dataRepository.GetKsiazka(i).Tytul, "TestowyTytul" + i);
                 Assert.AreEqual(dataRepository.GetKsiazka(i).Autor, "TestowyAutor" + i);
             }
+        }
+
+        [TestMethod]
+        public void GetKsiazkaExceptionTest()
+        {
+            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
+
+            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.GetKsiazka(dataRepository.GetAllKsiazka().Count() + 1));
         }
 
         [TestMethod]
@@ -116,11 +143,20 @@ namespace Zadanie1Tests
             Assert.Inconclusive();
         }
 
-
         [TestMethod]
         public void DeleteKsiazkaTest()
         {
-            Assert.Inconclusive();
+            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
+
+            Ksiazka ksiazka = dataRepository.GetKsiazka(0);
+
+            Assert.AreEqual(dataRepository.GetKsiazka(0), ksiazka);
+            dataRepository.DeleteKsiazka(ksiazka);
+            foreach (Ksiazka k in dataRepository.GetAllKsiazka())
+            {
+                Assert.AreNotEqual(k, ksiazka);
+            }
         }
 
         // Stan
@@ -136,6 +172,15 @@ namespace Zadanie1Tests
                 Assert.AreEqual(dataRepository.GetStan(i).Opis, "TestowyOpis" + i);
                 Assert.AreEqual(dataRepository.GetStan(i).DataZakupu, new DateTime(2020, 10, i + 1, 13, i + 1, 30));
             }
+        }
+
+        [TestMethod]
+        public void GetStanExceptionTest()
+        {
+            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
+
+            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.GetStan(dataRepository.GetAllStan().Count() + 1));
         }
 
         [TestMethod]
@@ -180,7 +225,17 @@ namespace Zadanie1Tests
         [TestMethod]
         public void DeleteStanTest()
         {
-            Assert.Inconclusive();
+            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
+
+            Stan stan = dataRepository.GetStan(0);
+
+            Assert.AreEqual(dataRepository.GetStan(0), stan);
+            dataRepository.DeleteStan(stan);
+            foreach (Stan s in dataRepository.GetAllStan())
+            {
+                Assert.AreNotEqual(s, stan);
+            }
         }
 
         // Zdarzenie
@@ -197,6 +252,15 @@ namespace Zadanie1Tests
                 Assert.AreEqual(dataRepository.GetZdarzenie(i).Stan, dataRepository.DataContext.Stany[i % (zdarzeniaSize / 2)]);
                 Assert.AreEqual(dataRepository.GetZdarzenie(i).Klient, dataRepository.DataContext.Klienci[i % (zdarzeniaSize / 2)]);
             }
+        }
+
+        [TestMethod]
+        public void GetZdarzenieExceptionTest()
+        {
+            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
+
+            Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.GetZdarzenie(dataRepository.GetAllZdarzenie().Count() + 1));
         }
 
         [TestMethod]
@@ -265,7 +329,17 @@ namespace Zadanie1Tests
         [TestMethod]
         public void DeleteZdarzenieTest()
         {
-            Assert.Inconclusive();
+            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
+
+            Zdarzenie zdarzenie = dataRepository.GetZdarzenie(0);
+
+            Assert.AreEqual(dataRepository.GetZdarzenie(0), zdarzenie);
+            dataRepository.DeleteZdarzenie(zdarzenie);
+            foreach (Zdarzenie z in dataRepository.GetAllZdarzenie())
+            {
+                Assert.AreNotEqual(z, zdarzenie);
+            }
         }
     }
 }
