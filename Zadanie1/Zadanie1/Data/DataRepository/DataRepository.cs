@@ -84,7 +84,7 @@ namespace Zadanie1.Data
 
         public Klient GetKlient(int id)
         {
-            if (DataContext.Klienci.Count() > id && id <= 0)
+            if (DataContext.Klienci.Count() > id && id >= 0)
             {
                 return DataContext.Klienci[id];
             }
