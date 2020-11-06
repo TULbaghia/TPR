@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Zadanie1.Data
@@ -34,9 +35,13 @@ namespace Zadanie1.Data
             return DataContext.Ksiazki.Values;
         }
 
-        public void UpdateKsiazka(int id, Ksiazka ksiazka)
+        public void UpdateKsiazka(int id, string tytul, string autor)
         {
-            throw new System.NotImplementedException();
+            if (DataContext.Ksiazki.ContainsKey(id))
+            {
+                DataContext.Ksiazki[id].Autor = autor;
+                DataContext.Ksiazki[id].Tytul = tytul;
+            } else throw new KeyNotFoundException();
         }
 
         public void DeleteKsiazka(Ksiazka ksiazka)
@@ -73,9 +78,19 @@ namespace Zadanie1.Data
             return DataContext.Stany;
         }
 
-        public void UpdateStan(int id, Stan stan)
+        public void UpdateStan(Ksiazka ksiazka, string opis, int ilosc, DateTime dataZakupu)
         {
-            throw new System.NotImplementedException();
+            foreach (Stan stan in DataContext.Stany)
+            {
+                if (stan.Ksiazka.Equals(ksiazka))
+                {
+                    stan.Ilosc = ilosc;
+                    stan.Opis = opis;
+                    stan.DataZakupu = dataZakupu;
+                    return;
+                }
+            }
+            throw new ArgumentException();
         }
 
         public void DeleteStan(Stan stan)
@@ -95,8 +110,7 @@ namespace Zadanie1.Data
             if (DataContext.Klienci.ElementAtOrDefault(id) != null)
             {
                 return DataContext.Klienci[id];
-            }
-            throw new KeyNotFoundException();
+            } else throw new KeyNotFoundException();
         }
 
         public IEnumerable<Klient> GetAllKlient()
@@ -104,9 +118,13 @@ namespace Zadanie1.Data
             return DataContext.Klienci;
         }
 
-        public void UpdateKlient(int id, Stan stan)
+        public void UpdateKlient(int id, string imie, string nazwisko)
         {
-            throw new System.NotImplementedException();
+            if (DataContext.Klienci.ElementAtOrDefault(id) != null)
+            {
+                DataContext.Klienci[id].Imie = imie;
+                DataContext.Klienci[id].Nazwisko = nazwisko;
+            } else throw new KeyNotFoundException();
         }
 
         public void DeleteKlient(Klient klient)

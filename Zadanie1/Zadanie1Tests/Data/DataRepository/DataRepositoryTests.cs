@@ -65,7 +65,12 @@ namespace Zadanie1Tests
         [TestMethod]
         public void UpdateKlientTest()
         {
-            Assert.Inconclusive();
+            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
+
+            dataRepository.UpdateKlient(0, "Karol", "Update");
+            Assert.AreEqual(dataRepository.GetKlient(0).Imie, "Karol");
+            Assert.AreEqual(dataRepository.GetKlient(0).Nazwisko, "Update");
         }
 
         [TestMethod]
@@ -140,7 +145,12 @@ namespace Zadanie1Tests
         [TestMethod]
         public void UpdateKsiazkaTest()
         {
-            Assert.Inconclusive();
+            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
+
+            dataRepository.UpdateKsiazka(0, "UpdateTytul", "UpdateAutor");
+            Assert.AreEqual(dataRepository.GetKsiazka(0).Autor, "UpdateAutor");
+            Assert.AreEqual(dataRepository.GetKsiazka(0).Tytul, "UpdateTytul");
         }
 
         [TestMethod]
@@ -218,7 +228,21 @@ namespace Zadanie1Tests
         [TestMethod]
         public void UpdateStanTest()
         {
-            Assert.Inconclusive();
+            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
+
+            dataRepository.UpdateStan(dataRepository.GetKsiazka(0), "UpdateOpisu", 999, new DateTime(2000, 01, 01, 01, 01, 01));
+
+            foreach (Stan stan in dataRepository.GetAllStan())
+            {
+                if (stan.Ksiazka.Equals(dataRepository.GetKsiazka(0)))
+                {
+                    Assert.AreEqual(stan.Opis, "UpdateOpisu");
+                    Assert.AreEqual(stan.Ilosc, 999);
+                    Assert.AreEqual(stan.DataZakupu, new DateTime(2000, 01, 01, 01, 01, 01));
+                }
+            }
+
         }
 
 
