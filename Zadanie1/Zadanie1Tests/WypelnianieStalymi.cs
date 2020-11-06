@@ -21,7 +21,7 @@ namespace Zadanie1Tests
 
             for (int i = 0; i < 10; i++)
             {
-                context.Stany.Add(new Stan(context.Ksiazki[i], "Testowy opis" + i, new DateTime(2020, 10, i + 1, 13, i + 1, 30))) ;
+                context.Stany.Add(new Stan(context.Ksiazki[i], "TestowyOpis" + i, new DateTime(2020, 10, i + 1, 13, i + 1, 30))) ;
             }
 
             for (int i = 0; i < 10; i++)

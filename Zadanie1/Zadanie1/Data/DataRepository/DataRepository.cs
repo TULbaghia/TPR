@@ -53,7 +53,7 @@ namespace Zadanie1.Data
 
         public Stan GetStan(int id)
         {
-            if (DataContext.Stany.Count() > id && id <= 0)
+            if (DataContext.Stany.Count() > id && id >= 0)
             {
                 return DataContext.Stany[id];
             }
@@ -115,7 +115,7 @@ namespace Zadanie1.Data
 
         public Zdarzenie GetZdarzenie(int id)
         {
-            if (DataContext.Zdarzenia.Count() > id && id <= 0)
+            if (DataContext.Zdarzenia.Count() > id && id >= 0)
             {
                 return DataContext.Zdarzenia[id];
             }
