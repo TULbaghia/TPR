@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Zadanie1.Data
 {
@@ -13,20 +14,24 @@ namespace Zadanie1.Data
 
         // -=-=-=-=-
 
-        // TODO: fix 1
         public void AddKsiazka(Ksiazka ksiazka)
         {
-            DataContext.Ksiazki.Add(1, ksiazka);
+            int id = DataContext.Ksiazki.Keys.Count() == 0 ? 0 : DataContext.Ksiazki.Keys.Max()+1;
+            DataContext.Ksiazki.Add(id, ksiazka);
         }
 
         public Ksiazka GetKsiazka(int id)
         {
-            return DataContext.Ksiazki[id];
+            if(DataContext.Ksiazki.ContainsKey(id))
+            {
+                return DataContext.Ksiazki[id];
+            }
+            throw new KeyNotFoundException();
         }
 
         public IEnumerable<Ksiazka> GetAllKsiazka()
         {
-            return (IEnumerable<Ksiazka>)DataContext.Ksiazki;
+            return DataContext.Ksiazki.Values;
         }
 
         public void UpdateKsiazka(int id, Ksiazka ksiazka)
@@ -48,7 +53,11 @@ namespace Zadanie1.Data
 
         public Stan GetStan(int id)
         {
-            return DataContext.Stany[id];
+            if (DataContext.Stany.Count() > id && id <= 0)
+            {
+                return DataContext.Stany[id];
+            }
+            throw new KeyNotFoundException();
         }
 
         public IEnumerable<Stan> GetAllStan()
@@ -75,7 +84,11 @@ namespace Zadanie1.Data
 
         public Klient GetKlient(int id)
         {
-            return DataContext.Klienci[id];
+            if (DataContext.Klienci.Count() > id && id <= 0)
+            {
+                return DataContext.Klienci[id];
+            }
+            throw new KeyNotFoundException();
         }
 
         public IEnumerable<Klient> GetAllKlient()
@@ -102,7 +115,11 @@ namespace Zadanie1.Data
 
         public Zdarzenie GetZdarzenie(int id)
         {
-            return DataContext.Zdarzenia[id];
+            if (DataContext.Zdarzenia.Count() > id && id <= 0)
+            {
+                return DataContext.Zdarzenia[id];
+            }
+            throw new KeyNotFoundException();
         }
 
         public IEnumerable<Zdarzenie> GetAllZdarzenie()

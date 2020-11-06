@@ -46,7 +46,7 @@ namespace Zadanie1Tests
 
             Zwrot zwrot1 = new Zwrot(klient, stan, dateTime);
             Zwrot zwrot2 = new Zwrot(klient, stan, dateTime);
-            Zdarzenie zdarzenie = new Zdarzenie(klient, stan, dateTime);
+            Zdarzenie zdarzenie = new Wypozyczenie(klient, stan, dateTime);
 
             Assert.AreNotSame(zwrot2, zwrot1);
             Assert.AreEqual(zwrot2, zwrot1);

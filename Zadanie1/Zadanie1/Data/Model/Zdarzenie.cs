@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Zadanie1.Data
 {
-    public class Zdarzenie
+    public abstract class Zdarzenie
     {
         public Klient Klient { get; set; }
         public Stan Stan { get; set; }
