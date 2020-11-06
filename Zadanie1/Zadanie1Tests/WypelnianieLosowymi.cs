@@ -22,7 +22,7 @@ namespace Zadanie1Tests
 
             for (int i = 0; i < 10; i++)
             {
-                context.Stany.Add(new Stan(context.Ksiazki[i], RandString(rand.Next(5, 10)),
+                context.Stany.Add(new Stan(context.Ksiazki[i], RandString(rand.Next(5, 10)), rand.Next(1, 10), 
                     new DateTime(rand.Next(2017, 2020), rand.Next(1, 12), rand.Next(1, 27), rand.Next(8, 18), rand.Next(1, 55), rand.Next(1, 55))));
             }
 

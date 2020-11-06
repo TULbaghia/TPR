@@ -144,7 +144,7 @@ namespace Zadanie1Tests
             WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
             DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
             Ksiazka ksiazka = new Ksiazka("TytulTest", "AutorTest");
-            Stan stan = new Stan(ksiazka, "OpisTest", new DateTime(2020, 10, 10, 10, 10, 10));
+            Stan stan = new Stan(ksiazka, "OpisTest", 1, new DateTime(2020, 10, 10, 10, 10, 10));
 
             int stanySize = dataRepository.DataContext.Stany.Count;
             dataRepository.AddStan(stan);
@@ -207,7 +207,7 @@ namespace Zadanie1Tests
 
             Klient klient = new Klient("Jan", "NazwiskoWypozyczenie");
             Ksiazka ksiazka = new Ksiazka("Tytul", "AutorWypozyczenie");
-            Stan stan = new Stan(ksiazka, "OpisWypozyczenie");
+            Stan stan = new Stan(ksiazka, "OpisWypozyczenie", 1);
             Zdarzenie wypozyczenie = new Wypozyczenie(klient, stan);
 
             int zdarzeniaSize = dataRepository.DataContext.Zdarzenia.Count;
@@ -228,7 +228,7 @@ namespace Zadanie1Tests
             int zdarzeniaSize = dataRepository.DataContext.Zdarzenia.Count;
             Klient klient = new Klient("Jan", "NazwiskoZwrot");
             Ksiazka ksiazka = new Ksiazka("Tytul", "AutorZwrot");
-            Stan stan = new Stan(ksiazka, "OpisZwrot");
+            Stan stan = new Stan(ksiazka, "OpisZwrot", 1);
             Zdarzenie zwrot = new Zwrot(klient, stan);
 
             dataRepository.AddZdarzenie(zwrot);

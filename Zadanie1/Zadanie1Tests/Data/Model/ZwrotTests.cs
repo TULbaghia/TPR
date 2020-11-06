@@ -11,7 +11,7 @@ namespace Zadanie1Tests
         public void ConstructorTest()
         {
             Klient klient = new Klient("Jan", "Kowalski");
-            Stan stan = new Stan(new Ksiazka("Witaj swiecie", "Test"), "xyz", DateTime.Now);
+            Stan stan = new Stan(new Ksiazka("Witaj swiecie", "Test"), "xyz", 1, DateTime.Now);
 
             DateTime dateTimePrzed = DateTime.Now;
             Zwrot wypozyczenie = new Zwrot(klient, stan);
@@ -27,7 +27,7 @@ namespace Zadanie1Tests
         public void ConstructorDataTest()
         {
             Klient klient = new Klient("Jan", "Kowalski");
-            Stan stan = new Stan(new Ksiazka("Witaj swiecie", "Test"), "xyz", DateTime.Now);
+            Stan stan = new Stan(new Ksiazka("Witaj swiecie", "Test"), "xyz", 1, DateTime.Now);
             DateTime dateTime = DateTime.Now;
 
             Zwrot wypozyczenie = new Zwrot(klient, stan, dateTime);
@@ -41,7 +41,7 @@ namespace Zadanie1Tests
         public void EqualsTest()
         {
             Klient klient = new Klient("Jan", "Kowalski");
-            Stan stan = new Stan(new Ksiazka("Witaj swiecie", "Test"), "xyz", DateTime.Now);
+            Stan stan = new Stan(new Ksiazka("Witaj swiecie", "Test"), "xyz", 1, DateTime.Now);
             DateTime dateTime = DateTime.Now;
 
             Zwrot zwrot1 = new Zwrot(klient, stan, dateTime);
@@ -54,7 +54,7 @@ namespace Zadanie1Tests
 
             Assert.AreNotSame(zwrot1, zdarzenie);
             Assert.AreNotEqual(zwrot1, zdarzenie);
-            Assert.AreEqual(zdarzenie, zwrot1);
+            Assert.AreNotEqual(zdarzenie, zwrot1);
             Assert.AreNotEqual(zdarzenie.GetHashCode(), zwrot1.GetHashCode());
         }
     }

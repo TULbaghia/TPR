@@ -41,7 +41,15 @@ namespace Zadanie1.Data
 
         public void DeleteKsiazka(Ksiazka ksiazka)
         {
-            throw new System.NotImplementedException();
+            
+            foreach (KeyValuePair<int, Ksiazka> k in DataContext.Ksiazki)
+            {
+                if(k.Value == ksiazka)
+                {
+                    DataContext.Ksiazki.Remove(k.Key);
+                    break;
+                }
+            }
         }
 
         // -=-=-=-=-
@@ -53,7 +61,7 @@ namespace Zadanie1.Data
 
         public Stan GetStan(int id)
         {
-            if (DataContext.Stany.Count() > id && id >= 0)
+            if (DataContext.Stany.ElementAtOrDefault(id) != null)
             {
                 return DataContext.Stany[id];
             }
@@ -72,7 +80,7 @@ namespace Zadanie1.Data
 
         public void DeleteStan(Stan stan)
         {
-            throw new System.NotImplementedException();
+            DataContext.Stany.Remove(stan);
         }
 
         // -=-=-=-=-
@@ -84,7 +92,7 @@ namespace Zadanie1.Data
 
         public Klient GetKlient(int id)
         {
-            if (DataContext.Klienci.Count() > id && id >= 0)
+            if (DataContext.Klienci.ElementAtOrDefault(id) != null)
             {
                 return DataContext.Klienci[id];
             }
@@ -103,7 +111,7 @@ namespace Zadanie1.Data
 
         public void DeleteKlient(Klient klient)
         {
-            throw new System.NotImplementedException();
+            DataContext.Klienci.Remove(klient);
         }
 
         // -=-=-=-=-
@@ -115,7 +123,7 @@ namespace Zadanie1.Data
 
         public Zdarzenie GetZdarzenie(int id)
         {
-            if (DataContext.Zdarzenia.Count() > id && id >= 0)
+            if (DataContext.Zdarzenia.ElementAtOrDefault(id) != null)
             {
                 return DataContext.Zdarzenia[id];
             }
@@ -134,7 +142,7 @@ namespace Zadanie1.Data
 
         public void DeleteZdarzenie(Zdarzenie zdarzenie)
         {
-            throw new System.NotImplementedException();
+            DataContext.Zdarzenia.Remove(zdarzenie);
         }
     }
 }
