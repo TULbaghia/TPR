@@ -127,6 +127,29 @@ namespace Zadanie1.Logic
             return result;
         }
 
+        public IEnumerable<Zdarzenie> GetAllZdarzeniaDlaStanu(Stan stan)
+        {
+            List<Zdarzenie> result = new List<Zdarzenie>();
+            foreach (Zdarzenie zdarzenie in IData.GetAllZdarzenie())
+            {
+                if (zdarzenie.Stan == stan)
+                    result.Add(zdarzenie);
+            }
+            return result;
+        }
+        public IEnumerable<Stan> GetAllStanyDlaKsiazki(Ksiazka ksiazka)
+        {
+            List<Stan> result = new List<Stan>();
+            foreach (Stan stan in IData.GetAllStan())
+            {
+                if (stan.Ksiazka.Equals(ksiazka))
+                {
+                    result.Add(stan);
+                }
+            }
+            return result;
+        }
+
 
         public IEnumerable<Zdarzenie> GetAllZdarzeniaPomiedzyDatami(DateTime startTime, DateTime endTime)
         {
@@ -134,7 +157,7 @@ namespace Zadanie1.Logic
 
             foreach (Zdarzenie zdarzenie in IData.GetAllZdarzenie())
             {
-                if (zdarzenie.Data.CompareTo(startTime) >= 0 && zdarzenie.Data.CompareTo(endTime) >= 0)
+                if (zdarzenie.Data.CompareTo(startTime) >= 0 && zdarzenie.Data.CompareTo(endTime) <= 0)
                 {
                     zdarzenia.Add(zdarzenie);
                 }
