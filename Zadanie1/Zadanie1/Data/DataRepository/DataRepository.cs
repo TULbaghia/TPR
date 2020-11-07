@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Zadanie1.Data
@@ -12,12 +13,17 @@ namespace Zadanie1.Data
             dataFiller.Fill(DataContext);
         }
 
-        // -=-=-=-=-
+        #region Ksiazka
 
         public void AddKsiazka(Ksiazka ksiazka)
         {
+            if (DataContext.Ksiazki.ContainsValue(ksiazka))
+            {
+                throw new Exception("Taka ksiazka juz istnieje");
+            }
             int id = DataContext.Ksiazki.Keys.Count() == 0 ? 0 : DataContext.Ksiazki.Keys.Max()+1;
             DataContext.Ksiazki.Add(id, ksiazka);
+            ksiazka.Id = id;
         }
 
         public Ksiazka GetKsiazka(int id)
@@ -26,7 +32,7 @@ namespace Zadanie1.Data
             {
                 return DataContext.Ksiazki[id];
             }
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException("Ksiazka o takim id nie istnieje");
         }
 
         public IEnumerable<Ksiazka> GetAllKsiazka()
@@ -36,23 +42,37 @@ namespace Zadanie1.Data
 
         public void UpdateKsiazka(int id, Ksiazka ksiazka)
         {
-            throw new System.NotImplementedException();
+            if (DataContext.Ksiazki.ContainsValue(ksiazka))
+            {
+                throw new Exception("Taka ksiazka juz istnieje");
+            }
+            Ksiazka old = GetKsiazka(id);
+            old.Autor = ksiazka.Autor;
+            old.Tytul = ksiazka.Tytul;
         }
 
         public void DeleteKsiazka(Ksiazka ksiazka)
         {
-            
+            foreach (Stan stan in DataContext.Stany)
+            {
+                if (stan.Ksiazka == ksiazka)
+                {
+                    throw new Exception("Nie mozna usunac ksiazki posiadajacej stan");
+                }
+            }
             foreach (KeyValuePair<int, Ksiazka> k in DataContext.Ksiazki)
             {
-                if(k.Value == ksiazka)
+                if (k.Value == ksiazka)
                 {
                     DataContext.Ksiazki.Remove(k.Key);
-                    break;
+                    return;
                 }
             }
         }
 
-        // -=-=-=-=-
+        #endregion
+
+        #region Stan
 
         public void AddStan(Stan stan)
         {
@@ -65,7 +85,7 @@ namespace Zadanie1.Data
             {
                 return DataContext.Stany[id];
             }
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException("Stan o takim id nie istnieje");
         }
 
         public IEnumerable<Stan> GetAllStan()
@@ -75,15 +95,41 @@ namespace Zadanie1.Data
 
         public void UpdateStan(int id, Stan stan)
         {
-            throw new System.NotImplementedException();
+            Stan old = GetStan(id);
+            if(stan.Ilosc < 0)
+            {
+                throw new Exception("Stan posiada nieprawidlowa ilosc");
+            }
+            old.Ksiazka = stan.Ksiazka;
+            old.Opis = stan.Opis;
+            old.Ilosc = stan.Ilosc;
+            old.DataZakupu = stan.DataZakupu;
         }
 
         public void DeleteStan(Stan stan)
         {
-            DataContext.Stany.Remove(stan);
+            foreach (Zdarzenie z in DataContext.Zdarzenia)
+            {
+                if(z.Stan == stan)
+                {
+                    throw new Exception("Nie mozna usunac stanu posiadajacego zdarzenie");
+                }
+            }
+            int index = 0;
+            foreach (Stan s in DataContext.Stany)
+            {
+                if (s == stan)
+                {
+                    DataContext.Stany.RemoveAt(index);
+                    return;
+                }
+                index++;
+            }
         }
 
-        // -=-=-=-=-
+        #endregion
+
+        #region Klient
 
         public void AddKlient(Klient klient)
         {
@@ -96,7 +142,7 @@ namespace Zadanie1.Data
             {
                 return DataContext.Klienci[id];
             }
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException("Klient o takim id nie istnieje");
         }
 
         public IEnumerable<Klient> GetAllKlient()
@@ -104,17 +150,37 @@ namespace Zadanie1.Data
             return DataContext.Klienci;
         }
 
-        public void UpdateKlient(int id, Stan stan)
+        public void UpdateKlient(int id, Klient klient)
         {
-            throw new System.NotImplementedException();
+            Klient oldKlient = GetKlient(id);
+            oldKlient.Imie = klient.Imie;
+            oldKlient.Nazwisko = klient.Nazwisko;
         }
 
         public void DeleteKlient(Klient klient)
         {
-            DataContext.Klienci.Remove(klient);
+            foreach (Zdarzenie zdarzenie in DataContext.Zdarzenia)
+            {
+                if (zdarzenie.Klient == klient)
+                {
+                    throw new Exception("Nie mozna usunac klienta posiadajacego zdarzenie");
+                }
+            }
+            int index = 0;
+            foreach(Klient k in DataContext.Klienci)
+            {
+                if(k == klient)
+                {
+                    DataContext.Klienci.RemoveAt(index);
+                    return;
+                }
+                index++;
+            }
         }
 
-        // -=-=-=-=-
+        #endregion
+
+        #region Zdarzenie
 
         public void AddZdarzenie(Zdarzenie zdarzenie)
         {
@@ -127,7 +193,7 @@ namespace Zadanie1.Data
             {
                 return DataContext.Zdarzenia[id];
             }
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException("Zdarzenie o takim id nie istnieje");
         }
 
         public IEnumerable<Zdarzenie> GetAllZdarzenie()
@@ -137,12 +203,25 @@ namespace Zadanie1.Data
 
         public void UpdateZdarzenie(int id, Zdarzenie zdarzenie)
         {
-            throw new System.NotImplementedException();
+            GetZdarzenie(id);
+            DataContext.Zdarzenia.RemoveAt(id);
+            DataContext.Zdarzenia.Insert(id, zdarzenie);
         }
 
         public void DeleteZdarzenie(Zdarzenie zdarzenie)
         {
-            DataContext.Zdarzenia.Remove(zdarzenie);
+            int index = 0;
+            foreach (Zdarzenie z in DataContext.Zdarzenia)
+            {
+                if (z == zdarzenie)
+                {
+                    DataContext.Zdarzenia.RemoveAt(index);
+                    return;
+                }
+                index++;
+            }
         }
+
+        #endregion
     }
 }

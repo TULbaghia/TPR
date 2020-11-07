@@ -9,7 +9,7 @@ namespace Zadanie1.Data
         void AddKlient(Klient klient);
         Klient GetKlient(int id);
         IEnumerable<Klient> GetAllKlient();
-        void UpdateKlient(int id, Stan stan);
+        void UpdateKlient(int id, Klient klient);
         void DeleteKlient(Klient klient);
 
         void AddKsiazka(Ksiazka ksiazka);
