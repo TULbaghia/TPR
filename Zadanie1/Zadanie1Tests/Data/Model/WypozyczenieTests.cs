@@ -11,7 +11,7 @@ namespace Zadanie1Tests
         public void ConstructorTest()
         {
             Klient klient = new Klient("Jan", "Kowalski");
-            Stan opisStanu = new Stan(new Ksiazka("Witaj swiecie", "Test"), "xyz", 1, DateTime.Now);
+            Stan opisStanu = new Stan(new Ksiazka("Witaj swiecie", "Test"), "xyz", false, DateTime.Now);
 
             DateTime dateTimePrzed = DateTime.Now;
             Wypozyczenie wypozyczenie = new Wypozyczenie(klient, opisStanu);
@@ -27,7 +27,7 @@ namespace Zadanie1Tests
         public void ConstructorDataTest()
         {
             Klient klient = new Klient("Jan", "Kowalski");
-            Stan stan = new Stan(new Ksiazka("Witaj swiecie", "Test"), "xyz", 1, DateTime.Now);
+            Stan stan = new Stan(new Ksiazka("Witaj swiecie", "Test"), "xyz", false, DateTime.Now);
             DateTime dateTime = DateTime.Now;
 
             Wypozyczenie wypozyczenie = new Wypozyczenie(klient, stan, dateTime);
@@ -42,8 +42,8 @@ namespace Zadanie1Tests
         {
             Klient klient1 = new Klient("Jan", "Kowalski");
             Klient klient2 = new Klient("Jan", "Kowalski");
-            Stan stan1 = new Stan(new Ksiazka("Witaj swiecie", "Test"), "xyz", 1, DateTime.Now);
-            Stan stan2 = new Stan(new Ksiazka("Witaj swiecie", "Test"), "xyz", 1, DateTime.Now);
+            Stan stan1 = new Stan(new Ksiazka("Witaj swiecie", "Test"), "xyz", false, DateTime.Now);
+            Stan stan2 = new Stan(new Ksiazka("Witaj swiecie", "Test"), "xyz", false, DateTime.Now);
             DateTime dateTime1 = DateTime.Now;
             DateTime dateTime2 = DateTime.Now.AddDays(1);
 
@@ -61,7 +61,7 @@ namespace Zadanie1Tests
         public void EqualsTest()
         {
             Klient klient = new Klient("Jan", "Kowalski");
-            Stan stan = new Stan(new Ksiazka("Witaj swiecie", "Test"), "xyz", 1, DateTime.Now);
+            Stan stan = new Stan(new Ksiazka("Witaj swiecie", "Test"), "xyz", false, DateTime.Now);
             DateTime dateTime = DateTime.Now;
 
             Wypozyczenie wypozyczenie1 = new Wypozyczenie(klient, stan, dateTime);

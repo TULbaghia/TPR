@@ -23,18 +23,21 @@ namespace Zadanie1Tests
             Klient klient2 = new Klient("Jan", "Nazwisko2");
             Ksiazka ksiazka1 = new Ksiazka("Tytul", "Autor1");
             Ksiazka ksiazka2 = new Ksiazka("Tytul", "Autor2");
-            Stan stan1 = new Stan(ksiazka1, "Opis1", 1);
-            Stan stan2 = new Stan(ksiazka2, "Opis2", 2);
+            Stan stan1 = new Stan(ksiazka1, "Opis1", false);
+            Stan stan2 = new Stan(ksiazka2, "Opis2", false);
             dataService.AddStan(stan1);
             dataService.AddStan(stan2);
 
-            dataService.WypozyczKsiazke(klient1, ksiazka1);
-            Assert.ThrowsException<ArgumentException>(() => dataService.WypozyczKsiazke(klient2, ksiazka1));
-            dataService.WypozyczKsiazke(klient2, ksiazka2);
-            dataService.WypozyczKsiazke(klient1, ksiazka2);
+            dataService.WypozyczKsiazke(klient1, stan1);
+            Assert.ThrowsException<ArgumentException>(() => dataService.WypozyczKsiazke(klient2, stan1));
+            dataService.WypozyczKsiazke(klient2, stan2);
+            Assert.ThrowsException<ArgumentException>(() => dataService.WypozyczKsiazke(klient2, stan2));
 
-            Assert.AreEqual(dataService.GetAllZdarzeniaDlaKlienta(klient1).ToList().Count, 2);
+            Assert.AreEqual(dataService.GetAllZdarzeniaDlaKlienta(klient1).ToList().Count, 1);
             Assert.AreEqual(dataService.GetAllZdarzeniaDlaKlienta(klient2).ToList().Count, 1);
+
+            Assert.AreEqual(dataService.GetAllZdarzeniaDlaStanu(stan1).ToList().Count, 1);
+            Assert.AreEqual(dataService.GetAllZdarzeniaDlaStanu(stan2).ToList().Count, 1);
         }
 
         [TestMethod]
@@ -49,23 +52,32 @@ namespace Zadanie1Tests
             Klient klient2 = new Klient("Jan", "Nazwisko2");
             Ksiazka ksiazka1 = new Ksiazka("Tytul", "Autor1");
             Ksiazka ksiazka2 = new Ksiazka("Tytul", "Autor2");
-            Stan stan1 = new Stan(ksiazka1, "Opis1", 1);
-            Stan stan2 = new Stan(ksiazka2, "Opis2", 2);
+            Stan stan1 = new Stan(ksiazka1, "Opis1", false);
+            Stan stan2 = new Stan(ksiazka1, "Opis1", false);
+            Stan stan3 = new Stan(ksiazka2, "Opis3", false);
             dataService.AddStan(stan1);
             dataService.AddStan(stan2);
+            dataService.AddStan(stan3);
 
-            dataService.WypozyczKsiazke(klient1, ksiazka1);
-            Assert.ThrowsException<ArgumentException>(() => dataService.WypozyczKsiazke(klient2, ksiazka1));
-            dataService.WypozyczKsiazke(klient2, ksiazka2);
-            dataService.WypozyczKsiazke(klient1, ksiazka2);
+            dataService.WypozyczKsiazke(klient1, stan1);
+            Assert.ThrowsException<ArgumentException>(() => dataService.WypozyczKsiazke(klient2, stan1));
+            dataService.WypozyczKsiazke(klient2, stan2);
+            dataService.WypozyczKsiazke(klient2, stan3);
 
-            Assert.ThrowsException<ArgumentException>(() => dataService.ZwrocKsiazke(klient2, ksiazka1));
-            dataService.ZwrocKsiazke(klient2, ksiazka2);
-            dataService.ZwrocKsiazke(klient1, ksiazka1);
-            dataService.ZwrocKsiazke(klient1, ksiazka2);
+            Assert.ThrowsException<ArgumentException>(() => dataService.ZwrocKsiazke(klient1, stan2));
+            dataService.ZwrocKsiazke(klient1, stan1);
+            dataService.ZwrocKsiazke(klient2, stan2);
+            dataService.ZwrocKsiazke(klient2, stan3);
 
-            Assert.AreEqual(dataService.GetAllZdarzeniaDlaKlienta(klient1).ToList().Count, 4);
-            Assert.AreEqual(dataService.GetAllZdarzeniaDlaKlienta(klient2).ToList().Count, 2);
+            Assert.ThrowsException<ArgumentException>(() => dataService.ZwrocKsiazke(klient2, stan2));
+            Assert.ThrowsException<ArgumentException>(() => dataService.ZwrocKsiazke(klient2, stan3));
+
+            Assert.AreEqual(dataService.GetAllZdarzeniaDlaKlienta(klient1).ToList().Count, 2);
+            Assert.AreEqual(dataService.GetAllZdarzeniaDlaKlienta(klient2).ToList().Count, 4);
+
+            Assert.AreEqual(dataService.GetAllZdarzeniaDlaStanu(stan1).ToList().Count, 2);
+            Assert.AreEqual(dataService.GetAllZdarzeniaDlaStanu(stan2).ToList().Count, 2);
+            Assert.AreEqual(dataService.GetAllZdarzeniaDlaStanu(stan3).ToList().Count, 2);
         }
 
         [TestMethod]
@@ -78,18 +90,18 @@ namespace Zadanie1Tests
 
             Ksiazka ksiazka = new Ksiazka("Testowa", "Ksiazka1");
             dataService.AddKsiazka(ksiazka);
-            Stan stan = new Stan(ksiazka, "", 1);
+            Stan stan = new Stan(ksiazka, "", false);
             dataService.AddStan(stan);
 
             Assert.AreEqual(dataService.GetAllZdarzeniaDlaKsiazki(stan.Ksiazka).Count(), 0);
 
-            dataService.WypozyczKsiazke(dataService.GetKlient(0), stan.Ksiazka);
+            dataService.WypozyczKsiazke(dataService.GetKlient(0), stan);
             Assert.AreEqual(dataService.GetAllZdarzeniaDlaKsiazki(stan.Ksiazka).Count(), 1);
 
-            dataService.ZwrocKsiazke(dataService.GetKlient(0), stan.Ksiazka);
+            dataService.ZwrocKsiazke(dataService.GetKlient(0), stan);
             Assert.AreEqual(dataService.GetAllZdarzeniaDlaKsiazki(stan.Ksiazka).Count(), 2);
 
-            dataService.WypozyczKsiazke(dataService.GetKlient(0), stan.Ksiazka);
+            dataService.WypozyczKsiazke(dataService.GetKlient(0), stan);
             Assert.AreEqual(dataService.GetAllZdarzeniaDlaKsiazki(stan.Ksiazka).Count(), 3);
         }
 
@@ -105,18 +117,18 @@ namespace Zadanie1Tests
             dataService.AddKlient(klient);
             Ksiazka ksiazka = new Ksiazka("Testowa", "Ksiazka1");
             dataService.AddKsiazka(ksiazka);
-            Stan stan = new Stan(ksiazka, "", 1);
+            Stan stan = new Stan(ksiazka, "", false);
             dataService.AddStan(stan);
 
             Assert.AreEqual(dataService.GetAllZdarzeniaDlaKlienta(klient).Count(), 0);
 
-            dataService.WypozyczKsiazke(klient, stan.Ksiazka);
+            dataService.WypozyczKsiazke(klient, stan);
             Assert.AreEqual(dataService.GetAllZdarzeniaDlaKlienta(klient).Count(), 1);
 
-            dataService.ZwrocKsiazke(klient, stan.Ksiazka);
+            dataService.ZwrocKsiazke(klient, stan);
             Assert.AreEqual(dataService.GetAllZdarzeniaDlaKlienta(klient).Count(), 2);
 
-            dataService.WypozyczKsiazke(klient, stan.Ksiazka);
+            dataService.WypozyczKsiazke(klient, stan);
             Assert.AreEqual(dataService.GetAllZdarzeniaDlaKlienta(klient).Count(), 3);
         }
 
@@ -132,18 +144,18 @@ namespace Zadanie1Tests
             dataService.AddKlient(klient);
             Ksiazka ksiazka = new Ksiazka("Testowa", "Ksiazka1");
             dataService.AddKsiazka(ksiazka);
-            Stan stan = new Stan(ksiazka, "", 1);
+            Stan stan = new Stan(ksiazka, "", false);
             dataService.AddStan(stan);
 
             Assert.AreEqual(dataService.GetAllZdarzeniaDlaStanu(stan).Count(), 0);
 
-            dataService.WypozyczKsiazke(klient, stan.Ksiazka);
+            dataService.WypozyczKsiazke(klient, stan);
             Assert.AreEqual(dataService.GetAllZdarzeniaDlaStanu(stan).Count(), 1);
 
-            dataService.ZwrocKsiazke(klient, stan.Ksiazka);
+            dataService.ZwrocKsiazke(klient, stan);
             Assert.AreEqual(dataService.GetAllZdarzeniaDlaStanu(stan).Count(), 2);
 
-            dataService.WypozyczKsiazke(klient, stan.Ksiazka);
+            dataService.WypozyczKsiazke(klient, stan);
             Assert.AreEqual(dataService.GetAllZdarzeniaDlaStanu(stan).Count(), 3);
         }
 
@@ -162,13 +174,13 @@ namespace Zadanie1Tests
 
             Assert.AreEqual(dataService.GetAllStanyDlaKsiazki(ksiazka).Count(), 0);
 
-            dataService.AddStan(new Stan(ksiazka, "", 1));
+            dataService.AddStan(new Stan(ksiazka, "", false));
             Assert.AreEqual(dataService.GetAllStanyDlaKsiazki(ksiazka).Count(), 1);
 
-            dataService.AddStan(new Stan(ksiazka, "", 1));
+            dataService.AddStan(new Stan(ksiazka, "", false));
             Assert.AreEqual(dataService.GetAllStanyDlaKsiazki(ksiazka).Count(), 2);
 
-            dataService.AddStan(new Stan(ksiazka, "", 1));
+            dataService.AddStan(new Stan(ksiazka, "", false));
             Assert.AreEqual(dataService.GetAllStanyDlaKsiazki(ksiazka).Count(), 3);
         }
 
@@ -182,7 +194,7 @@ namespace Zadanie1Tests
 
             Ksiazka ksiazka = new Ksiazka("Testowa", "Ksiazka1");
             dataService.AddKsiazka(ksiazka);
-            Stan stan = new Stan(ksiazka, "", 1);
+            Stan stan = new Stan(ksiazka, "", false);
             dataService.AddStan(stan);
 
             DateTime start = DateTime.Now;
@@ -190,15 +202,15 @@ namespace Zadanie1Tests
 
             Assert.AreEqual(dataService.GetAllZdarzeniaPomiedzyDatami(start, stop).Count(), 0);
 
-            dataService.WypozyczKsiazke(dataService.GetKlient(0), stan.Ksiazka);
+            dataService.WypozyczKsiazke(dataService.GetKlient(0), stan);
             stop = DateTime.Now;
             Assert.AreEqual(dataService.GetAllZdarzeniaPomiedzyDatami(start, stop).Count(), 1);
 
-            dataService.ZwrocKsiazke(dataService.GetKlient(0), stan.Ksiazka);
+            dataService.ZwrocKsiazke(dataService.GetKlient(0), stan);
             stop = DateTime.Now;
             Assert.AreEqual(dataService.GetAllZdarzeniaPomiedzyDatami(start, stop).Count(), 2);
 
-            dataService.WypozyczKsiazke(dataService.GetKlient(0), stan.Ksiazka);
+            dataService.WypozyczKsiazke(dataService.GetKlient(0), stan);
             stop = DateTime.Now;
             Assert.AreEqual(dataService.GetAllZdarzeniaPomiedzyDatami(start, stop).Count(), 3);
         }

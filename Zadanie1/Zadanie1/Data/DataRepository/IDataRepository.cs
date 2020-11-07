@@ -21,7 +21,7 @@ namespace Zadanie1.Data
         void AddStan(Stan stan);
         Stan GetStan(int id);
         IEnumerable<Stan> GetAllStan();
-        void UpdateStan(Ksiazka ksiazka, string opis, int ilosc, DateTime dataZakupu);
+        void UpdateStan(int id, Ksiazka ksiazka, string opis, bool czyWypozyczona, DateTime dataZakupu);
         void DeleteStan(Stan stan);
 
         void AddZdarzenie(Zdarzenie zdarzenie);

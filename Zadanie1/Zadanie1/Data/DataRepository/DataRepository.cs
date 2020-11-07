@@ -93,24 +93,16 @@ namespace Zadanie1.Data
             return DataContext.Stany;
         }
 
-        public void UpdateStan(Ksiazka ksiazka, string opis, int ilosc, DateTime dataZakupu)
+        public void UpdateStan(int id, Ksiazka ksiazka, string opis, bool czyWypozyczona, DateTime dataZakupu)
         {
-            if(ilosc < 0)
+            if (DataContext.Stany.ElementAtOrDefault(id) != null)
             {
-                throw new Exception("Stan posiada nieprawidlowa ilosc");
-            }
-
-            foreach (Stan stan in DataContext.Stany)
-            {
-                if (stan.Ksiazka.Equals(ksiazka))
-                {
-                    stan.Ilosc = ilosc;
-                    stan.Opis = opis;
-                    stan.DataZakupu = dataZakupu;
-                    return;
-                }
-            }
-            throw new ArgumentException();
+                DataContext.Stany[id].CzyWypozyczona = czyWypozyczona;
+                DataContext.Stany[id].Opis = opis;
+                DataContext.Stany[id].DataZakupu = dataZakupu;
+                return;
+            } 
+            throw new KeyNotFoundException("Stan o takim id nie istnieje");
         }
 
         public void DeleteStan(Stan stan)

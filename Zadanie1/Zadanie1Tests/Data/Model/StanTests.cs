@@ -12,7 +12,7 @@ namespace Zadanie1Tests
         {
             DateTime dateTime = DateTime.Now;
             Ksiazka ksiazka = new Ksiazka("Witaj swiecie", "Test");
-            Stan opisStanu = new Stan(ksiazka, "xyz", 1, dateTime);
+            Stan opisStanu = new Stan(ksiazka, "xyz", false, dateTime);
 
             Assert.AreSame(ksiazka, opisStanu.Ksiazka);
             Assert.AreEqual("xyz", opisStanu.Opis);
@@ -27,7 +27,7 @@ namespace Zadanie1Tests
             Ksiazka ksiazka1 = new Ksiazka("Witaj swiecie", "Test");
             Ksiazka ksiazka2 = new Ksiazka("Swiecie witaj", "Tset");
 
-            Stan stan = new Stan(ksiazka1, "xyz", 1, dateTime1);
+            Stan stan = new Stan(ksiazka1, "xyz", false, dateTime1);
             stan.Ksiazka = ksiazka2;
             stan.Opis = "xyz2";
             stan.DataZakupu = dateTime2;
@@ -43,8 +43,8 @@ namespace Zadanie1Tests
             DateTime dateTime = DateTime.Now;
             Ksiazka ksiazka = new Ksiazka("Witaj swiecie", "Test");
 
-            Stan stan = new Stan(ksiazka, "xyz", 1, dateTime);
-            Stan stan1 = new Stan(ksiazka, "xyz", 1, dateTime);
+            Stan stan = new Stan(ksiazka, "xyz", false, dateTime);
+            Stan stan1 = new Stan(ksiazka, "xyz", false, dateTime);
 
             Assert.AreNotSame(stan1, stan);
             Assert.AreEqual(stan1, stan);
