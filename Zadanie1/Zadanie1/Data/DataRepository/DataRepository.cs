@@ -40,15 +40,15 @@ namespace Zadanie1.Data
             return DataContext.Ksiazki.Values;
         }
 
-        public void UpdateKsiazka(int id, Ksiazka ksiazka)
+        public void UpdateKsiazka(int id, string tytul, string autor)
         {
-            if (DataContext.Ksiazki.ContainsValue(ksiazka))
+            if (DataContext.Ksiazki.ContainsKey(id))
             {
-                throw new Exception("Taka ksiazka juz istnieje");
+                DataContext.Ksiazki[id].Autor = autor;
+                DataContext.Ksiazki[id].Tytul = tytul;
+                return;
             }
-            Ksiazka old = GetKsiazka(id);
-            old.Autor = ksiazka.Autor;
-            old.Tytul = ksiazka.Tytul;
+            throw new KeyNotFoundException("Ksiazka o takim id nie istnieje");
         }
 
         public void DeleteKsiazka(Ksiazka ksiazka)
@@ -93,17 +93,24 @@ namespace Zadanie1.Data
             return DataContext.Stany;
         }
 
-        public void UpdateStan(int id, Stan stan)
+        public void UpdateStan(Ksiazka ksiazka, string opis, int ilosc, DateTime dataZakupu)
         {
-            Stan old = GetStan(id);
-            if(stan.Ilosc < 0)
+            if(ilosc < 0)
             {
                 throw new Exception("Stan posiada nieprawidlowa ilosc");
             }
-            old.Ksiazka = stan.Ksiazka;
-            old.Opis = stan.Opis;
-            old.Ilosc = stan.Ilosc;
-            old.DataZakupu = stan.DataZakupu;
+
+            foreach (Stan stan in DataContext.Stany)
+            {
+                if (stan.Ksiazka.Equals(ksiazka))
+                {
+                    stan.Ilosc = ilosc;
+                    stan.Opis = opis;
+                    stan.DataZakupu = dataZakupu;
+                    return;
+                }
+            }
+            throw new ArgumentException();
         }
 
         public void DeleteStan(Stan stan)
@@ -150,11 +157,15 @@ namespace Zadanie1.Data
             return DataContext.Klienci;
         }
 
-        public void UpdateKlient(int id, Klient klient)
+        public void UpdateKlient(int id, string imie, string nazwisko)
         {
-            Klient oldKlient = GetKlient(id);
-            oldKlient.Imie = klient.Imie;
-            oldKlient.Nazwisko = klient.Nazwisko;
+            if (DataContext.Klienci.ElementAtOrDefault(id) != null)
+            {
+                DataContext.Klienci[id].Imie = imie;
+                DataContext.Klienci[id].Nazwisko = nazwisko;
+                return;
+            }
+            throw new KeyNotFoundException("Klient o takim id nie istnieje");
         }
 
         public void DeleteKlient(Klient klient)

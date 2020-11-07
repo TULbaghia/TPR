@@ -69,13 +69,9 @@ namespace Zadanie1Tests
             WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
             DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
 
-            Klient klient = dataRepository.GetKlient(0);
-            Klient newKlient = new Klient("Jan_newKlient", "Testowy_newKlient");
-
-            Assert.AreNotSame(klient, newKlient);
-            dataRepository.UpdateKlient(0, newKlient);
-            Assert.AreSame(klient, dataRepository.GetKlient(0));
-            Assert.AreEqual(klient, newKlient);
+            dataRepository.UpdateKlient(0, "Karol", "Update");
+            Assert.AreEqual(dataRepository.GetKlient(0).Imie, "Karol");
+            Assert.AreEqual(dataRepository.GetKlient(0).Nazwisko, "Update");
         }
 
         [TestMethod]
@@ -84,10 +80,7 @@ namespace Zadanie1Tests
             WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
             DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
 
-            Klient klient = dataRepository.GetKlient(0);
-            Klient newKlient = new Klient("Jan_newKlient", "Testowy_newKlient");
-
-            Assert.ThrowsException<KeyNotFoundException>( () => dataRepository.UpdateKlient(dataRepository.GetAllKlient().Count()+1, newKlient) );
+            Assert.ThrowsException<KeyNotFoundException>( () => dataRepository.UpdateKlient(dataRepository.GetAllKlient().Count()+1, "Jan", "Kowalski") );
         }
 
         [TestMethod]
@@ -232,28 +225,25 @@ namespace Zadanie1Tests
         {
             WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
             DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
-            Ksiazka ksiazka = dataRepository.GetKsiazka(0);
-            Ksiazka newKsiazka = new Ksiazka("TytulTest", "AutorTest");
 
-            Assert.AreNotSame(ksiazka, newKsiazka);
-            dataRepository.UpdateKsiazka(0, newKsiazka);
-            Assert.AreSame(ksiazka, dataRepository.GetKsiazka(0));
-            Assert.AreEqual(ksiazka, newKsiazka);
+            dataRepository.UpdateKsiazka(0, "UpdateTytul", "UpdateAutor");
+            Assert.AreEqual(dataRepository.GetKsiazka(0).Autor, "UpdateAutor");
+            Assert.AreEqual(dataRepository.GetKsiazka(0).Tytul, "UpdateTytul");
         }
 
-        [TestMethod]
-        public void UpdateKsiazkaExceptionTest()
-        {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
-            Ksiazka ksiazka1 = new Ksiazka("TytulTest", "AutorTest");
-            Ksiazka ksiazka2 = new Ksiazka("TytulTest1", "AutorTest1");
-            dataRepository.AddKsiazka(ksiazka1);
-            dataRepository.AddKsiazka(ksiazka2);
-            Ksiazka newKsiazka = new Ksiazka("TytulTest", "AutorTest");
-
-            Assert.ThrowsException<Exception>(() => dataRepository.UpdateKsiazka(ksiazka2.Id, newKsiazka));
-        }
+//        [TestMethod]
+//        public void UpdateKsiazkaExceptionTest()
+//        {
+//            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+//            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
+//            Ksiazka ksiazka1 = new Ksiazka("TytulTest", "AutorTest");
+//            Ksiazka ksiazka2 = new Ksiazka("TytulTest1", "AutorTest1");
+//            dataRepository.AddKsiazka(ksiazka1);
+//            dataRepository.AddKsiazka(ksiazka2);
+//            Ksiazka newKsiazka = new Ksiazka("TytulTest", "AutorTest");
+//
+//            Assert.ThrowsException<Exception>(() => dataRepository.UpdateKsiazka(ksiazka2.Id, newKsiazka));
+//        }
 
         [TestMethod]
         public void DeleteKsiazkaTest()
@@ -349,13 +339,18 @@ namespace Zadanie1Tests
         {
             WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
             DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
-            Stan stan = dataRepository.GetStan(0);
-            Stan newStan = new Stan(stan.Ksiazka, "xyz", 0);
 
-            Assert.AreNotSame(stan, newStan);
-            dataRepository.UpdateStan(0, newStan);
-            Assert.AreSame(stan, dataRepository.GetStan(0));
-            Assert.AreEqual(stan, newStan);
+            dataRepository.UpdateStan(dataRepository.GetKsiazka(0), "UpdateOpisu", 999, new DateTime(2000, 01, 01, 01, 01, 01));
+
+            foreach (Stan stan in dataRepository.GetAllStan())
+            {
+                if (stan.Ksiazka.Equals(dataRepository.GetKsiazka(0)))
+                {
+                    Assert.AreEqual(stan.Opis, "UpdateOpisu");
+                    Assert.AreEqual(stan.Ilosc, 999);
+                    Assert.AreEqual(stan.DataZakupu, new DateTime(2000, 01, 01, 01, 01, 01));
+                }
+            }
         }
 
         [TestMethod]
@@ -363,10 +358,8 @@ namespace Zadanie1Tests
         {
             WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
             DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
-            Stan stan = dataRepository.GetStan(0);
-            Stan newStan = new Stan(stan.Ksiazka, "xyz", -1);
 
-            Assert.ThrowsException<Exception>(() => dataRepository.UpdateStan(0, newStan));
+            Assert.ThrowsException<Exception>(() => dataRepository.UpdateStan(dataRepository.GetKsiazka(0), "UpdateOpisu", -1, new DateTime(2000, 01, 01, 01, 01, 01)));
         }
 
         [TestMethod]
