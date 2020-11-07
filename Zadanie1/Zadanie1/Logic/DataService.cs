@@ -6,7 +6,7 @@ using Zadanie1.Data;
 
 namespace Zadanie1.Logic
 {
-    class DataService
+    public class DataService
     {
         public DataService(IDataRepository iData)
         {
@@ -29,9 +29,9 @@ namespace Zadanie1.Logic
         {
             return IData.GetAllKlient();
         }
-        public void UpdateKlient()
+        public void UpdateKlient(int id, string imie, string nazwisko)
         {
-            //
+            IData.UpdateKlient(id, imie, nazwisko);
         }
         public void DeleteKlient(Klient klient)
         {
@@ -52,9 +52,9 @@ namespace Zadanie1.Logic
         {
             return IData.GetAllKsiazka();
         }
-        public void UpdateKsiazka()
+        public void UpdateKsiazka(int id, string tytul, string autor)
         {
-            //
+            IData.UpdateKsiazka(id, tytul, autor);
         }
         public void DeleteKsiazka(Ksiazka ksiazka)
         {
@@ -75,9 +75,9 @@ namespace Zadanie1.Logic
         {
             return IData.GetAllStan();
         }
-        public void UpdateStan()
+        public void UpdateStan(Ksiazka ksiazka, string opis, int ilosc, DateTime dataZakupu)
         {
-            //
+            IData.UpdateStan(ksiazka, opis, ilosc, dataZakupu);
         }
         public void DeleteStan(Stan stan)
         {
@@ -86,10 +86,6 @@ namespace Zadanie1.Logic
 
         // -=-=-=-=-
 
-        public void AddZdarzenie(Zdarzenie zdarzenie)
-        {
-            IData.AddZdarzenie(zdarzenie);
-        }
         public Zdarzenie GetZdarzenie(int id)
         {
             return IData.GetZdarzenie(id);
@@ -144,6 +140,35 @@ namespace Zadanie1.Logic
                 }
             }
             return zdarzenia;
+        }
+
+        public void WypozyczKsiazke(Klient klient, Ksiazka ksiazka)
+        {
+            foreach (Stan stan in IData.GetAllStan())
+            {
+                if(stan.Ksiazka.Equals(ksiazka) && ((stan.Ilosc - 1) >= 0))
+                {
+                    IData.UpdateStan(stan.Ksiazka, "Pozostała ilość: " + (stan.Ilosc - 1), stan.Ilosc - 1, DateTime.Now);
+                    IData.AddZdarzenie(new Wypozyczenie(klient, stan));
+                    return;
+                }
+            }
+            throw new ArgumentException("Aktualnie nie można wypożyczyć tej książki.");
+        }
+
+        public void ZwrocKsiazke(Klient klient, Ksiazka ksiazka)
+        {
+            foreach (Zdarzenie zdarzenie in IData.GetAllZdarzenie())
+            {
+                if (zdarzenie.Stan.Ksiazka.Equals(ksiazka) &&  zdarzenie.Klient.Equals(klient) && zdarzenie is Wypozyczenie)
+                {
+                    Stan stan = zdarzenie.Stan;
+                    IData.UpdateStan(zdarzenie.Stan.Ksiazka, "Pozostała ilość: " + (zdarzenie.Stan.Ilosc + 1), zdarzenie.Stan.Ilosc + 1, DateTime.Now);
+                    IData.AddZdarzenie(new Zwrot(klient, stan));
+                    return;
+                }
+            }
+            throw new ArgumentException("Aktualnie nie można zwrócić tej książki.");
         }
 
     }
