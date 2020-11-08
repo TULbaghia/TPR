@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Zadanie1.Data.Model
+namespace Zadanie1.Data
 {
-    public class Zdarzenie
+    public abstract class Zdarzenie
     {
         public Klient Klient { get; set; }
         public Stan Stan { get; set; }
@@ -39,7 +39,7 @@ namespace Zadanie1.Data.Model
 
         public override string ToString()
         {
-            return "Zdarzenie[ wykaz(" + Klient + "), opisStanu(" + Stan + "), data(" + Data + ") ]";
+            return "Zdarzenie[ Klient(" + Klient + "), opisStanu(" + Stan + "), data(" + Data + ") ]";
         }
     }
 }

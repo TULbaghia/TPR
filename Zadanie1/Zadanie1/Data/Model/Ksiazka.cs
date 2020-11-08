@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace Zadanie1.Data.Model
+namespace Zadanie1.Data
 {
     public class Ksiazka
     {
+        public int Id { get; set; }
         public string Tytul { get; set; }
         public string Autor { get; set; }
 
