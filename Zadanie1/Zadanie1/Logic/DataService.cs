@@ -195,5 +195,58 @@ namespace Zadanie1.Logic
             throw new ArgumentException("Aktualnie nie można zwrócić tej książki.");
         }
         #endregion
+
+        #region Wyszukaj
+        public IEnumerable<Ksiazka> FindInKsiazki(string query)
+        {
+            List<Ksiazka> result = new List<Ksiazka>();
+            foreach (Ksiazka ksiazka in IData.GetAllKsiazka())
+            {
+                if (ksiazka.ToString().Contains(query))
+                {
+                    result.Add(ksiazka);
+                }
+            }
+            return result;
+        }
+
+        public IEnumerable<Stan> FindInStany(string query)
+        {
+            List<Stan> result = new List<Stan>();
+            foreach (Stan stan in IData.GetAllStan())
+            {
+                if (stan.ToString().Contains(query))
+                {
+                    result.Add(stan);
+                }
+            }
+            return result;
+        }
+        public IEnumerable<Klient> FindInKlienci(string query)
+        {
+            List<Klient> result = new List<Klient>();
+            foreach (Klient klient in IData.GetAllKlient())
+            {
+                if (klient.ToString().Contains(query))
+                {
+                    result.Add(klient);
+                }
+            }
+            return result;
+        }
+
+        public IEnumerable<Zdarzenie> FindInZdarzenia(string query)
+        {
+            List<Zdarzenie> result = new List<Zdarzenie>();
+            foreach (Zdarzenie zdarzenie in IData.GetAllZdarzenie())
+            {
+                if (zdarzenie.ToString().Contains(query))
+                {
+                    result.Add(zdarzenie);
+                }
+            }
+            return result;
+        }
+        #endregion
     }
 }
