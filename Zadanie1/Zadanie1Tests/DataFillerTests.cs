@@ -25,9 +25,9 @@ namespace Zadanie1Tests
         [TestMethod]
         public void WypelnianieLosowymiTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            WypelnianieLosowymi wypelnianieLosowymi = new WypelnianieLosowymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            DataRepository dataRepository = new DataRepository(wypelnianieLosowymi, dataContext);
 
             Assert.AreEqual(10, dataRepository.DataContext.Klienci.Count);
             Assert.AreEqual(10, dataRepository.DataContext.Ksiazki.Count);
