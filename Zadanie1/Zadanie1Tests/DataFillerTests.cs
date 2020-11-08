@@ -1,9 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using Zadanie1.Data;
-using Zadanie1.Logic;
 
-namespace Zadanie1Tests
+namespace Zadanie1Tests.Data
 {
     [TestClass]
     public class DataFillerTests
@@ -12,27 +10,27 @@ namespace Zadanie1Tests
         [TestMethod]
         public void WypelnianieStalymiTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
-            Assert.AreEqual(10, dataRepository.DataContext.Klienci.Count);
-            Assert.AreEqual(10, dataRepository.DataContext.Ksiazki.Count);
-            Assert.AreEqual(10, dataRepository.DataContext.Stany.Count);
-            Assert.AreEqual(20, dataRepository.DataContext.Zdarzenia.Count);
+            Assert.AreEqual(10, dataContext.Klienci.Count);
+            Assert.AreEqual(10, dataContext.Ksiazki.Count);
+            Assert.AreEqual(10, dataContext.Stany.Count);
+            Assert.AreEqual(20, dataContext.Zdarzenia.Count);
         }
 
         [TestMethod]
         public void WypelnianieLosowymiTest()
         {
-            WypelnianieLosowymi wypelnianieLosowymi = new WypelnianieLosowymi();
+            IDataFiller wypelnianieLosowymi = new WypelnianieLosowymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieLosowymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieLosowymi, dataContext);
 
-            Assert.AreEqual(10, dataRepository.DataContext.Klienci.Count);
-            Assert.AreEqual(10, dataRepository.DataContext.Ksiazki.Count);
-            Assert.AreEqual(10, dataRepository.DataContext.Stany.Count);
-            Assert.AreEqual(20, dataRepository.DataContext.Zdarzenia.Count);
+            Assert.AreEqual(10, dataContext.Klienci.Count);
+            Assert.AreEqual(10, dataContext.Ksiazki.Count);
+            Assert.AreEqual(10, dataContext.Stany.Count);
+            Assert.AreEqual(20, dataContext.Zdarzenia.Count);
         }
     }
 }

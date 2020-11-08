@@ -39,7 +39,7 @@ namespace Zadanie1.Data
 
         public override string ToString()
         {
-            return "Zdarzenie[ wykaz(" + Klient + "), opisStanu(" + Stan + "), data(" + Data + ") ]";
+            return "Zdarzenie[ Klient(" + Klient + "), opisStanu(" + Stan + "), data(" + Data + ") ]";
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 
 namespace Zadanie1.Data
 {
@@ -44,7 +43,7 @@ namespace Zadanie1.Data
 
         public override string ToString()
         {
-            return "OpisStanu[ Katalog(" + Ksiazka + "), Opis(" + Opis + "), CzyWypozyczona(" + CzyWypozyczona + "), DataZakupu(" + DataZakupu + ") ]";
+            return "OpisStanu[ Ksiazka(" + Ksiazka + "), Opis(" + Opis + "), CzyWypozyczona(" + CzyWypozyczona + "), DataZakupu(" + DataZakupu + ") ]";
         }
 
     }

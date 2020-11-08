@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Zadanie1.Data;
 
-namespace Zadanie1Tests
+namespace Zadanie1Tests.Data
 {
     [TestClass]
     public class DataRepositoryTests
@@ -14,39 +14,39 @@ namespace Zadanie1Tests
         [TestMethod]
         public void AddKlientTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
             Klient klient = new Klient("Jan", "Testowy");
 
-            int klienciSize = dataRepository.DataContext.Klienci.Count;
+            int klienciSize = dataRepository.GetAllKlient().Count();
             dataRepository.AddKlient(klient);
 
-            Assert.AreEqual(dataRepository.DataContext.Klienci.Count, klienciSize + 1);
-            Assert.AreEqual(dataRepository.GetKlient(klienciSize).Imie, "Jan");
-            Assert.AreEqual(dataRepository.GetKlient(klienciSize).Nazwisko, "Testowy");
+            Assert.AreEqual(klienciSize + 1, dataRepository.GetAllKlient().Count());
+            Assert.AreEqual("Jan", dataRepository.GetKlient(klienciSize).Imie);
+            Assert.AreEqual("Testowy", dataRepository.GetKlient(klienciSize).Nazwisko);
         }
 
         [TestMethod]
         public void GetKlientTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
-            for (int i = 0; i < dataRepository.DataContext.Klienci.Count; i++)
+            for (int i = 0; i < dataContext.Klienci.Count; i++)
             {
-                Assert.AreEqual(dataRepository.GetKlient(i).Imie, "Jan" + i);
-                Assert.AreEqual(dataRepository.GetKlient(i).Nazwisko, "Testowy" + i);
+                Assert.AreEqual("Jan" + i, dataRepository.GetKlient(i).Imie);
+                Assert.AreEqual("Testowy" + i, dataRepository.GetKlient(i).Nazwisko);
             }
         }
 
         [TestMethod]
         public void GetKlientExceptionTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             Assert.ThrowsException<KeyNotFoundException>( () => dataRepository.GetKlient(dataRepository.GetAllKlient().Count() + 1) );
         }
@@ -54,37 +54,37 @@ namespace Zadanie1Tests
         [TestMethod]
         public void GetAllKlientTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
-            Assert.AreEqual(dataRepository.GetAllKlient().ToList().Count, dataRepository.DataContext.Klienci.Count);
+            Assert.AreEqual(dataContext.Klienci.Count, dataRepository.GetAllKlient().ToList().Count);
 
             List<Klient> klientGetAllList = dataRepository.GetAllKlient().ToList();
             for (int i = 0; i < klientGetAllList.Count; i++)
             {
-                Assert.AreEqual(klientGetAllList[i].Imie, "Jan" + i);
+                Assert.AreEqual("Jan" + i, klientGetAllList[i].Imie);
             }
         }
 
         [TestMethod]
         public void UpdateKlientTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             dataRepository.UpdateKlient(0, "Karol", "Update");
-            Assert.AreEqual(dataRepository.GetKlient(0).Imie, "Karol");
-            Assert.AreEqual(dataRepository.GetKlient(0).Nazwisko, "Update");
+            Assert.AreEqual("Karol", dataRepository.GetKlient(0).Imie);
+            Assert.AreEqual("Update", dataRepository.GetKlient(0).Nazwisko);
         }
 
         [TestMethod]
         public void UpdateKlientExceptionTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             Assert.ThrowsException<KeyNotFoundException>( () => dataRepository.UpdateKlient(dataRepository.GetAllKlient().Count()+1, "Jan", "Kowalski") );
         }
@@ -92,41 +92,41 @@ namespace Zadanie1Tests
         [TestMethod]
         public void DeleteKlientTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             Klient klient = new Klient("Jan", "Kowalski");
             dataRepository.AddKlient(klient);
 
-            Assert.AreSame(dataRepository.GetKlient(dataRepository.GetAllKlient().Count()-1), klient);
+            Assert.AreSame(klient, dataRepository.GetKlient(dataRepository.GetAllKlient().Count()-1));
             dataRepository.DeleteKlient(klient);
             foreach (Klient k in dataRepository.GetAllKlient())
             {
-                Assert.AreNotSame(k, klient);
+                Assert.AreNotSame(klient, k);
             }
         }
 
         [TestMethod]
         public void DeleteKlientExceptionTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             Klient klient = dataRepository.GetKlient(0);
             dataRepository.AddZdarzenie(new Wypozyczenie(klient, dataRepository.GetStan(0)));
 
-            Assert.AreSame(dataRepository.GetKlient(0), klient);
+            Assert.AreSame(klient, dataRepository.GetKlient(0));
             Assert.ThrowsException<Exception>(() => dataRepository.DeleteKlient(klient));
         }
 
         [TestMethod]
         public void DeleteKlientAtTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             Klient klient1 = new Klient("Jan", "Kowalski");
             Klient klient2 = new Klient("Jan", "Kowalski");
@@ -164,25 +164,25 @@ namespace Zadanie1Tests
         [TestMethod]
         public void AddKsiazkaTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
             Ksiazka ksiazka = new Ksiazka("TytulTest", "AutorTest");
 
-            int ksiazkiSize = dataRepository.DataContext.Ksiazki.Count;
+            int ksiazkiSize = dataContext.Ksiazki.Count;
             dataRepository.AddKsiazka(ksiazka);
 
-            Assert.AreEqual(dataRepository.DataContext.Ksiazki.Count, ksiazkiSize + 1);
-            Assert.AreEqual(dataRepository.GetKsiazka(ksiazkiSize).Tytul, "TytulTest");
-            Assert.AreEqual(dataRepository.GetKsiazka(ksiazkiSize).Autor, "AutorTest");
+            Assert.AreEqual(ksiazkiSize + 1, dataContext.Ksiazki.Count);
+            Assert.AreEqual("TytulTest", dataRepository.GetKsiazka(ksiazkiSize).Tytul);
+            Assert.AreEqual("AutorTest", dataRepository.GetKsiazka(ksiazkiSize).Autor);
         }
 
         [TestMethod]
         public void AddKsiazkaExceptionTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
             Ksiazka ksiazka1 = new Ksiazka("TytulTest", "AutorTest");
             Ksiazka ksiazka2 = new Ksiazka("TytulTest", "AutorTest");
 
@@ -197,23 +197,23 @@ namespace Zadanie1Tests
         [TestMethod]
         public void GetKsiazkaTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
-            for (int i = 0; i < dataRepository.DataContext.Ksiazki.Count; i++)
+            for (int i = 0; i < dataContext.Ksiazki.Count; i++)
             {
-                Assert.AreEqual(dataRepository.GetKsiazka(i).Tytul, "TestowyTytul" + i);
-                Assert.AreEqual(dataRepository.GetKsiazka(i).Autor, "TestowyAutor" + i);
+                Assert.AreEqual("TestowyTytul" + i, dataRepository.GetKsiazka(i).Tytul);
+                Assert.AreEqual("TestowyAutor" + i, dataRepository.GetKsiazka(i).Autor);
             }
         }
 
         [TestMethod]
         public void GetKsiazkaExceptionTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.GetKsiazka(dataRepository.GetAllKsiazka().Count() + 1));
         }
@@ -221,74 +221,60 @@ namespace Zadanie1Tests
         [TestMethod]
         public void GetAllKsiazkaTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
-            Assert.AreEqual(dataRepository.GetAllKsiazka().ToList().Count, dataRepository.DataContext.Ksiazki.Count);
+            Assert.AreEqual(dataContext.Ksiazki.Count, dataRepository.GetAllKsiazka().ToList().Count);
 
             List<Ksiazka> ksiazkaGetAllList = dataRepository.GetAllKsiazka().ToList();
             for (int i = 0; i < ksiazkaGetAllList.Count; i++)
             {
-                Assert.AreEqual(ksiazkaGetAllList[i].Tytul, "TestowyTytul" + i);
+                Assert.AreEqual("TestowyTytul" + i, ksiazkaGetAllList[i].Tytul);
             }
         }
 
         [TestMethod]
         public void UpdateKsiazkaTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             dataRepository.UpdateKsiazka(0, "UpdateTytul", "UpdateAutor");
-            Assert.AreEqual(dataRepository.GetKsiazka(0).Autor, "UpdateAutor");
-            Assert.AreEqual(dataRepository.GetKsiazka(0).Tytul, "UpdateTytul");
+            Assert.AreEqual("UpdateAutor", dataRepository.GetKsiazka(0).Autor);
+            Assert.AreEqual("UpdateTytul", dataRepository.GetKsiazka(0).Tytul);
         }
-
-//        [TestMethod]
-//        public void UpdateKsiazkaExceptionTest()
-//        {
-//            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
-//            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, new DataContext());
-//            Ksiazka ksiazka1 = new Ksiazka("TytulTest", "AutorTest");
-//            Ksiazka ksiazka2 = new Ksiazka("TytulTest1", "AutorTest1");
-//            dataRepository.AddKsiazka(ksiazka1);
-//            dataRepository.AddKsiazka(ksiazka2);
-//            Ksiazka newKsiazka = new Ksiazka("TytulTest", "AutorTest");
-//
-//            Assert.ThrowsException<Exception>(() => dataRepository.UpdateKsiazka(ksiazka2.Id, newKsiazka));
-//        }
 
         [TestMethod]
         public void DeleteKsiazkaTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             Ksiazka ksiazka = new Ksiazka("test", "ksiazka");
             dataRepository.AddKsiazka(ksiazka);
 
-            Assert.AreEqual(dataRepository.GetKsiazka(dataRepository.GetAllKsiazka().Count()-1), ksiazka);
+            Assert.AreEqual(ksiazka, dataRepository.GetKsiazka(dataRepository.GetAllKsiazka().Count()-1));
             dataRepository.DeleteKsiazka(ksiazka);
             foreach (Ksiazka k in dataRepository.GetAllKsiazka())
             {
-                Assert.AreNotEqual(k, ksiazka);
+                Assert.AreNotEqual(ksiazka, k);
             }
         }
 
         [TestMethod]
         public void DeleteKsiazkaExceptionTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             Ksiazka ksiazka = dataRepository.GetKsiazka(0);
             dataRepository.AddStan(new Stan(ksiazka, "", false));
 
-            Assert.AreSame(dataRepository.GetKsiazka(0), ksiazka);
+            Assert.AreSame(ksiazka, dataRepository.GetKsiazka(0));
             Assert.ThrowsException<Exception>(() => dataRepository.DeleteKsiazka(ksiazka));
         }
 
@@ -299,43 +285,43 @@ namespace Zadanie1Tests
         [TestMethod]
         public void AddStanTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             Ksiazka ksiazka = new Ksiazka("TytulTest", "AutorTest");
             Stan stan = new Stan(ksiazka, "OpisTest", false, new DateTime(2020, 10, 10, 10, 10, 10));
 
-            int stanySize = dataRepository.DataContext.Stany.Count;
+            int stanySize = dataContext.Stany.Count;
             dataRepository.AddStan(stan);
 
-            Assert.AreEqual(dataRepository.DataContext.Stany.Count, stanySize + 1);
-            Assert.AreEqual(dataRepository.GetStan(stanySize).Ksiazka.Tytul, "TytulTest");
-            Assert.AreEqual(dataRepository.GetStan(stanySize).Opis, "OpisTest");
-            Assert.AreEqual(dataRepository.GetStan(stanySize).DataZakupu, new DateTime(2020, 10, 10, 10, 10, 10));
+            Assert.AreEqual(stanySize + 1, dataContext.Stany.Count);
+            Assert.AreEqual("TytulTest", dataRepository.GetStan(stanySize).Ksiazka.Tytul);
+            Assert.AreEqual("OpisTest", dataRepository.GetStan(stanySize).Opis);
+            Assert.AreEqual(new DateTime(2020, 10, 10, 10, 10, 10), dataRepository.GetStan(stanySize).DataZakupu);
         }
 
         [TestMethod]
         public void GetStanTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
-            for (int i = 0; i < dataRepository.DataContext.Stany.Count; i++)
+            for (int i = 0; i < dataContext.Stany.Count; i++)
             {
-                Assert.AreEqual(dataRepository.GetStan(i).Ksiazka, dataRepository.DataContext.Ksiazki[i]);
-                Assert.AreEqual(dataRepository.GetStan(i).Opis, "TestowyOpis" + i);
-                Assert.AreEqual(dataRepository.GetStan(i).DataZakupu, new DateTime(2020, 10, i + 1, 13, i + 1, 30));
+                Assert.AreEqual(dataContext.Ksiazki[i], dataRepository.GetStan(i).Ksiazka);
+                Assert.AreEqual("TestowyOpis" + i, dataRepository.GetStan(i).Opis);
+                Assert.AreEqual(new DateTime(2020, 10, i + 1, 13, i + 1, 30), dataRepository.GetStan(i).DataZakupu);
             }
         }
 
         [TestMethod]
         public void GetStanExceptionTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.GetStan(dataRepository.GetAllStan().Count() + 1));
         }
@@ -343,25 +329,25 @@ namespace Zadanie1Tests
         [TestMethod]
         public void GetAllStan()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
-            Assert.AreEqual(dataRepository.GetAllStan().ToList().Count, dataRepository.DataContext.Stany.Count);
+            Assert.AreEqual(dataContext.Stany.Count, dataRepository.GetAllStan().ToList().Count);
 
             List<Stan> stanGetAllList = dataRepository.GetAllStan().ToList();
             for (int i = 0; i < stanGetAllList.Count; i++)
             {
-                Assert.AreEqual(stanGetAllList[i].Opis, "TestowyOpis" + i);
+                Assert.AreEqual("TestowyOpis" + i, stanGetAllList[i].Opis);
             }
         }
 
         [TestMethod]
         public void UpdateStanTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             dataRepository.UpdateStan(0, dataRepository.GetKsiazka(0), "UpdateOpisu", false, new DateTime(2000, 01, 01, 01, 01, 01));
 
@@ -369,9 +355,9 @@ namespace Zadanie1Tests
             {
                 if (stan.Ksiazka.Equals(dataRepository.GetKsiazka(0)))
                 {
-                    Assert.AreEqual(stan.Opis, "UpdateOpisu");
-                    Assert.AreEqual(stan.CzyWypozyczona, false);
-                    Assert.AreEqual(stan.DataZakupu, new DateTime(2000, 01, 01, 01, 01, 01));
+                    Assert.AreEqual("UpdateOpisu", stan.Opis);
+                    Assert.AreEqual(false, stan.CzyWypozyczona);
+                    Assert.AreEqual(new DateTime(2000, 01, 01, 01, 01, 01), stan.DataZakupu);
                 }
             }
         }
@@ -379,27 +365,27 @@ namespace Zadanie1Tests
         [TestMethod]
         public void DeleteStanTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             Stan stan = new Stan(dataRepository.GetKsiazka(0), "x", false);
             dataRepository.AddStan(stan);
 
-            Assert.AreEqual(dataRepository.GetStan(dataRepository.GetAllStan().Count() - 1), stan);
+            Assert.AreEqual(stan, dataRepository.GetStan(dataRepository.GetAllStan().Count() - 1));
             dataRepository.DeleteStan(stan);
             foreach (Stan s in dataRepository.GetAllStan())
             {
-                Assert.AreNotEqual(s, stan);
+                Assert.AreNotEqual(stan, s);
             }
         }
 
         [TestMethod]
         public void DeleteStanAlreadyUsedExceptionTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             Stan stan = dataRepository.GetStan(0);
             Zdarzenie zdarzenie = new Wypozyczenie(dataRepository.GetKlient(0), stan);
@@ -410,9 +396,9 @@ namespace Zadanie1Tests
         [TestMethod]
         public void DeleteStanAtTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             DateTime dt = DateTime.Now;
             Stan stan1 = new Stan(dataRepository.GetKsiazka(0), "x", false, dt);
@@ -451,31 +437,31 @@ namespace Zadanie1Tests
         [TestMethod]
         public void AddWypozyczenieTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             Klient klient = new Klient("Jan", "NazwiskoWypozyczenie");
             Ksiazka ksiazka = new Ksiazka("Tytul", "AutorWypozyczenie");
             Stan stan = new Stan(ksiazka, "OpisWypozyczenie", false);
             Zdarzenie wypozyczenie = new Wypozyczenie(klient, stan);
 
-            int zdarzeniaSize = dataRepository.DataContext.Zdarzenia.Count;
+            int zdarzeniaSize = dataContext.Zdarzenia.Count;
             dataRepository.AddZdarzenie(wypozyczenie);
 
-            Assert.AreEqual(dataRepository.DataContext.Zdarzenia.Count, zdarzeniaSize + 1);
-            Assert.AreEqual(dataRepository.GetZdarzenie(zdarzeniaSize).Stan, stan);
-            Assert.AreEqual(dataRepository.GetZdarzenie(zdarzeniaSize).Klient, klient);
+            Assert.AreEqual(zdarzeniaSize + 1, dataContext.Zdarzenia.Count);
+            Assert.AreEqual(stan, dataRepository.GetZdarzenie(zdarzeniaSize).Stan);
+            Assert.AreEqual(klient, dataRepository.GetZdarzenie(zdarzeniaSize).Klient);
         }
 
         [TestMethod]
         public void AddZwrotTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
-            int zdarzeniaSize = dataRepository.DataContext.Zdarzenia.Count;
+            int zdarzeniaSize = dataContext.Zdarzenia.Count;
             Klient klient = new Klient("Jan", "NazwiskoZwrot");
             Ksiazka ksiazka = new Ksiazka("Tytul", "AutorZwrot");
             Stan stan = new Stan(ksiazka, "OpisZwrot", false);
@@ -483,33 +469,33 @@ namespace Zadanie1Tests
 
             dataRepository.AddZdarzenie(zwrot);
 
-            Assert.AreEqual(dataRepository.DataContext.Zdarzenia.Count, zdarzeniaSize + 1);
-            Assert.AreEqual(dataRepository.GetZdarzenie(zdarzeniaSize).Stan, stan);
-            Assert.AreEqual(dataRepository.GetZdarzenie(zdarzeniaSize).Klient, klient);
+            Assert.AreEqual(zdarzeniaSize + 1, dataContext.Zdarzenia.Count);
+            Assert.AreEqual(stan, dataRepository.GetZdarzenie(zdarzeniaSize).Stan);
+            Assert.AreEqual(klient, dataRepository.GetZdarzenie(zdarzeniaSize).Klient);
         }
 
         [TestMethod]
         public void GetZdarzenieTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
-            int zdarzeniaSize = dataRepository.DataContext.Zdarzenia.Count;
+            int zdarzeniaSize = dataContext.Zdarzenia.Count;
 
             for (int i = 0; i < zdarzeniaSize; i++)
             {
-                Assert.AreEqual(dataRepository.GetZdarzenie(i).Stan, dataRepository.DataContext.Stany[i % (zdarzeniaSize / 2)]);
-                Assert.AreEqual(dataRepository.GetZdarzenie(i).Klient, dataRepository.DataContext.Klienci[i % (zdarzeniaSize / 2)]);
+                Assert.AreEqual(dataContext.Stany[i % (zdarzeniaSize / 2)], dataRepository.GetZdarzenie(i).Stan);
+                Assert.AreEqual(dataContext.Klienci[i % (zdarzeniaSize / 2)], dataRepository.GetZdarzenie(i).Klient);
             }
         }
 
         [TestMethod]
         public void GetZdarzenieExceptionTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             Assert.ThrowsException<KeyNotFoundException>(() => dataRepository.GetZdarzenie(dataRepository.GetAllZdarzenie().Count() + 1));
         }
@@ -517,26 +503,26 @@ namespace Zadanie1Tests
         [TestMethod]
         public void GetAllZdarzenie()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
-            int zdarzeniaSize = dataRepository.DataContext.Zdarzenia.Count;
-            Assert.AreEqual(dataRepository.GetAllZdarzenie().ToList().Count, zdarzeniaSize);
+            int zdarzeniaSize = dataContext.Zdarzenia.Count;
+            Assert.AreEqual(zdarzeniaSize, dataRepository.GetAllZdarzenie().ToList().Count);
 
             List<Zdarzenie> zdarzeniaGetAllList = dataRepository.GetAllZdarzenie().ToList();
             for (int i = 0; i < zdarzeniaGetAllList.Count; i++)
             {
-                Assert.AreEqual(zdarzeniaGetAllList[i].Klient, dataRepository.DataContext.Klienci[i % (zdarzeniaSize / 2)]);
+                Assert.AreEqual(dataContext.Klienci[i % (zdarzeniaSize / 2)], zdarzeniaGetAllList[i].Klient);
             }
         }
 
         [TestMethod]
         public void UpdateZdarzenieTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             Zdarzenie zdarzenie = dataRepository.GetZdarzenie(0);
             Zdarzenie newZdarzenie = new Zwrot(dataRepository.GetKlient(0), dataRepository.GetStan(0));
@@ -551,26 +537,26 @@ namespace Zadanie1Tests
         [TestMethod]
         public void DeleteZdarzenieTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             Zdarzenie zdarzenie = dataRepository.GetZdarzenie(0);
 
-            Assert.AreEqual(dataRepository.GetZdarzenie(0), zdarzenie);
+            Assert.AreEqual(zdarzenie, dataRepository.GetZdarzenie(0));
             dataRepository.DeleteZdarzenie(zdarzenie);
             foreach (Zdarzenie z in dataRepository.GetAllZdarzenie())
             {
-                Assert.AreNotEqual(z, zdarzenie);
+                Assert.AreNotEqual(zdarzenie, z);
             }
         }
 
         [TestMethod]
         public void DeleteZdarzenieAtTest()
         {
-            WypelnianieStalymi wypelnianieStalymi = new WypelnianieStalymi();
+            IDataFiller wypelnianieStalymi = new WypelnianieStalymi();
             DataContext dataContext = new DataContext();
-            DataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
+            IDataRepository dataRepository = new DataRepository(wypelnianieStalymi, dataContext);
 
             DateTime dt = DateTime.Now;
             Zdarzenie zdarzenie1 = new Wypozyczenie(dataRepository.GetKlient(0), dataRepository.GetStan(0), dt);

@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Zadanie1.Data;
 
-namespace Zadanie1Tests
+namespace Zadanie1Tests.Data
 {
     [TestClass]
     public class KsiazkaTests
