@@ -20,29 +20,51 @@ namespace Serializer
         }
         public override object Deserialize(Stream serializationStream)
         {
-            throw new NotImplementedException();
+            byte[] bytes = new byte[serializationStream.Length];
+            serializationStream.Read(bytes);
+            String text = Encoding.UTF8.GetString(bytes);
+
+            return null;
         }
 
         public override void Serialize(Stream serializationStream, object graph)
         {
-            if(graph is ISerializable serializable)
+            WriteMember("", graph);
+            serializationStream.Write(Encoding.UTF8.GetBytes(StringBuilder.ToString()));
+            serializationStream.Flush();
+            StringBuilder.Clear();
+        }
+
+        protected override void WriteObjectRef(object obj, string name, Type memberType)
+        {
+            if (obj is string)
             {
-                SerializationInfo serializationInfo = new SerializationInfo(serializable.GetType(), new FormatterConverter());
-
-                WriteObjectRef(serializable, "", graph.GetType());
-
-                serializable.GetObjectData(serializationInfo, Context);
-                foreach (SerializationEntry serializationEntry in serializationInfo)
+                WriteString((string)obj, name);
+                return;
+            }
+            else
+            {
+                if (obj is ISerializable serializable)
                 {
-                    WriteMember(serializationEntry.Name, serializationEntry.Value);
+                    Binder.BindToName(obj.GetType(), out string assemblyInfo, out string typeName);
+                    StringBuilder.Append("\"" + name + "\": " + "{\"id\": \"" + m_idGenerator.GetId(obj, out bool firstTime) + "\", ");
+                    StringBuilder.Append("\"typeName\": \"" + typeName + "\"},\n");
+
+                    if (firstTime)
+                    {
+                        SerializationInfo serializationInfo = new SerializationInfo(serializable.GetType(), new FormatterConverter());
+                        serializable.GetObjectData(serializationInfo, Context);
+                        foreach (SerializationEntry serializationEntry in serializationInfo)
+                        {
+                            WriteMember(serializationEntry.Name, serializationEntry.Value);
+                        }
+                    }
+                    StringBuilder.Append("}\n");
                 }
-                StringBuilder.Append("}");
-                serializationStream.Write(Encoding.UTF8.GetBytes(StringBuilder.ToString()));
-                serializationStream.Flush();
-                StringBuilder.Clear();
-            } else
-            {
-                throw new SerializationException("Object does not implement ISerializable");
+                else
+                {
+                    throw new SerializationException();
+                }
             }
         }
 
@@ -68,7 +90,7 @@ namespace Serializer
 
         protected override void WriteDateTime(DateTime val, string name)
         {
-            throw new NotImplementedException();
+            StringBuilder.Append("\"" + name + "\": {\"value\": \"" + val + "\", \"type\": \"" + val.GetType().FullName + "\"}, \n");
         }
 
         protected override void WriteDecimal(decimal val, string name)
@@ -99,18 +121,6 @@ namespace Serializer
         protected void WriteString(String text, string name)
         {
             StringBuilder.Append("\"" + name + "\": {\"value\": \"" + text + "\", \"type\": \"" + text.GetType().FullName + "\"}, \n");
-        }
-
-        protected override void WriteObjectRef(object obj, string name, Type memberType)
-        {
-            if (obj is String) {
-                WriteString((String) obj, name);
-                return;
-            }
-            Binder.BindToName(obj.GetType(), out string assemblyInfo, out string typeName);
-
-            StringBuilder.Append("{\n" + "\"id\": \"" + m_idGenerator.GetId(obj, out bool firstTime) + "\", \n");
-            StringBuilder.Append("\"typeName\": \"" + typeName + "\", \n");
         }
 
         protected override void WriteSByte(sbyte val, string name)

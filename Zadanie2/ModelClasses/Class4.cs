@@ -15,7 +15,7 @@ namespace ModelClasses
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-/*            info.AddValue("class4", class4);*/
+            info.AddValue("class4", class4);
             info.AddValue("text", text);
             info.AddValue("boolean", boolean);
             info.AddValue("number", number);
