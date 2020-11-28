@@ -1,4 +1,6 @@
 ﻿using System;
+using Serializer;
+using System.IO;
 
 namespace ConsoleApp
 {
@@ -6,7 +8,11 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            JsonSerializer.Serialize("ZSERIALIZE", "test.json");
+            Console.WriteLine("Zakonczono");
+            Console.WriteLine(Directory.GetCurrentDirectory());
+            Console.WriteLine("Otrzymano: " + JsonSerializer.Deserialize<String>("test.json"));
+            Console.ReadKey();
         }
     }
 }
