@@ -1,16 +1,20 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Runtime.Serialization;
+using System.Security.Permissions;
 
 namespace ModelClasses
 {
     [Serializable]
-    class Class2 : ISerializable
+    [JsonObject]
+    public class Class2 : ISerializable
     {
-        private Class1 Class1 { get; set; }
-        private Class3 Class3 { get; set; }
-        private string Text { get; set; }
-        private DateTime DateTime { get; set; }
-        private double Number { get; set; }
+        public Class1 Class1 { get; set; }
+        public Class3 Class3 { get; set; }
+        public string Text { get; set; }
+        public DateTime DateTime { get; set; }
+        public double Number { get; set; }
+        public Class2() { }
         public Class2(string text, DateTime dateTime, double number)
         {
             Text = text;

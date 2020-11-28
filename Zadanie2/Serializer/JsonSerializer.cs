@@ -10,17 +10,16 @@ namespace Serializer
 
         private readonly static JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All,
-            PreserveReferencesHandling = PreserveReferencesHandling.All
+            PreserveReferencesHandling = PreserveReferencesHandling.All,
         };
-
 
         public static void Serialize(Object obj, string filePath)
         {
+            File.Delete(filePath);
             using FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate);
             string serialized = JsonConvert.SerializeObject(obj, Formatting.Indented, JsonSerializer.JsonSettings);
-            byte[] content = Encoding.UTF8.GetBytes(serialized);
-            fs.Write(content);
+            fs.Write(Encoding.UTF8.GetBytes(serialized));
+            fs.Flush();
         }
 
         public static T Deserialize<T>(string filePath)
