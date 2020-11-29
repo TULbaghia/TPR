@@ -26,15 +26,15 @@ namespace ModelClasses
             Class1 = (Class1)info.GetValue("class1", typeof(Class1));
             Class3 = (Class3)info.GetValue("class3", typeof(Class3));
             Text = (string)info.GetValue("text", typeof(string));
-            DateTime = (DateTime)info.GetValue("datetime", typeof(DateTime));
-            Number = (double)info.GetValue("number", typeof(double));
+            DateTime = DateTime.Parse((string)info.GetValue("DateTime", typeof(string)));
+            Number = Double.Parse((string)info.GetValue("number", typeof(string)));
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("class1", Class1);
             info.AddValue("class3", Class3);
             info.AddValue("text", Text);
-            info.AddValue("datetime", DateTime);
+            info.AddValue("DateTime", DateTime);
             info.AddValue("number", Number);
         }
     }

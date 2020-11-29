@@ -26,8 +26,8 @@ namespace ModelClasses
             Class2 = (Class2)info.GetValue("Class2", typeof(Class2));
             Class3 = (Class3)info.GetValue("Class3", typeof(Class3));
             Text = (string)info.GetValue("Text", typeof(string));
-            DateTime = (DateTime)info.GetValue("DateTime", typeof(DateTime));
-            Number = (double)info.GetValue("Number", typeof(double));
+            DateTime = DateTime.Parse((string)info.GetValue("DateTime", typeof(string)));
+            Number = Double.Parse((string)info.GetValue("Number", typeof(string)));
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {

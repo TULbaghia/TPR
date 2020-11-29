@@ -34,24 +34,26 @@ namespace Serializer
             for (int i = 0; i < lines.Length-1; i++)
             {
                 char endChar = lines[i][lines[i].Length - 1];
+                                String[] tmpSplitByQuote = lines[i].Split("\"");
 
-                if( endChar == '}')
+                BuildHelper buildHelper = new BuildHelper();
+                if (currentClass.Count != 0)
+                {
+                    buildHelper.parentObject = currentClass[currentClass.Count - 1];
+                    buildHelper.currentObject = currentClass[currentClass.Count - 1];
+                }
+
+                if ( endChar == '}')
                 {
                     if( lines[i][0] == '}' )
                     {
                         currentClass.RemoveAt(currentClass.Count-1);
-                    } else
+                        continue;
+                    } 
+                    else
                     {
-                        BuildHelper buildHelper = new BuildHelper();
-                        if (currentClass.Count != 0)
-                        {
-                            buildHelper.parentObject = currentClass[currentClass.Count - 1];
-                            buildHelper.currentObject = currentClass[currentClass.Count - 1];
-                        }
-                        String[] tmpSplitByQuote = lines[i].Split("\"");
                         buildHelper.variableName = tmpSplitByQuote[1];
-
-                        if( lines[i].Contains("{\"type\": "))
+                        if ( lines[i].Contains("{\"type\": "))
                         {
                             buildHelper.type = tmpSplitByQuote[5];
                             buildHelper.value = lines[i].Substring(lines[i].IndexOf(buildHelper.type) + buildHelper.type.Length + "\", \"value\": \"".Length).TrimEnd(new char[] { '"', '}' });
@@ -62,26 +64,18 @@ namespace Serializer
                             buildHelper.childObject = new KeyValuePair<int, string>(int.Parse(tmp[0]), tmp[1]);
                             buildHelper.type = "REFERENCE";
                         }
-                        objects.Add(buildHelper);
                     }
-                } else
+                } 
+                else
                 {
-                    BuildHelper buildHelper = new BuildHelper();
-
-                    if(currentClass.Count != 0)
-                    {
-                        buildHelper.parentObject = currentClass[currentClass.Count - 1];
-                    }
-
-                    buildHelper.variableName = lines[i].Split("\"")[1];
+                    buildHelper.variableName = tmpSplitByQuote[1];
+                    buildHelper.assemblyName = tmpSplitByQuote[3];
                     buildHelper.type = "OBJECT";
                     String[] tmp = lines[i].Split("{ ")[1].Split(", ");
-                    KeyValuePair<int, string> kp = new KeyValuePair<int, string>(int.Parse(tmp[0]), tmp[1]);
-                    buildHelper.currentObject = kp;
-
-                    currentClass.Add(kp);
-                    objects.Add(buildHelper);
+                    buildHelper.currentObject = new KeyValuePair<int, string>(int.Parse(tmp[0]), tmp[1]);
+                    currentClass.Add(buildHelper.currentObject);
                 }
+                objects.Add(buildHelper);
             }
 
             //fill SerializationInfo with null references
@@ -90,18 +84,14 @@ namespace Serializer
             {
                 if(bh.type == "OBJECT")
                 {
-                    SerializationInfo serializationInfo = new SerializationInfo(Binder.BindToType("ModelClasses, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", bh.currentObject.Value), new FormatterConverter());
+                    SerializationInfo serializationInfo = new SerializationInfo(Binder.BindToType(bh.assemblyName, bh.currentObject.Value), new FormatterConverter());
                     objectList.Add(bh.currentObject.Key, serializationInfo);
                     if( !bh.variableName.Equals("") )
                     {
                         objectList.TryGetValue(bh.parentObject.Key, out SerializationInfo parentSerializationInfo);
                         parentSerializationInfo.AddValue(bh.variableName, null);
                     }
-                } else if (bh.variableName.Equals(""))
-                {
-                    SerializationInfo serializationInfo = new SerializationInfo(Binder.BindToType("", bh.type), new FormatterConverter());
-                    objectList.Add(1, serializationInfo);
-                }
+                } 
                 else
                 {
                     objectList.TryGetValue(bh.currentObject.Key, out SerializationInfo serializationInfo);
@@ -120,6 +110,10 @@ namespace Serializer
             //add references to serialized objects
             foreach (BuildHelper bh in objects)
             {
+                if (bh.childObject.Key.Equals(-1))
+                {
+                    continue;
+                }
                 if (bh.type == "OBJECT" && !bh.variableName.Equals(""))
                 {
                     object o = deserializedObjectList[bh.parentObject.Key];
@@ -163,6 +157,10 @@ namespace Serializer
                 WriteString((string)obj, name);
                 return;
             }
+            else if (obj == null)
+            {
+                StringBuilder.Append("\"" + name + "\": " + "{ -1, null }\n");
+            }
             else
             {
                 if (obj is ISerializable serializable)
@@ -172,7 +170,7 @@ namespace Serializer
 
                     if (firstTime)
                     {
-                        StringBuilder.Append("\n");
+                        StringBuilder.Append(", \"" + assemblyInfo + "\"" + "\n");
                         SerializationInfo serializationInfo = new SerializationInfo(serializable.GetType(), new FormatterConverter());
                         serializable.GetObjectData(serializationInfo, Context);
                         foreach (SerializationEntry serializationEntry in serializationInfo)
