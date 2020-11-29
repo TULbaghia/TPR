@@ -21,7 +21,7 @@ namespace ModelClasses
             DateTime = dateTime;
             Number = number;
         }
-        protected Class2(SerializationInfo info, StreamingContext context)
+        public Class2(SerializationInfo info, StreamingContext context)
         {
             Class1 = (Class1)info.GetValue("class1", typeof(Class1));
             Class3 = (Class3)info.GetValue("class3", typeof(Class3));

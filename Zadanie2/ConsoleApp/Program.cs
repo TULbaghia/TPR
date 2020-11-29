@@ -10,6 +10,7 @@ namespace ConsoleApp
         static void Main(string[] args)
         {
             File.Delete("mySerializer.txt");
+            File.Delete("mySerializer2.txt");
 
             Class1 class1 = new Class1("KLASA1", DateTime.Now, 1.1d);
             Class2 class2 = new Class2("KLASA2", DateTime.Now, 2.2d);
@@ -26,13 +27,23 @@ namespace ConsoleApp
 
             MySerializer mySerializer = new MySerializer();
             using FileStream fs = new FileStream("mySerializer.txt", FileMode.OpenOrCreate);
+            using FileStream fs2 = new FileStream("mySerializer2.txt", FileMode.OpenOrCreate);
 
             Class4 class4 = new Class4();
             class4.class4 = class4;
-            mySerializer.Serialize(fs, class4);
-            //Class4 class4Deserialized = (Class4) mySerializer.Deserialize(fs);
+            mySerializer.Serialize(fs, class1);
+            mySerializer.Serialize(fs2, class4);
 
-            JsonSerializer.Serialize(class1, "test.json");
+            fs.Close();
+            fs2.Close();
+
+
+            using FileStream fsDes = new FileStream("mySerializer.txt", FileMode.Open);
+            using FileStream fs2Des = new FileStream("mySerializer2.txt", FileMode.Open);
+            Class1 class4Deserialized = (Class1)mySerializer.Deserialize(fsDes);
+            Class4 stringDeserialized = (Class4)mySerializer.Deserialize(fs2Des);
+
+            JsonSerializer.Serialize(class4, "test.json");
             Console.WriteLine("Zakonczono");
             Console.WriteLine(Directory.GetCurrentDirectory());
 
