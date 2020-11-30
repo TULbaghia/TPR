@@ -34,7 +34,7 @@ namespace Serializer
             for (int i = 0; i < lines.Length-1; i++)
             {
                 char endChar = lines[i][lines[i].Length - 1];
-                                String[] tmpSplitByQuote = lines[i].Split("\"");
+                String[] tmpSplitByQuote = lines[i].Split("\"");
 
                 BuildHelper buildHelper = new BuildHelper();
                 if (currentClass.Count != 0)
@@ -78,7 +78,7 @@ namespace Serializer
                 objects.Add(buildHelper);
             }
 
-            //fill SerializationInfo with null references
+            //fill SerializationInfo with null references and values
             Dictionary<int, SerializationInfo> objectList = new Dictionary<int, SerializationInfo>();
             foreach (BuildHelper bh in objects)
             {
@@ -99,7 +99,7 @@ namespace Serializer
                 }
             }
 
-            //serialize objects with null references
+            //deserialize objects with null references
             Dictionary<int, object> deserializedObjectList = new Dictionary<int, object>();
             foreach (KeyValuePair<int, SerializationInfo> x in objectList)
             {
@@ -107,7 +107,7 @@ namespace Serializer
                 deserializedObjectList.Add(x.Key, o);
             }
 
-            //add references to serialized objects
+            //add references to deserialized objects
             foreach (BuildHelper bh in objects)
             {
                 if (bh.childObject.Key.Equals(-1))

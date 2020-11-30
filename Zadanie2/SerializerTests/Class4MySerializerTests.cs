@@ -37,7 +37,7 @@ namespace SerializerTests
 
             Assert.AreEqual(class4.Text, class4Deserialized.Text);
             Assert.AreEqual(class4.Number, class4Deserialized.Number);
-            //Assert.AreEqual(class4.Boolean, class4Deserialized.Boolean);
+            Assert.AreEqual(class4.Boolean, class4Deserialized.Boolean);
         }
 
         [TestMethod]

@@ -6,7 +6,6 @@ namespace Serializer
 {
     class BuildHelper
     {
-        //<objectId, className, variableName, value, type>
         public KeyValuePair<int, string> parentObject { get; set; }
         public KeyValuePair<int, string> currentObject { get; set; }
         public KeyValuePair<int, string> childObject { get; set; }

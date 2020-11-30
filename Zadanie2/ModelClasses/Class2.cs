@@ -37,5 +37,11 @@ namespace ModelClasses
             info.AddValue("DateTime", DateTime);
             info.AddValue("number", Number);
         }
+
+        public override string ToString()
+        {
+            return " \"Class2\": { Class1: " + (Class1 == null ? "null" : "Exists") + ", Class3: " + (Class3 == null ? "null" : "Exists") + ", Text: " + Text + ", DateTime: " + DateTime + ", Number: " + Number + " }";
+        }
+
     }
 }

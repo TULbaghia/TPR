@@ -37,5 +37,10 @@ namespace ModelClasses
             info.AddValue("DateTime", DateTime);
             info.AddValue("Number", Number);
         }
+
+        public override string ToString()
+        {
+            return " \"Class1\": { Class2: " + Class2 + ", Class3: " + Class3 + ", Text: " + Text + ", DateTime: " + DateTime + ", Number: " + Number + " }";
+        }
     }
 }
