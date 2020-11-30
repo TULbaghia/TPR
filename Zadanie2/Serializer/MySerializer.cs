@@ -9,7 +9,6 @@ namespace Serializer
 {
     public class MySerializer : Formatter
     {
-
         public override SerializationBinder Binder { get; set; }
         public override StreamingContext Context { get; set; }
         public override ISurrogateSelector SurrogateSelector { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

@@ -1,21 +1,20 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ModelClasses.Zadanie2;
 using Serializer;
-
-using ModelClasses;
 using System;
 using System.IO;
 
 namespace SerializerTests
 {
     [TestClass]
-    public class ModelClassesMySerializerTests
+    public class ModelZadanie2JsonSerializerTests
     {
-        private String path = "mySerializer.txt";
+        private readonly String path = "mySerializer.txt";
 
         [TestMethod]
         public void CheckDeserializedClass1Values()
         {
-            
+
             if (File.Exists(path))
             {
                 File.Delete(path);
@@ -34,14 +33,8 @@ namespace SerializerTests
             class3.Class1 = class1;
             class3.Class2 = class2;
 
-            MySerializer mySerializer = new MySerializer();
-            using FileStream fsSerialize = new FileStream(path, FileMode.Create);
-            mySerializer.Serialize(fsSerialize, class1);
-            fsSerialize.Close();
-
-            using FileStream fsDeserialize = new FileStream(path, FileMode.Open);
-            Class1 class1Deserialized = (Class1)mySerializer.Deserialize(fsDeserialize);
-            fsDeserialize.Close();
+            JsonSerializer.Serialize(class1, path);
+            Class1 class1Deserialized = JsonSerializer.Deserialize<Class1>(path);
 
             Assert.AreNotSame(class1, class1Deserialized);
             Assert.AreNotSame(null, class1Deserialized.Class2);
@@ -81,14 +74,8 @@ namespace SerializerTests
             class3.Class1 = class1;
             class3.Class2 = class2;
 
-            MySerializer mySerializer = new MySerializer();
-            using FileStream fsSerialize = new FileStream(path, FileMode.Create);
-            mySerializer.Serialize(fsSerialize, class1);
-            fsSerialize.Close();
-
-            using FileStream fsDeserialize = new FileStream(path, FileMode.Open);
-            Class1 class1Deserialized = (Class1)mySerializer.Deserialize(fsDeserialize);
-            fsDeserialize.Close();
+            JsonSerializer.Serialize(class1, path);
+            Class1 class1Deserialized = JsonSerializer.Deserialize<Class1>(path);
 
             Assert.AreNotSame(class1, class1Deserialized);
             Assert.AreNotSame(null, class1Deserialized.Class2);
@@ -122,14 +109,8 @@ namespace SerializerTests
             class3.Class1 = class1;
             class3.Class2 = class2;
 
-            MySerializer mySerializer = new MySerializer();
-            using FileStream fsSerialize = new FileStream(path, FileMode.Create);
-            mySerializer.Serialize(fsSerialize, class2);
-            fsSerialize.Close();
-
-            using FileStream fsDeserialize = new FileStream(path, FileMode.Open);
-            Class2 class2Deserialized = (Class2)mySerializer.Deserialize(fsDeserialize);
-            fsDeserialize.Close();
+            JsonSerializer.Serialize(class2, path);
+            Class2 class2Deserialized = JsonSerializer.Deserialize<Class2>(path);
 
             Assert.AreNotSame(class2, class2Deserialized);
             Assert.AreNotSame(null, class2Deserialized.Class1);
@@ -170,14 +151,8 @@ namespace SerializerTests
             class3.Class1 = class1;
             class3.Class2 = class2;
 
-            MySerializer mySerializer = new MySerializer();
-            using FileStream fsSerialize = new FileStream(path, FileMode.Create);
-            mySerializer.Serialize(fsSerialize, class2);
-            fsSerialize.Close();
-
-            using FileStream fsDeserialize = new FileStream(path, FileMode.Open);
-            Class2 class2Deserialized = (Class2)mySerializer.Deserialize(fsDeserialize);
-            fsDeserialize.Close();
+            JsonSerializer.Serialize(class2, path);
+            Class2 class2Deserialized = JsonSerializer.Deserialize<Class2>(path);
 
             Assert.AreNotSame(class2, class2Deserialized);
             Assert.AreNotSame(null, class2Deserialized.Class1);
@@ -211,14 +186,8 @@ namespace SerializerTests
             class3.Class1 = class1;
             class3.Class2 = class2;
 
-            MySerializer mySerializer = new MySerializer();
-            using FileStream fsSerialize = new FileStream(path, FileMode.Create);
-            mySerializer.Serialize(fsSerialize, class3);
-            fsSerialize.Close();
-
-            using FileStream fsDeserialize = new FileStream(path, FileMode.Open);
-            Class3 class3Deserialized = (Class3)mySerializer.Deserialize(fsDeserialize);
-            fsDeserialize.Close();
+            JsonSerializer.Serialize(class3, path);
+            Class3 class3Deserialized = JsonSerializer.Deserialize<Class3>(path);
 
             Assert.AreNotSame(class2, class3Deserialized);
             Assert.AreNotSame(null, class3Deserialized.Class1);
@@ -259,14 +228,8 @@ namespace SerializerTests
             class3.Class1 = class1;
             class3.Class2 = class2;
 
-            MySerializer mySerializer = new MySerializer();
-            using FileStream fsSerialize = new FileStream(path, FileMode.Create);
-            mySerializer.Serialize(fsSerialize, class3);
-            fsSerialize.Close();
-
-            using FileStream fsDeserialize = new FileStream(path, FileMode.Open);
-            Class3 class3Deserialized = (Class3)mySerializer.Deserialize(fsDeserialize);
-            fsDeserialize.Close();
+            JsonSerializer.Serialize(class3, path);
+            Class3 class3Deserialized = JsonSerializer.Deserialize<Class3>(path);
 
             Assert.AreNotSame(class3, class3Deserialized);
             Assert.AreNotSame(null, class3Deserialized.Class1);

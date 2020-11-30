@@ -1,4 +1,5 @@
-﻿using ModelClasses;
+﻿using ModelClasses.Zadanie1.Data;
+using ModelClasses.Zadanie2;
 using Serializer;
 using System;
 using System.IO;
@@ -10,21 +11,24 @@ namespace ConsoleApp
         static void Main(string[] args)
         {
             string filePath;
-            Class1 class1Deserialized = new Class1();
-            Class1 class1DeserializedJson = new Class1();
-            //DataContext dataContext = new DataContext();
+            Class1 class1Deserialized = null;
+            DataContext dataContextDeserialized = new DataContext();
 
             Console.WriteLine("         Zadanie 2 - Serializacja        \r");
             Console.WriteLine("-----------------------------------------\n");
             Console.WriteLine("Choose an option from the following list:");
-            Console.WriteLine("Custom");
-            Console.WriteLine("\t1 - Personal graph custom serialization");
-            Console.WriteLine("\t2 - Personal graph custom deserialization");
-            Console.WriteLine("\t3 - Show deserialized custom graph ");
-            Console.WriteLine("JSON");
-            Console.WriteLine("\t4 - DataContext JSON serialization");
-            Console.WriteLine("\t5 - DataContext JSON deserialization");
-            Console.WriteLine("\t6 - Show deserialized JSON object");
+            Console.WriteLine("Custom - Graph");
+            Console.WriteLine("\t1 - Graph custom serialization");
+            Console.WriteLine("\t2 - Graph custom deserialization");
+            Console.WriteLine("\t3 - Show deserialized Graph object");
+            Console.WriteLine("JSON - Graph");
+            Console.WriteLine("\t4 - Graph JSON serialization");
+            Console.WriteLine("\t5 - Graph JSON deserialization");
+            Console.WriteLine("\t6 - Show deserialized JSON Graph object");
+            Console.WriteLine("JSON - Zadanie1");
+            Console.WriteLine("\t7 - DataContext JSON serialization");
+            Console.WriteLine("\t8 - DataContext JSON deserialization");
+            Console.WriteLine("\t9 - Show deserialized JSON object");
             Console.WriteLine("0 - Exit");
 
             do
@@ -32,7 +36,7 @@ namespace ConsoleApp
                 Console.Write("\nYour choice: ");
                 switch (Console.ReadLine())
                 {
-                    #region MySerializer options
+                    #region MySerializer graph options
                     case "1":
                         {
                             Console.Write("Enter file path: ");
@@ -77,7 +81,7 @@ namespace ConsoleApp
                         }
                     case "3":
                         {
-                            if (class1Deserialized.Class2 == null)
+                            if (class1Deserialized == null)
                             {
                                 Console.WriteLine("> You should deserialize the class first");
                             }
@@ -86,19 +90,18 @@ namespace ConsoleApp
                         }
                     #endregion
 
-                    #region JsonSerializer options
+                    #region JsonSerializer graph options
                     case "4":
                         {
-                            // now Class1, todo: DataContext
                             Console.Write("Enter file path: ");
                             filePath = Console.ReadLine();
                             if (File.Exists(filePath))
                             {
                                 File.Delete(filePath);
                             }
-                            Class1 class1 = new Class1("KLASA1", DateTime.Now, 1.1d);
-                            Class2 class2 = new Class2("KLASA2", DateTime.Now, 2.2d);
-                            Class3 class3 = new Class3("KLASA3", DateTime.Now, 3.3d);
+                            Class1 class1 = new Class1("KLASA1", new DateTime(2011, 1, 1, 1, 1, 1), 1.1d);
+                            Class2 class2 = new Class2("KLASA2", new DateTime(2022, 2, 2, 2, 2, 2), 2.2d);
+                            Class3 class3 = new Class3("KLASA3", new DateTime(2033, 3, 3, 3, 3, 3), 3.3d);
                             class1.Class2 = class2;
                             class1.Class3 = class3;
                             class2.Class1 = class1;
@@ -111,12 +114,11 @@ namespace ConsoleApp
                         }
                     case "5":
                         {
-                            // now Class1, todo: DataContext
                             Console.Write("Enter file path: ");
                             filePath = Console.ReadLine();
                             if (File.Exists(filePath))
                             {
-                                class1DeserializedJson = (Class1)JsonSerializer.Deserialize<Class1>(filePath);
+                                class1Deserialized = (Class1)JsonSerializer.Deserialize<Class1>(filePath);
                                 Console.WriteLine("> Deserialization done");
                             }
                             else
@@ -127,12 +129,53 @@ namespace ConsoleApp
                         }
                     case "6":
                         {
-                            // now Class1, todo: DataContext
-                            if (class1DeserializedJson.Class2 == null)
+                            if (class1Deserialized == null)
                             {
                                 Console.WriteLine("> You should deserialize the class first");
                             }
-                            else Console.WriteLine(class1DeserializedJson.ToString());
+                            else Console.WriteLine(class1Deserialized.ToString());
+                            break;
+                        }
+                    #endregion
+
+                    #region JsonSerializer zadanie1 options
+                    case "7":
+                        {
+                            Console.Write("Enter file path: ");
+                            filePath = Console.ReadLine();
+                            if (File.Exists(filePath))
+                            {
+                                File.Delete(filePath);
+                            }
+                            DataContext dataContext = new DataContext();
+                            IDataFiller dataFiller = new ConstDataFiller();
+                            dataFiller.Fill(dataContext);
+                            JsonSerializer.Serialize(dataContext, filePath);
+                            Console.WriteLine("> Serialization done");
+                            break;
+                        }
+                    case "8":
+                        {
+                            Console.Write("Enter file path: ");
+                            filePath = Console.ReadLine();
+                            if (File.Exists(filePath))
+                            {
+                                dataContextDeserialized = (DataContext)JsonSerializer.Deserialize<DataContext>(filePath);
+                                Console.WriteLine("> Deserialization done");
+                            }
+                            else
+                            {
+                                Console.WriteLine("> Given filePath does not exist");
+                            }
+                            break;
+                        }
+                    case "9":
+                        {
+                            if (dataContextDeserialized == null)
+                            {
+                                Console.WriteLine("> You should deserialize the class first");
+                            }
+                            else Console.WriteLine(dataContextDeserialized.ToString());
                             break;
                         }
                     #endregion

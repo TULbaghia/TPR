@@ -9,7 +9,7 @@ namespace SerializerTests
     [TestClass]
     public class Class4MySerializerTests
     {
-        private String path = "mySerializer.txt";
+        private readonly String path = "mySerializer.txt";
 
         [TestMethod]
         public void CheckDeserializedClass4Values()

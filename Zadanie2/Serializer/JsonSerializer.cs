@@ -11,6 +11,8 @@ namespace Serializer
         private readonly static JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
             PreserveReferencesHandling = PreserveReferencesHandling.All,
+            TypeNameHandling = TypeNameHandling.All,
+            MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead,
         };
 
         public static void Serialize(Object obj, string filePath)

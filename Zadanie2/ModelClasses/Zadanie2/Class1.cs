@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Runtime.Serialization;
-using System.Security.Permissions;
 
-namespace ModelClasses
+namespace ModelClasses.Zadanie2
 {
     [Serializable]
     [JsonObject]

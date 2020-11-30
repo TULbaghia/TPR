@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Runtime.Serialization;
 
 namespace SerializerTests.Model
 {
     [Serializable]
+    [JsonObject]
     public class Class4 : ISerializable
     {
         public Class4 class4 { get; set; }
@@ -11,12 +13,14 @@ namespace SerializerTests.Model
         public bool Boolean { get; set; }
         public double Number { get; set; }
         public Class4() { }
+
         public Class4(string text, bool boolean, double number)
         {
             Text = text;
             Boolean = boolean;
             Number = number;
         }
+
         public Class4(SerializationInfo info, StreamingContext context)
         {
             class4 = (Class4)info.GetValue("Class4", typeof(Class4));
