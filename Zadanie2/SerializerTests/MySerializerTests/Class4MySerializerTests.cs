@@ -24,13 +24,16 @@ namespace SerializerTests
             class4.class4 = class4;
 
             MySerializer mySerializer = new MySerializer();
-            using FileStream fsSerialize = new FileStream(path, FileMode.Create);
-            mySerializer.Serialize(fsSerialize, class4);
-            fsSerialize.Close();
+            using (FileStream fsSerialize = new FileStream(path, FileMode.Create))
+            {
+                mySerializer.Serialize(fsSerialize, class4);
+            }
 
-            using FileStream fsDeserialize = new FileStream(path, FileMode.Open);
-            Class4 class4Deserialized = (Class4)mySerializer.Deserialize(fsDeserialize);
-            fsDeserialize.Close();
+            Class4 class4Deserialized;
+            using (FileStream fsDeserialize = new FileStream(path, FileMode.Open))
+            {
+                class4Deserialized = (Class4)mySerializer.Deserialize(fsDeserialize);
+            }
 
             Assert.AreNotSame(null, class4Deserialized);
             Assert.AreNotSame(class4, class4Deserialized);
@@ -53,13 +56,16 @@ namespace SerializerTests
             class4.class4 = class4;
 
             MySerializer mySerializer = new MySerializer();
-            using FileStream fsSerialize = new FileStream(path, FileMode.Create);
-            mySerializer.Serialize(fsSerialize, class4);
-            fsSerialize.Close();
+            using (FileStream fsSerialize = new FileStream(path, FileMode.Create))
+            {
+                mySerializer.Serialize(fsSerialize, class4);
+            }
 
-            using FileStream fsDeserialize = new FileStream(path, FileMode.Open);
-            Class4 class4Deserialized = (Class4)mySerializer.Deserialize(fsDeserialize);
-            fsDeserialize.Close();
+            Class4 class4Deserialized;
+            using (FileStream fsDeserialize = new FileStream(path, FileMode.Open))
+            {
+                class4Deserialized = (Class4)mySerializer.Deserialize(fsDeserialize);
+            }
 
             Assert.AreNotSame(null, class4Deserialized);
             Assert.AreSame(class4Deserialized, class4Deserialized.class4);
@@ -77,13 +83,16 @@ namespace SerializerTests
             Class4 class4 = new Class4("Deskorolka", true, 4.9d);
 
             MySerializer mySerializer = new MySerializer();
-            using FileStream fsSerialize = new FileStream(path, FileMode.Create);
-            mySerializer.Serialize(fsSerialize, class4);
-            fsSerialize.Close();
+            using (FileStream fsSerialize = new FileStream(path, FileMode.Create))
+            {
+                mySerializer.Serialize(fsSerialize, class4);
+            }
 
-            using FileStream fsDeserialize = new FileStream(path, FileMode.Open);
-            Class4 class4Deserialized = (Class4)mySerializer.Deserialize(fsDeserialize);
-            fsDeserialize.Close();
+            Class4 class4Deserialized;
+            using (FileStream fsDeserialize = new FileStream(path, FileMode.Open))
+            {
+                class4Deserialized = (Class4)mySerializer.Deserialize(fsDeserialize);
+            }
 
             Assert.AreNotSame(null, class4Deserialized);
             Assert.AreSame(null, class4Deserialized.class4);

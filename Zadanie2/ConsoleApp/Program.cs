@@ -12,7 +12,7 @@ namespace ConsoleApp
         {
             string filePath;
             Class1 class1Deserialized = null;
-            DataContext dataContextDeserialized = new DataContext();
+            DataContext dataContextDeserialized = null;
 
             Console.WriteLine("         Zadanie 2 - Serializacja        \r");
             Console.WriteLine("-----------------------------------------\n");
@@ -55,10 +55,11 @@ namespace ConsoleApp
                             class3.Class1 = class1;
                             class3.Class2 = class2;
                             MySerializer mySerializer = new MySerializer();
-                            using FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate);
-                            mySerializer.Serialize(fs, class1);
-                            Console.WriteLine("> Serialization done");
-                            fs.Close();
+                            using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate))
+                            {
+                                mySerializer.Serialize(fs, class1);
+                                Console.WriteLine("> Serialization done");
+                            }
                             break;
                         }
                     case "2":
@@ -68,10 +69,11 @@ namespace ConsoleApp
                             if (File.Exists(filePath))
                             {
                                 MySerializer mySerializer = new MySerializer();
-                                using FileStream fsDes = new FileStream(filePath, FileMode.Open);
-                                class1Deserialized = (Class1)mySerializer.Deserialize(fsDes);
-                                Console.WriteLine("> Deserialization done");
-                                fsDes.Close();
+                                using (FileStream fsDes = new FileStream(filePath, FileMode.Open))
+                                {
+                                    class1Deserialized = (Class1)mySerializer.Deserialize(fsDes);
+                                    Console.WriteLine("> Deserialization done");
+                                }
                             }
                             else
                             {

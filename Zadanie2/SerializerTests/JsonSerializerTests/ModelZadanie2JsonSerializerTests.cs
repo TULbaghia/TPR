@@ -9,7 +9,7 @@ namespace SerializerTests
     [TestClass]
     public class ModelZadanie2JsonSerializerTests
     {
-        private readonly String path = "mySerializer.txt";
+        private readonly String path = "jsonSerializer.json";
 
         [TestMethod]
         public void CheckDeserializedClass1Values()
@@ -80,6 +80,10 @@ namespace SerializerTests
             Assert.AreNotSame(class1, class1Deserialized);
             Assert.AreNotSame(null, class1Deserialized.Class2);
             Assert.AreNotSame(null, class1Deserialized.Class3);
+            Assert.AreNotSame(null, class1Deserialized.Class2.Class1);
+            Assert.AreNotSame(null, class1Deserialized.Class2.Class3);
+            Assert.AreNotSame(null, class1Deserialized.Class3.Class2);
+            Assert.AreNotSame(null, class1Deserialized.Class3.Class1);
 
             Assert.AreSame(class1Deserialized, class1Deserialized.Class2.Class1);
             Assert.AreSame(class1Deserialized, class1Deserialized.Class3.Class1);
@@ -157,6 +161,10 @@ namespace SerializerTests
             Assert.AreNotSame(class2, class2Deserialized);
             Assert.AreNotSame(null, class2Deserialized.Class1);
             Assert.AreNotSame(null, class2Deserialized.Class3);
+            Assert.AreNotSame(null, class2Deserialized.Class1.Class2);
+            Assert.AreNotSame(null, class2Deserialized.Class1.Class3);
+            Assert.AreNotSame(null, class2Deserialized.Class3.Class2);
+            Assert.AreNotSame(null, class2Deserialized.Class3.Class1);
 
             Assert.AreSame(class2Deserialized, class2Deserialized.Class1.Class2);
             Assert.AreSame(class2Deserialized, class2Deserialized.Class3.Class2);
@@ -234,6 +242,10 @@ namespace SerializerTests
             Assert.AreNotSame(class3, class3Deserialized);
             Assert.AreNotSame(null, class3Deserialized.Class1);
             Assert.AreNotSame(null, class3Deserialized.Class2);
+            Assert.AreNotSame(null, class3Deserialized.Class2.Class1);
+            Assert.AreNotSame(null, class3Deserialized.Class2.Class3);
+            Assert.AreNotSame(null, class3Deserialized.Class1.Class2);
+            Assert.AreNotSame(null, class3Deserialized.Class1.Class3);
 
             Assert.AreSame(class3Deserialized, class3Deserialized.Class2.Class3);
             Assert.AreSame(class3Deserialized, class3Deserialized.Class1.Class3);

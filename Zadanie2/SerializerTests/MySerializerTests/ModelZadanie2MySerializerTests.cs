@@ -34,13 +34,16 @@ namespace SerializerTests
             class3.Class2 = class2;
 
             MySerializer mySerializer = new MySerializer();
-            using FileStream fsSerialize = new FileStream(path, FileMode.Create);
-            mySerializer.Serialize(fsSerialize, class1);
-            fsSerialize.Close();
+            using (FileStream fsSerialize = new FileStream(path, FileMode.Create))
+            {
+                mySerializer.Serialize(fsSerialize, class1);
+            }
 
-            using FileStream fsDeserialize = new FileStream(path, FileMode.Open);
-            Class1 class1Deserialized = (Class1)mySerializer.Deserialize(fsDeserialize);
-            fsDeserialize.Close();
+            Class1 class1Deserialized;
+            using (FileStream fsDeserialize = new FileStream(path, FileMode.Open))
+            {
+                class1Deserialized = (Class1)mySerializer.Deserialize(fsDeserialize);
+            }
 
             Assert.AreNotSame(class1, class1Deserialized);
             Assert.AreNotSame(null, class1Deserialized.Class2);
@@ -81,17 +84,24 @@ namespace SerializerTests
             class3.Class2 = class2;
 
             MySerializer mySerializer = new MySerializer();
-            using FileStream fsSerialize = new FileStream(path, FileMode.Create);
-            mySerializer.Serialize(fsSerialize, class1);
-            fsSerialize.Close();
+            using (FileStream fsSerialize = new FileStream(path, FileMode.Create))
+            {
+                mySerializer.Serialize(fsSerialize, class1);
+            }
 
-            using FileStream fsDeserialize = new FileStream(path, FileMode.Open);
-            Class1 class1Deserialized = (Class1)mySerializer.Deserialize(fsDeserialize);
-            fsDeserialize.Close();
+            Class1 class1Deserialized;
+            using (FileStream fsDeserialize = new FileStream(path, FileMode.Open))
+            {
+                class1Deserialized = (Class1)mySerializer.Deserialize(fsDeserialize);
+            }
 
             Assert.AreNotSame(class1, class1Deserialized);
             Assert.AreNotSame(null, class1Deserialized.Class2);
             Assert.AreNotSame(null, class1Deserialized.Class3);
+            Assert.AreNotSame(null, class1Deserialized.Class2.Class1);
+            Assert.AreNotSame(null, class1Deserialized.Class2.Class3);
+            Assert.AreNotSame(null, class1Deserialized.Class3.Class2);
+            Assert.AreNotSame(null, class1Deserialized.Class3.Class1);
 
             Assert.AreSame(class1Deserialized, class1Deserialized.Class2.Class1);
             Assert.AreSame(class1Deserialized, class1Deserialized.Class3.Class1);
@@ -122,13 +132,16 @@ namespace SerializerTests
             class3.Class2 = class2;
 
             MySerializer mySerializer = new MySerializer();
-            using FileStream fsSerialize = new FileStream(path, FileMode.Create);
-            mySerializer.Serialize(fsSerialize, class2);
-            fsSerialize.Close();
+            using (FileStream fsSerialize = new FileStream(path, FileMode.Create))
+            {
+                mySerializer.Serialize(fsSerialize, class2);
+            }
 
-            using FileStream fsDeserialize = new FileStream(path, FileMode.Open);
-            Class2 class2Deserialized = (Class2)mySerializer.Deserialize(fsDeserialize);
-            fsDeserialize.Close();
+            Class2 class2Deserialized;
+            using (FileStream fsDeserialize = new FileStream(path, FileMode.Open))
+            {
+                class2Deserialized = (Class2)mySerializer.Deserialize(fsDeserialize);
+            }
 
             Assert.AreNotSame(class2, class2Deserialized);
             Assert.AreNotSame(null, class2Deserialized.Class1);
@@ -170,17 +183,24 @@ namespace SerializerTests
             class3.Class2 = class2;
 
             MySerializer mySerializer = new MySerializer();
-            using FileStream fsSerialize = new FileStream(path, FileMode.Create);
-            mySerializer.Serialize(fsSerialize, class2);
-            fsSerialize.Close();
+            using (FileStream fsSerialize = new FileStream(path, FileMode.Create))
+            {
+                mySerializer.Serialize(fsSerialize, class2);
+            }
 
-            using FileStream fsDeserialize = new FileStream(path, FileMode.Open);
-            Class2 class2Deserialized = (Class2)mySerializer.Deserialize(fsDeserialize);
-            fsDeserialize.Close();
+            Class2 class2Deserialized;
+            using (FileStream fsDeserialize = new FileStream(path, FileMode.Open))
+            {
+                class2Deserialized = (Class2)mySerializer.Deserialize(fsDeserialize);
+            }
 
             Assert.AreNotSame(class2, class2Deserialized);
             Assert.AreNotSame(null, class2Deserialized.Class1);
             Assert.AreNotSame(null, class2Deserialized.Class3);
+            Assert.AreNotSame(null, class2Deserialized.Class1.Class2);
+            Assert.AreNotSame(null, class2Deserialized.Class1.Class3);
+            Assert.AreNotSame(null, class2Deserialized.Class3.Class2);
+            Assert.AreNotSame(null, class2Deserialized.Class3.Class1);
 
             Assert.AreSame(class2Deserialized, class2Deserialized.Class1.Class2);
             Assert.AreSame(class2Deserialized, class2Deserialized.Class3.Class2);
@@ -211,13 +231,16 @@ namespace SerializerTests
             class3.Class2 = class2;
 
             MySerializer mySerializer = new MySerializer();
-            using FileStream fsSerialize = new FileStream(path, FileMode.Create);
-            mySerializer.Serialize(fsSerialize, class3);
-            fsSerialize.Close();
+            using (FileStream fsSerialize = new FileStream(path, FileMode.Create))
+            {
+                mySerializer.Serialize(fsSerialize, class3);
+            }
 
-            using FileStream fsDeserialize = new FileStream(path, FileMode.Open);
-            Class3 class3Deserialized = (Class3)mySerializer.Deserialize(fsDeserialize);
-            fsDeserialize.Close();
+            Class3 class3Deserialized;
+            using (FileStream fsDeserialize = new FileStream(path, FileMode.Open))
+            {
+                class3Deserialized = (Class3)mySerializer.Deserialize(fsDeserialize);
+            }
 
             Assert.AreNotSame(class2, class3Deserialized);
             Assert.AreNotSame(null, class3Deserialized.Class1);
@@ -259,17 +282,24 @@ namespace SerializerTests
             class3.Class2 = class2;
 
             MySerializer mySerializer = new MySerializer();
-            using FileStream fsSerialize = new FileStream(path, FileMode.Create);
-            mySerializer.Serialize(fsSerialize, class3);
-            fsSerialize.Close();
+            using (FileStream fsSerialize = new FileStream(path, FileMode.Create))
+            {
+                mySerializer.Serialize(fsSerialize, class3);
+            }
 
-            using FileStream fsDeserialize = new FileStream(path, FileMode.Open);
-            Class3 class3Deserialized = (Class3)mySerializer.Deserialize(fsDeserialize);
-            fsDeserialize.Close();
+            Class3 class3Deserialized;
+            using (FileStream fsDeserialize = new FileStream(path, FileMode.Open))
+            {
+                class3Deserialized = (Class3)mySerializer.Deserialize(fsDeserialize);
+            }
 
             Assert.AreNotSame(class3, class3Deserialized);
             Assert.AreNotSame(null, class3Deserialized.Class1);
             Assert.AreNotSame(null, class3Deserialized.Class2);
+            Assert.AreNotSame(null, class3Deserialized.Class2.Class1);
+            Assert.AreNotSame(null, class3Deserialized.Class2.Class3);
+            Assert.AreNotSame(null, class3Deserialized.Class1.Class2);
+            Assert.AreNotSame(null, class3Deserialized.Class1.Class3);
 
             Assert.AreSame(class3Deserialized, class3Deserialized.Class2.Class3);
             Assert.AreSame(class3Deserialized, class3Deserialized.Class1.Class3);

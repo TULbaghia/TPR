@@ -9,7 +9,7 @@ namespace SerializerTests
     [TestClass]
     public class ModelZadanie1JsonSerializerTests
     {
-        private readonly String path = "mySerializer.txt";
+        private readonly String path = "jsonSerializer.json";
 
         [TestMethod]
         public void CheckDeserializedModel()
@@ -21,10 +21,29 @@ namespace SerializerTests
 
             DataContext dataContextDeserialized = JsonSerializer.Deserialize<DataContext>(path);
 
-            Assert.IsTrue(Enumerable.SequenceEqual(dataContext.Klienci, dataContextDeserialized.Klienci));
-            Assert.IsTrue(Enumerable.SequenceEqual(dataContext.Ksiazki, dataContextDeserialized.Ksiazki));
-            Assert.IsTrue(Enumerable.SequenceEqual(dataContext.Stany, dataContextDeserialized.Stany));
-            Assert.IsTrue(Enumerable.SequenceEqual(dataContext.Zdarzenia, dataContextDeserialized.Zdarzenia));
+            CollectionAssert.AreEqual(dataContext.Klienci, dataContextDeserialized.Klienci);
+            CollectionAssert.AreEqual(dataContext.Ksiazki, dataContextDeserialized.Ksiazki);
+            CollectionAssert.AreEqual(dataContext.Stany, dataContextDeserialized.Stany);
+            CollectionAssert.AreEqual(dataContext.Zdarzenia, dataContextDeserialized.Zdarzenia);
+        }
+
+        [TestMethod]
+        public void CheckDeserializedModelEmpty()
+        {
+            DataContext dataContext = new DataContext();
+            JsonSerializer.Serialize(dataContext, path);
+
+            DataContext dataContextDeserialized = JsonSerializer.Deserialize<DataContext>(path);
+
+            CollectionAssert.AreEqual(dataContext.Klienci, dataContextDeserialized.Klienci);
+            CollectionAssert.AreEqual(dataContext.Ksiazki, dataContextDeserialized.Ksiazki);
+            CollectionAssert.AreEqual(dataContext.Stany, dataContextDeserialized.Stany);
+            CollectionAssert.AreEqual(dataContext.Zdarzenia, dataContextDeserialized.Zdarzenia);
+
+            Assert.AreEqual(0, dataContextDeserialized.Klienci.Count());
+            Assert.AreEqual(0, dataContextDeserialized.Ksiazki.Count());
+            Assert.AreEqual(0, dataContextDeserialized.Stany.Count());
+            Assert.AreEqual(0, dataContextDeserialized.Zdarzenia.Count());
         }
     }
 }
