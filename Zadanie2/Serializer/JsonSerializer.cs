@@ -37,7 +37,15 @@ namespace Serializer
                 {
                     byte[] bytes = new byte[fs.Length];
                     fs.Read(bytes);
-                    return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(bytes), JsonSerializer.JsonSettings);
+                    try
+                    {
+                        return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(bytes), JsonSerializer.JsonSettings);
+                    }
+                    catch (JsonException e)
+                    {
+                        throw new Exception(e.Message);
+                    }
+                    
                 }
             }
             return default(T);

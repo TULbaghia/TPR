@@ -17,5 +17,10 @@
             Przebieg = przebieg;
             Cena = cena;
         }
+
+        public override string ToString()
+        {
+            return " \"Samochod\": { Marka: " + Marka + ", Model: " + Model + ", Rok produkcji: " + RokProdukcji + ", Przebieg: " + Przebieg + ", Cena: " + Cena + " }";
+        }
     }
 }

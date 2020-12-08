@@ -8,7 +8,7 @@ namespace SerializerTests.XmlSerializerTests
     [TestClass]
     public class XmlModelSerializationTests
     {
-        private readonly string path = "xmlSerializerTest.xml";
+        private readonly string path = ".\\XmlModel\\xmlSerializerTest.xml";
 
         [TestMethod]
         public void test()
