@@ -1,14 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace ModelClasses.XmlModel
 {
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://p.lodz.pl")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://p.lodz.pl", IsNullable = false)]
+    [XmlTypeAttribute(AnonymousType = true, Namespace = "http://p.lodz.pl")]
+    [XmlRootAttribute(Namespace = "http://p.lodz.pl", IsNullable = false)]
     public class Katalog
     {
-        [System.Xml.Serialization.XmlElementAttribute("Samochod")]
+        [XmlElementAttribute("Samochod")]
         public List<Samochod> Samochody { get; set; } = new List<Samochod>();
+
+        public override bool Equals(object obj)
+        {
+            return obj is Katalog katalog &&
+                   EqualityComparer<List<Samochod>>.Default.Equals(Samochody, katalog.Samochody);
+        }
+
+        public override int GetHashCode()
+        {
+            return 1079671600 + EqualityComparer<List<Samochod>>.Default.GetHashCode(Samochody);
+        }
 
         public override string ToString()
         {
@@ -17,6 +29,7 @@ namespace ModelClasses.XmlModel
             stringBuilder.Append(string.Join(", \n", Samochody));
             return stringBuilder.ToString();
         }
+
     }
 
 }

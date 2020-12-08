@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -12,24 +10,26 @@ namespace Serializer
 {
     public class XmlSerialization
     {
+        public static readonly XmlWriterSettings xmlWriterSettings = new XmlWriterSettings()
+        {
+            Indent = true,
+            IndentChars = "  ",
+            NewLineChars = "\r\n",
+        };
+
         public static void Serialize(Object obj, string filePath, string stylesheetName)
         {
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);
             }
-            using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate))
+            using (XmlWriter writer = XmlWriter.Create(filePath, xmlWriterSettings))
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(obj.GetType());
-                XmlWriter _writer = XmlWriter.Create(fs, new XmlWriterSettings()
-                {
-                    Indent = true,
-                    IndentChars = "  ",
-                    NewLineChars = "\r\n",
-                });
-                _writer.WriteProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" " + String.Format("href=\"{0}\"", stylesheetName));
-                xmlSerializer.Serialize(_writer, obj);
-                _writer.Flush();
+                
+                writer.WriteProcessingInstruction("xml-stylesheet", "type=\"text/xsl\" " + String.Format("href=\"{0}\"", stylesheetName));
+                xmlSerializer.Serialize(writer, obj);
+                writer.Flush();
             }
         }
 
@@ -61,12 +61,14 @@ namespace Serializer
                 settings.Schemas.Add("http://p.lodz.pl", xsdPath);
                 settings.ValidationType = ValidationType.Schema;
 
-                XmlReader reader = XmlReader.Create(xmlPath, settings);
-                XmlDocument document = new XmlDocument();
-                document.Load(reader);
+                using (XmlReader reader = XmlReader.Create(xmlPath, settings))
+                {
+                    XmlDocument document = new XmlDocument();
+                    document.Load(reader);
 
-                ValidationEventHandler eventHandler = new ValidationEventHandler(ValidationEventHandler);
-                document.Validate(eventHandler);
+                    ValidationEventHandler eventHandler = new ValidationEventHandler(ValidationEventHandler);
+                    document.Validate(eventHandler);
+                }
             }
             catch (XmlSchemaValidationException ex)
             {

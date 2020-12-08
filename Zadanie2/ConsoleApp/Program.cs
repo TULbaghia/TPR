@@ -80,8 +80,15 @@ namespace ConsoleApp
                                 MySerializer mySerializer = new MySerializer();
                                 using (FileStream fsDes = new FileStream(filePath, FileMode.Open))
                                 {
-                                    class1Deserialized = (Class1)mySerializer.Deserialize(fsDes);
-                                    Console.WriteLine("> Deserialization done");
+                                    try
+                                    {
+                                        class1Deserialized = (Class1)mySerializer.Deserialize(fsDes);
+                                        Console.WriteLine("> Deserialization done");
+                                    } catch (Exception e)
+                                    {
+                                        class1Deserialized = null;
+                                        Console.WriteLine(e.Message);
+                                    }
                                 }
                             }
                             else
