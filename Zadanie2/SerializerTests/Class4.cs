@@ -25,8 +25,8 @@ namespace SerializerTests.Model
         {
             class4 = (Class4)info.GetValue("Class4", typeof(Class4));
             Text = (string)info.GetValue("Text", typeof(string));
-            Boolean = (Boolean)info.GetValue("Boolean", typeof(Boolean));
-            Number = Double.Parse((string)info.GetValue("Number", typeof(string)));
+            Boolean = (bool)info.GetValue("Boolean", typeof(bool));
+            Number = (double)info.GetValue("Number", typeof(double));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)

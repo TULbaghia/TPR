@@ -22,19 +22,19 @@ namespace ModelClasses.Zadanie2
         }
         public Class3(SerializationInfo info, StreamingContext context)
         {
-            Class1 = (Class1)info.GetValue("class1", typeof(Class1));
-            Class2 = (Class2)info.GetValue("class2", typeof(Class2));
-            Text = (string)info.GetValue("text", typeof(string));
-            DateTime = DateTime.Parse((string)info.GetValue("DateTime", typeof(string)));
-            Number = Double.Parse((string)info.GetValue("number", typeof(string)));
+            Class1 = (Class1)info.GetValue("Class1", typeof(Class1));
+            Class2 = (Class2)info.GetValue("Class2", typeof(Class2));
+            Text = (string)info.GetValue("Text", typeof(string));
+            DateTime = (DateTime)info.GetValue("DateTime", typeof(DateTime));
+            Number = (double)info.GetValue("Number", typeof(double));
         }
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("class1", Class1);
-            info.AddValue("class2", Class2);
-            info.AddValue("text", Text);
+            info.AddValue("Class1", Class1);
+            info.AddValue("Class2", Class2);
+            info.AddValue("Text", Text);
             info.AddValue("DateTime", DateTime);
-            info.AddValue("number", Number);
+            info.AddValue("Number", Number);
         }
 
         public override string ToString()

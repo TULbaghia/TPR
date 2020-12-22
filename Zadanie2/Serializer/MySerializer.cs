@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -25,7 +26,7 @@ namespace Serializer
             serializationStream.Read(bytes);
             String text = Encoding.UTF8.GetString(bytes);
 
-            String[] lines = text.Split("\n");
+            String[] lines = text.Split(Environment.NewLine);
 
             List<BuildHelper> objects = new List<BuildHelper>();
             List<KeyValuePair<int, String>> currentClass = new List<KeyValuePair<int, String>>();
@@ -72,17 +73,29 @@ namespace Serializer
                     buildHelper.type = "OBJECT";
                     String[] tmp = lines[i].Split("{ ")[1].Split(", ");
                     buildHelper.currentObject = new KeyValuePair<int, string>(int.Parse(tmp[0]), tmp[1]);
+                    if (tmp[1].Equals("System.String"))
+                    {
+                        buildHelper.value = lines[++i];
+                    }
                     currentClass.Add(buildHelper.currentObject);
                 }
                 objects.Add(buildHelper);
             }
 
             //fill SerializationInfo with null references and values
+            Dictionary<int, object> deserializedObjectList = new Dictionary<int, object>();
             Dictionary<int, SerializationInfo> objectList = new Dictionary<int, SerializationInfo>();
             foreach (BuildHelper bh in objects)
             {
                 if(bh.type == "OBJECT")
                 {
+                    if (bh.currentObject.Value == "System.String")
+                    {
+                        objectList.TryGetValue(bh.parentObject.Key, out SerializationInfo parentSerializationInfo);
+                        parentSerializationInfo.AddValue(bh.variableName, null);
+                        deserializedObjectList.Add(bh.currentObject.Key, new String(bh.value));
+                        continue;
+                    }
                     SerializationInfo serializationInfo = new SerializationInfo(Binder.BindToType(bh.assemblyName, bh.currentObject.Value), new FormatterConverter());
                     objectList.Add(bh.currentObject.Key, serializationInfo);
                     if( !bh.variableName.Equals("") )
@@ -94,12 +107,18 @@ namespace Serializer
                 else
                 {
                     objectList.TryGetValue(bh.currentObject.Key, out SerializationInfo serializationInfo);
-                    serializationInfo.AddValue(bh.variableName, bh.value);
+                    if (bh.type.Equals("REFERENCE"))
+                    {
+                        serializationInfo.AddValue(bh.variableName, bh.value);
+                    }
+                    else
+                    {
+                        Type pType = Type.GetType(bh.type);
+                        serializationInfo.AddValue(bh.variableName, Convert.ChangeType(bh.value, pType, CultureInfo.InvariantCulture), pType);
+                    }
                 }
             }
 
-            //deserialize objects with null references
-            Dictionary<int, object> deserializedObjectList = new Dictionary<int, object>();
             foreach (KeyValuePair<int, SerializationInfo> x in objectList)
             {
                 object o = Activator.CreateInstance(x.Value.ObjectType, x.Value, Context);
@@ -116,9 +135,16 @@ namespace Serializer
                 if (bh.type == "OBJECT" && !bh.variableName.Equals(""))
                 {
                     object o = deserializedObjectList[bh.parentObject.Key];
+                    //foreach (PropertyInfo propertyInfo in o.GetType().GetProperties())
+                    //{
+                    //    if (propertyInfo.Name.ToLower().Equals(bh.variableName.ToLower()))
+                    //    {
+                    //        propertyInfo.SetValue(o, deserializedObjectList[bh.currentObject.Key]);
+                    //    }
+                    //}
                     foreach (PropertyInfo propertyInfo in o.GetType().GetProperties())
                     {
-                        if (propertyInfo.Name.ToLower().Equals(bh.variableName.ToLower()))
+                        if (propertyInfo.PropertyType == deserializedObjectList[bh.currentObject.Key].GetType())
                         {
                             propertyInfo.SetValue(o, deserializedObjectList[bh.currentObject.Key]);
                         }
@@ -127,9 +153,16 @@ namespace Serializer
                 if (bh.type == "REFERENCE")
                 {
                     object o = deserializedObjectList[bh.currentObject.Key];
+                    //foreach (PropertyInfo propertyInfo in o.GetType().GetProperties())
+                    //{
+                    //    if (propertyInfo.Name.ToLower().Equals(bh.variableName.ToLower()))
+                    //    {
+                    //        propertyInfo.SetValue(o, deserializedObjectList[bh.childObject.Key]);
+                    //    }
+                    //}
                     foreach (PropertyInfo propertyInfo in o.GetType().GetProperties())
                     {
-                        if (propertyInfo.Name.ToLower().Equals(bh.variableName.ToLower()))
+                        if (propertyInfo.PropertyType == deserializedObjectList[bh.childObject.Key].GetType())
                         {
                             propertyInfo.SetValue(o, deserializedObjectList[bh.childObject.Key]);
                         }
@@ -151,14 +184,9 @@ namespace Serializer
 
         protected override void WriteObjectRef(object obj, string name, Type memberType)
         {
-            if (obj is string)
+            if (obj == null)
             {
-                WriteString((string)obj, name);
-                return;
-            }
-            else if (obj == null)
-            {
-                StringBuilder.Append("\"" + name + "\": " + "{ -1, null }\n");
+                StringBuilder.AppendLine("\"" + name + "\": " + "{ -1, null }");
             }
             else
             {
@@ -169,17 +197,33 @@ namespace Serializer
 
                     if (firstTime)
                     {
-                        StringBuilder.Append(", \"" + assemblyInfo + "\"" + "\n");
+                        StringBuilder.AppendLine(", \"" + assemblyInfo + "\"");
                         SerializationInfo serializationInfo = new SerializationInfo(serializable.GetType(), new FormatterConverter());
                         serializable.GetObjectData(serializationInfo, Context);
                         foreach (SerializationEntry serializationEntry in serializationInfo)
                         {
                             WriteMember(serializationEntry.Name, serializationEntry.Value);
                         }
-                        StringBuilder.Append("}\n");
+                        StringBuilder.AppendLine("}");
                     } else
                     {
-                        StringBuilder.Append(" }\n");
+                        StringBuilder.AppendLine(" }");
+                    }
+                }
+                else if (obj is string serializableString)
+                {
+                    Binder.BindToName(obj.GetType(), out string assemblyInfo, out string typeName);
+                    StringBuilder.Append("\"" + name + "\": " + "{ " + m_idGenerator.GetId(obj, out bool firstTime) + ", " + typeName);
+
+                    if (firstTime)
+                    {
+                        StringBuilder.AppendLine(", \"" + assemblyInfo + "\"");
+                        StringBuilder.AppendLine(serializableString);
+                        StringBuilder.AppendLine("}");
+                    }
+                    else
+                    {
+                        StringBuilder.AppendLine(" }");
                     }
                 }
                 else
@@ -196,7 +240,7 @@ namespace Serializer
 
         protected override void WriteBoolean(bool val, string name)
         {
-            StringBuilder.Append("\"" + name + "\": {\"type\": \"" + val.GetType().FullName + "\", \"value\": \"" + val + "\"}\n");
+            StringBuilder.AppendLine("\"" + name + "\": {\"type\": \"" + val.GetType().FullName + "\", \"value\": \"" + val.ToString(CultureInfo.InvariantCulture) + "\"}");
         }
 
         protected override void WriteByte(byte val, string name)
@@ -211,7 +255,7 @@ namespace Serializer
 
         protected override void WriteDateTime(DateTime val, string name)
         {
-            StringBuilder.Append("\"" + name + "\": {\"type\": \"" + val.GetType().FullName + "\", \"value\": \"" + val + "\"}\n");
+            StringBuilder.AppendLine("\"" + name + "\": {\"type\": \"" + val.GetType().FullName + "\", \"value\": \"" + val.ToString(CultureInfo.InvariantCulture) + "\"}");
         }
 
         protected override void WriteDecimal(decimal val, string name)
@@ -221,7 +265,7 @@ namespace Serializer
 
         protected override void WriteDouble(double val, string name)
         {
-            StringBuilder.Append("\"" + name + "\": {\"type\": \"" + val.GetType().FullName + "\", \"value\": \"" + val + "\"}\n");
+            StringBuilder.AppendLine("\"" + name + "\": {\"type\": \"" + val.GetType().FullName + "\", \"value\": \"" + val.ToString(CultureInfo.InvariantCulture) + "\"}");
         }
 
         protected override void WriteInt16(short val, string name)
@@ -237,11 +281,6 @@ namespace Serializer
         protected override void WriteInt64(long val, string name)
         {
             throw new NotImplementedException();
-        }
-
-        protected void WriteString(String text, string name)
-        {
-            StringBuilder.Append("\"" + name + "\": {\"type\": \"" + text.GetType().FullName + "\", \"value\": \"" + text + "\"}\n");
         }
 
         protected override void WriteSByte(sbyte val, string name)

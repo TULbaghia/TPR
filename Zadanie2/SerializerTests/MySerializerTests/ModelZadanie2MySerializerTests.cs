@@ -307,5 +307,57 @@ namespace SerializerTests
             Assert.AreSame(class3Deserialized.Class2, class3Deserialized.Class1.Class2);
         }
 
+        [TestMethod]
+        public void CheckStringReferencesTest()
+        {
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            string stringReference = "StringReference";
+            Class1 class1 = new Class1(stringReference, DateTime.Now, 1.1d);
+            Class2 class2 = new Class2(stringReference, DateTime.Now, 2.2d);
+            Class3 class3 = new Class3(stringReference, DateTime.Now, 3.3d);
+
+            class1.Class2 = class2;
+            class1.Class3 = class3;
+
+            class2.Class1 = class1;
+            class2.Class3 = class3;
+
+            class3.Class1 = class1;
+            class3.Class2 = class2;
+
+            MySerializer mySerializer = new MySerializer();
+            using (FileStream fsSerialize = new FileStream(path, FileMode.Create))
+            {
+                mySerializer.Serialize(fsSerialize, class1);
+            }
+
+            Class1 class1Deserialized;
+            using (FileStream fsDeserialize = new FileStream(path, FileMode.Open))
+            {
+                class1Deserialized = (Class1)mySerializer.Deserialize(fsDeserialize);
+            }
+
+            Assert.AreNotSame(class1, class1Deserialized);
+            Assert.AreNotSame(null, class1Deserialized.Class2);
+            Assert.AreNotSame(null, class1Deserialized.Class3);
+
+            Assert.AreEqual(class3.Number, class1Deserialized.Class3.Number);
+            Assert.AreEqual(class3.DateTime.ToString(), class1Deserialized.Class3.DateTime.ToString());
+
+            Assert.AreEqual(class2.Number, class1Deserialized.Class2.Number);
+            Assert.AreEqual(class2.DateTime.ToString(), class1Deserialized.Class2.DateTime.ToString());
+
+            Assert.AreEqual(class1.Number, class1Deserialized.Number);
+            Assert.AreEqual(class1.DateTime.ToString(), class1Deserialized.DateTime.ToString());
+
+            Assert.IsTrue(object.ReferenceEquals(class1Deserialized.Text, class1Deserialized.Class2.Text));
+            Assert.IsTrue(object.ReferenceEquals(class1Deserialized.Text, class1Deserialized.Class3.Text));
+            Assert.IsTrue(object.ReferenceEquals(class1Deserialized.Class2.Text, class1Deserialized.Class3.Text));
+        }
     }
 }
