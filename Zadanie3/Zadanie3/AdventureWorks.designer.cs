@@ -108,7 +108,7 @@ namespace Zadanie3
     #endregion
 		
 		public AdventureWorksDataContext() : 
-				base(global::Zadanie3.Properties.Settings.Default.AdventureWorks2014ConnectionString, mappingSource)
+				base(global::Zadanie3.Properties.Settings.Default.AdventureWorks2014ConnectionString1, mappingSource)
 		{
 			OnCreated();
 		}
