@@ -74,6 +74,7 @@ namespace Zadanie3
                 return query.ToList();
             }
         }
+
         public static List<Product> GetNProductsFromCategory(string categoryName, int n)
         {
             using (AdventureWorksDataContext dc = new AdventureWorksDataContext())
@@ -87,6 +88,7 @@ namespace Zadanie3
                 return query.ToList();
             }
         }
+
         public static int GetTotalStandardCostByCategory(ProductCategory category)
         {
             using (AdventureWorksDataContext dc = new AdventureWorksDataContext())

@@ -31,7 +31,6 @@ namespace Zadanie3
                                          .Take(size);
             return query.ToList();
         }
-
         public static List<Product> GetPaginatedProduct_Method(this List<Product> items, int pageNo, int size)
         {
             IEnumerable<Product> query = items
@@ -57,7 +56,6 @@ namespace Zadanie3
 
             return stringBuilder.ToString();
         }
-
         public static string GetProductVendorString_Method(this List<Product> products, List<ProductVendor> productVendors)
         {
             StringBuilder stringBuilder = new StringBuilder();
