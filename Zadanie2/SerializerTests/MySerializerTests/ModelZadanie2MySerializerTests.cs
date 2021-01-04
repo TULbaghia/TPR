@@ -355,6 +355,7 @@ namespace SerializerTests
             Assert.AreEqual(class1.Number, class1Deserialized.Number);
             Assert.AreEqual(class1.DateTime.ToString(), class1Deserialized.DateTime.ToString());
 
+            Assert.IsFalse(object.ReferenceEquals(stringReference, class1Deserialized.Text));
             Assert.IsTrue(object.ReferenceEquals(class1Deserialized.Text, class1Deserialized.Class2.Text));
             Assert.IsTrue(object.ReferenceEquals(class1Deserialized.Text, class1Deserialized.Class3.Text));
             Assert.IsTrue(object.ReferenceEquals(class1Deserialized.Class2.Text, class1Deserialized.Class3.Text));

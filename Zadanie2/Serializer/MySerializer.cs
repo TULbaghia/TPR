@@ -135,13 +135,6 @@ namespace Serializer
                 if (bh.type == "OBJECT" && !bh.variableName.Equals(""))
                 {
                     object o = deserializedObjectList[bh.parentObject.Key];
-                    //foreach (PropertyInfo propertyInfo in o.GetType().GetProperties())
-                    //{
-                    //    if (propertyInfo.Name.ToLower().Equals(bh.variableName.ToLower()))
-                    //    {
-                    //        propertyInfo.SetValue(o, deserializedObjectList[bh.currentObject.Key]);
-                    //    }
-                    //}
                     foreach (PropertyInfo propertyInfo in o.GetType().GetProperties())
                     {
                         if (propertyInfo.PropertyType == deserializedObjectList[bh.currentObject.Key].GetType())
@@ -153,13 +146,6 @@ namespace Serializer
                 if (bh.type == "REFERENCE")
                 {
                     object o = deserializedObjectList[bh.currentObject.Key];
-                    //foreach (PropertyInfo propertyInfo in o.GetType().GetProperties())
-                    //{
-                    //    if (propertyInfo.Name.ToLower().Equals(bh.variableName.ToLower()))
-                    //    {
-                    //        propertyInfo.SetValue(o, deserializedObjectList[bh.childObject.Key]);
-                    //    }
-                    //}
                     foreach (PropertyInfo propertyInfo in o.GetType().GetProperties())
                     {
                         if (propertyInfo.PropertyType == deserializedObjectList[bh.childObject.Key].GetType())
