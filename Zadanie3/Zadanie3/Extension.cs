@@ -51,7 +51,7 @@ namespace Zadanie3
 
             foreach (var item in query)
             {
-                stringBuilder.Append(item.productName).Append('-').AppendLine(item.vendorName);
+                stringBuilder.Append(item.productName).Append(" - ").AppendLine(item.vendorName);
             }
 
             return stringBuilder.ToString();
@@ -67,7 +67,7 @@ namespace Zadanie3
 
             foreach (var item in query)
             {
-                stringBuilder.Append(item.productName).Append('-').AppendLine(item.vendorName);
+                stringBuilder.Append(item.productName).Append(" - ").AppendLine(item.vendorName);
             }
 
             return stringBuilder.ToString();

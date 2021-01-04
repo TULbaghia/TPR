@@ -10,8 +10,8 @@ namespace Zadanie3
             using (AdventureWorksDataContext dc = new AdventureWorksDataContext())
             {
                 IEnumerable<Product> query = from p in dc.Products
-                     where p.Name.Contains(namePart)
-                     select p;
+                                             where p.Name.Contains(namePart)
+                                             select p;
 
                 return query.ToList();
             }
@@ -21,8 +21,8 @@ namespace Zadanie3
             using (AdventureWorksDataContext dc = new AdventureWorksDataContext())
             {
                 IEnumerable<Product> query = from p in dc.ProductVendors
-                                       where p.Vendor.Name.Equals(vendorName)
-                                       select p.Product;
+                                             where p.Vendor.Name.Equals(vendorName)
+                                             select p.Product;
 
                 return query.ToList();
             }
@@ -32,9 +32,9 @@ namespace Zadanie3
             using (AdventureWorksDataContext dc = new AdventureWorksDataContext())
             {
                 IEnumerable<string> query = from p in dc.Products
-                                             join pVendor in dc.ProductVendors on p.ProductID equals pVendor.ProductID
-                                             where pVendor.Vendor.Name == vendorName
-                                             select p.Name;
+                                            join pVendor in dc.ProductVendors on p.ProductID equals pVendor.ProductID
+                                            where pVendor.Vendor.Name == vendorName
+                                            select p.Name;
 
                 return query.ToList();
             }
@@ -66,12 +66,12 @@ namespace Zadanie3
         {
             using (AdventureWorksDataContext dc = new AdventureWorksDataContext())
             {
-                IEnumerable<Product> query = (from r in dc.ProductReviews
+                IEnumerable<Product> query = from r in dc.ProductReviews
                                              orderby r.ReviewDate descending
-                                             select r.Product
-                                             ).Take(howManyProducts);
+                                             group r.Product by r.ProductID into items
+                                             select items.First();
 
-                return query.ToList();
+                return query.Take(howManyProducts).ToList();
             }
         }
 
@@ -79,13 +79,12 @@ namespace Zadanie3
         {
             using (AdventureWorksDataContext dc = new AdventureWorksDataContext())
             {
-                IEnumerable<Product> query = (from p in dc.Products
-                                              where p.ProductSubcategory.ProductCategory.Name == categoryName
-                                              orderby p.Name
-                                              select p
-                                              ).Take(n);
+                IEnumerable<Product> query = from p in dc.Products
+                                             where p.ProductSubcategory.ProductCategory.Name == categoryName
+                                             orderby p.Name
+                                             select p;
 
-                return query.ToList();
+                return query.Take(n).ToList();
             }
         }
 
@@ -93,12 +92,11 @@ namespace Zadanie3
         {
             using (AdventureWorksDataContext dc = new AdventureWorksDataContext())
             {
-                int sum = (int) (from p in dc.Products
-                                 where p.ProductSubcategory.ProductCategory.Name == category.Name
-                                 select p.StandardCost
-                                 ).Sum();
+                IEnumerable<decimal> query = from p in dc.Products
+                                             where p.ProductSubcategory.ProductCategory.Name == category.Name
+                                             select p.StandardCost;
 
-                return sum;
+                return (int) query.Sum();
             }
         }
 

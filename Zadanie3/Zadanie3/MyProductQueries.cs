@@ -12,8 +12,8 @@ namespace Zadanie3
                 MyProductDataContext dataContext = new MyProductDataContext(dc);
 
                 IEnumerable<MyProduct> query = from p in dataContext.MyProducts
-                                             where p.Name.Contains(namePart)
-                                             select p;
+                                               where p.Name.Contains(namePart)
+                                               select p;
 
                 return query.ToList();
             }
@@ -25,8 +25,8 @@ namespace Zadanie3
                 MyProductDataContext dataContext = new MyProductDataContext(dc);
 
                 IEnumerable<MyProduct> query = from p in dataContext.MyProducts
-                                             where p.ProductReviews.Count == howManyReviews
-                                             select p;
+                                               where p.ProductReviews.Count == howManyReviews
+                                               select p;
 
                 return query.ToList();
             }
@@ -37,15 +37,14 @@ namespace Zadanie3
             {
                 MyProductDataContext dataContext = new MyProductDataContext(dc);
 
-                IEnumerable<MyProduct> query = (from p in dataContext.MyProducts
-                                                where p.ProductSubcategory != null &&
-                                                p.ProductSubcategory.ProductCategory != null &&
-                                                p.ProductSubcategory.ProductCategory.Name == categoryName
-                                              orderby p.Name
-                                              select p
-                                              ).Take(n);
+                IEnumerable<MyProduct> query = from p in dataContext.MyProducts
+                                               where p.ProductSubcategory != null &&
+                                               p.ProductSubcategory.ProductCategory != null &&
+                                               p.ProductSubcategory.ProductCategory.Name == categoryName
+                                               orderby p.Name
+                                               select p;
 
-                return query.ToList();
+                return query.Take(n).ToList();
             }
         }
     }
