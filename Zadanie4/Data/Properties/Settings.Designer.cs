@@ -33,5 +33,16 @@ namespace Data.Properties {
                 return ((string)(this["AdventureWorks2014ConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-GTTM5KF\\SQLEXPRESS;Initial Catalog=AdventureWorks2014;Integra" +
+            "ted Security=True")]
+        public string AdventureWorks2014ConnectionString_Pawel {
+            get {
+                return ((string)(this["AdventureWorks2014ConnectionString_Pawel"]));
+            }
+        }
     }
 }

@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "View", "View\View.csproj", "{14B7E512-7187-427B-B561-8B948F691D6D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresenterView", "View\PresenterView.csproj", "{14B7E512-7187-427B-B561-8B948F691D6D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{B32ACE0B-B63B-45A3-87CD-3E60D788D080}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "ViewModel\ViewModel.csproj", "{1E765D79-155B-4D53-BD10-940DB9E05F17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresenterViewModel", "ViewModel\PresenterViewModel.csproj", "{1E765D79-155B-4D53-BD10-940DB9E05F17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{D3036C53-718D-4F23-B010-F10485029C13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresenterModel", "Model\PresenterModel.csproj", "{D3036C53-718D-4F23-B010-F10485029C13}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{710FAA25-3CAD-461D-B0F1-0F00EE4E4A8B}"
 EndProject

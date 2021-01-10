@@ -1,20 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PresenterViewModel;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using ViewModel;
 
-namespace View
+namespace PresenterView
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -31,10 +19,16 @@ namespace View
             MessageBox.Show(message);
         }
 
+        public void ShowWindow()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
             MainViewModel _viewModel = (MainViewModel) DataContext;
+            _viewModel.DetailWindow = new Lazy<IWindow>(() => new DetailView());
             _viewModel.MainWindow = this;
         }
     }

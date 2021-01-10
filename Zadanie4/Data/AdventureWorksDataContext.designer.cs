@@ -23,7 +23,7 @@ namespace Data
 	
 	
 	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="AdventureWorks2014")]
-	public partial class DataClasses1DataContext : System.Data.Linq.DataContext
+	public partial class AdventureWorksDataContext : System.Data.Linq.DataContext
 	{
 		
 		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
@@ -107,31 +107,31 @@ namespace Data
     partial void DeleteVendor(Vendor instance);
     #endregion
 		
-		public DataClasses1DataContext() : 
-				base(global::Data.Properties.Settings.Default.AdventureWorks2014ConnectionString, mappingSource)
+		public AdventureWorksDataContext() : 
+				base(global::Data.Properties.Settings.Default.AdventureWorks2014ConnectionString_Pawel, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public DataClasses1DataContext(string connection) : 
+		public AdventureWorksDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public DataClasses1DataContext(System.Data.IDbConnection connection) : 
+		public AdventureWorksDataContext(System.Data.IDbConnection connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public DataClasses1DataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public AdventureWorksDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public DataClasses1DataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public AdventureWorksDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();

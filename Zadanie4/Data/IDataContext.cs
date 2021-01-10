@@ -9,9 +9,9 @@ namespace Data
     public interface IDataContext<T>
     {
         IEnumerable<T> GetItems();
-        bool AddItem(T item);
-        bool UpdateItem(T item);
-        bool DeleteItem(T item);
+        void AddItem(T item);
+        void UpdateItem(T item);
+        void DeleteItem(T item);
         T GetItem(int id);
     }
 }

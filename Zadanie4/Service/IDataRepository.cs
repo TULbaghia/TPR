@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Data;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service
 {
     public interface IDataRepository
     {
+        IEnumerable<Product> GetProducts();
+        void AddProduct(Product item);
+        void UpdateItem(Product item);
+        void DeleteProduct(Product item);
+        Product GetProduct(int id);
+
     }
 }
