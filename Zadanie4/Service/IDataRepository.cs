@@ -7,7 +7,7 @@ namespace Service
     {
         IEnumerable<Product> GetProducts();
         void AddProduct(Product item);
-        void UpdateItem(Product item);
+        void UpdateProduct(Product item);
         void DeleteProduct(Product item);
         Product GetProduct(int id);
 

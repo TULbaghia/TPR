@@ -1,5 +1,6 @@
 ﻿using Data;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Service
 {
@@ -14,12 +15,18 @@ namespace Service
 
         public void AddProduct(Product item)
         {
-            DataContext.AddItem(item);
+            Task.Run(() =>
+            {
+                DataContext.AddItem(item);
+            }).Wait();
         }
 
         public void DeleteProduct(Product item)
         {
-            DataContext.DeleteItem(item);
+            Task.Run(() =>
+            {
+                DataContext.DeleteItem(item);
+            }).Wait();
         }
 
         public Product GetProduct(int id)
@@ -32,9 +39,12 @@ namespace Service
             return DataContext.GetItems();
         }
 
-        public void UpdateItem(Product item)
+        public void UpdateProduct(Product item)
         {
-            DataContext.UpdateItem(item);
+            Task.Run(() =>
+            {
+                DataContext.UpdateItem(item);
+            }).Wait();
         }
     }
 }
