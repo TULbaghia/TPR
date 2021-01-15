@@ -1,5 +1,6 @@
 ﻿using Data;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Service
@@ -8,42 +9,47 @@ namespace Service
     {
         private IDataContext<Product> DataContext { get; set; }
 
+        public DataRepository()
+        {
+            DataContext = new DataContext();
+        }
+
         public DataRepository(IDataContext<Product> dataContext)
         {
             DataContext = dataContext;
         }
 
-        public void AddProduct(Product item)
+        public void AddProduct(ProductModelService item)
         {
             Task.Run(() =>
             {
-                DataContext.AddItem(item);
+                DataContext.AddItem(item.CreateProduct());
             }).Wait();
         }
 
-        public void DeleteProduct(Product item)
+        public void DeleteProduct(ProductModelService item)
         {
             Task.Run(() =>
             {
-                DataContext.DeleteItem(item);
+                DataContext.DeleteItem(item.CreateProduct());
             }).Wait();
         }
 
-        public Product GetProduct(int id)
+        public ProductModelService GetProduct(int id)
         {
-            return DataContext.GetItem(id);
+            return new ProductModelService(DataContext.GetItem(id));
         }
 
-        public IEnumerable<Product> GetProducts()
+        public IEnumerable<ProductModelService> GetProducts()
         {
-            return DataContext.GetItems();
+            return DataContext.GetItems().Select(x => new ProductModelService(x));
         }
 
-        public void UpdateProduct(Product item)
+        public void UpdateProduct(ProductModelService item)
         {
             Task.Run(() =>
             {
-                DataContext.UpdateItem(item);
+                DataContext.UpdateItem(item.CreateProduct());
             }).Wait();
         }
     }

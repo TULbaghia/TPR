@@ -5,11 +5,11 @@ namespace Service
 {
     public interface IDataRepository
     {
-        IEnumerable<Product> GetProducts();
-        void AddProduct(Product item);
-        void UpdateProduct(Product item);
-        void DeleteProduct(Product item);
-        Product GetProduct(int id);
+        IEnumerable<ProductModelService> GetProducts();
+        void AddProduct(ProductModelService item);
+        void UpdateProduct(ProductModelService item);
+        void DeleteProduct(ProductModelService item);
+        ProductModelService GetProduct(int id);
 
     }
 }

@@ -14,7 +14,7 @@ namespace Tests.Service
             IDataContext<Product> dataContext = new TestDataContext();
             IDataRepository dataRepository = new DataRepository(dataContext);
 
-            Product product = new Product();
+            ProductModelService product = new ProductModelService();
 
             Assert.AreEqual(0, dataContext.GetItems().Count());
 
@@ -22,7 +22,7 @@ namespace Tests.Service
 
             Assert.AreEqual(1, dataContext.GetItems().Count());
 
-            Assert.AreSame(product, dataContext.GetItems().First());
+            Assert.AreEqual(1, dataContext.GetItems().First().ProductID);
         }
 
         [TestMethod]
@@ -31,7 +31,7 @@ namespace Tests.Service
             IDataContext<Product> dataContext = new TestDataContext();
             IDataRepository dataRepository = new DataRepository(dataContext);
 
-            Product product = new Product();
+            ProductModelService product = new ProductModelService();
 
             Assert.AreEqual(0, dataRepository.GetProducts().Count());
 
@@ -39,7 +39,7 @@ namespace Tests.Service
 
             Assert.AreEqual(1, dataRepository.GetProducts().Count());
 
-            Assert.AreSame(product, dataRepository.GetProduct(product.ProductID));
+            Assert.AreEqual(1, dataRepository.GetProduct(1).ProductID);
         }
 
         [TestMethod]
@@ -48,15 +48,13 @@ namespace Tests.Service
             IDataContext<Product> dataContext = new TestDataContext();
             IDataRepository dataRepository = new DataRepository(dataContext);
 
-            Product product = new Product();
+            ProductModelService product = new ProductModelService();
 
             Assert.AreEqual(0, dataRepository.GetProducts().Count());
 
-            dataContext.AddItem(product);
+            dataContext.AddItem(product.CreateProduct());
 
             Assert.AreEqual(1, dataRepository.GetProducts().Count());
-
-            Assert.IsTrue(CollectionAssert.Equals(dataContext.GetItems(), dataRepository.GetProducts()));
         }
 
         [TestMethod]
@@ -65,11 +63,11 @@ namespace Tests.Service
             IDataContext<Product> dataContext = new TestDataContext();
             IDataRepository dataRepository = new DataRepository(dataContext);
 
-            Product product = new Product();
+            ProductModelService product = new ProductModelService();
             dataRepository.AddProduct(product);
             Assert.AreEqual(1, dataRepository.GetProducts().Count());
 
-            Product delete = new Product { ProductID = product.ProductID };
+            ProductModelService delete = new ProductModelService(new Product { ProductID = 1 });
 
             dataRepository.DeleteProduct(delete);
 
@@ -82,24 +80,26 @@ namespace Tests.Service
             IDataContext<Product> dataContext = new TestDataContext();
             IDataRepository dataRepository = new DataRepository(dataContext);
 
-            Product product = new Product {
+            ProductModelService product = new ProductModelService(new Product
+            {
                 Name = "Witaj"
-            };
+            });
             dataRepository.AddProduct(product);
             Assert.AreEqual(1, dataRepository.GetProducts().Count());
 
-            Assert.AreEqual("Witaj", dataRepository.GetProduct(product.ProductID).Name);
+            Assert.AreEqual("Witaj", dataRepository.GetProduct(1).Name);
 
-            Product update = new Product { 
-                ProductID = product.ProductID,
+            ProductModelService update = new ProductModelService(new Product
+            {
+                ProductID = 1,
                 Name = "Test",
                 Weight = 2
-            };
+            });
 
             dataRepository.UpdateProduct(update);
 
-            Assert.AreEqual("Test", dataRepository.GetProduct(product.ProductID).Name);
-            Assert.AreEqual(2, dataRepository.GetProduct(product.ProductID).Weight);
+            Assert.AreEqual("Test", dataRepository.GetProduct(1).Name);
+            Assert.AreEqual(2, dataRepository.GetProduct(1).Weight);
         }
     }
 }

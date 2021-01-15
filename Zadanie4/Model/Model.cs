@@ -1,6 +1,6 @@
-﻿using Data;
-using Service;
+﻿using Service;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PresenterModel
 {
@@ -10,17 +10,17 @@ namespace PresenterModel
 
         public Model()
         {
-            DataRepository = new DataRepository(new DataContext());
+            DataRepository = new DataRepository();
         }
 
-        public IEnumerable<Product> GetProducts()
+        public IEnumerable<ProductModel> GetProducts()
         {
-            return DataRepository.GetProducts();
+            return DataRepository.GetProducts().Select(x => new ProductModel(x));
         }
 
-        public Product GetProduct(int id)
+        public ProductModel GetProduct(int id)
         {
-            return DataRepository.GetProduct(id);
+            return new ProductModel(DataRepository.GetProduct(id));
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using PresenterViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,26 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace PresenterView
 {
     /// <summary>
-    /// Interaction logic for DetailView.xaml
+    /// Interaction logic for AddProduct.xaml
     /// </summary>
-    public partial class DetailView : Window, IWindow, IDetail
+    public partial class AddProduct : UserControl
     {
-        public DetailView()
+        public AddProduct()
         {
             InitializeComponent();
-        }
-
-        public void ShowWindow(MainViewModel mvm)
-        {
-            DetailView _dv = new DetailView();
-            DetailViewModel _dvm = (DetailViewModel) _dv.DataContext;
-            _dvm.SetSelectedProduct(mvm);
-            _dv.Show();
         }
     }
 }

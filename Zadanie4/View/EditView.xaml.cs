@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PresenterViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +18,16 @@ namespace PresenterView
     /// <summary>
     /// Interaction logic for EditView.xaml
     /// </summary>
-    public partial class EditView : Window
+    public partial class EditView : Window, IWindow
     {
         public EditView()
         {
             InitializeComponent();
+        }
+
+        public void CloseWindow()
+        {
+            throw new NotImplementedException();
         }
     }
 }
