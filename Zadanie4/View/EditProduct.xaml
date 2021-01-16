@@ -20,40 +20,40 @@
         </Grid.RowDefinitions>
         
         <Label Content="ProductID" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Row="1" Margin="0,10,1.667,0"/>
-        <TextBox IsEnabled="False" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditProduct.ProductID}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,10,289,0"/>
+        <TextBox IsEnabled="False" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditableProduct.ProductID}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,10,289,0"/>
         
         <Label Content="Name" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Row="1" Margin="0,45,1.667,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditProduct.Name}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,45,289,0"/>
+        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditableProduct.Name}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,45,289,0"/>
 
         <Label Content="ProductNumber" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="100" Grid.Row="1" Margin="0,80,1.667,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditProduct.ProductNumber}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,80,289,0"/>
+        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditableProduct.ProductNumber}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,80,289,0"/>
 
         <Label Content="MakeFlag" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Row="1" Margin="0,115,1.667,0"/>
-        <CheckBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" IsChecked="{Binding Path=EditProduct.MakeFlag}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,115,289,0"/>
+        <CheckBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" IsChecked="{Binding Path=EditableProduct.MakeFlag}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,115,289,0"/>
 
         <Label Content="FinishedGoodsFlag" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Margin="0,150,1.667,0" Grid.Row="1" RenderTransformOrigin="1.12,2.525"/>
-        <CheckBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" IsChecked="{Binding Path=EditProduct.FinishedGoodsFlag}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,150,289,0"/>
+        <CheckBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" IsChecked="{Binding Path=EditableProduct.FinishedGoodsFlag}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,150,289,0"/>
         
         <Label Content="SafetyStockLevel" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Row="1" Margin="0,185,1.667,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditProduct.SafetyStockLevel}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,185,289,0"/>
+        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditableProduct.SafetyStockLevel}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,185,289,0"/>
         
         <Label Content="ReorderPoint" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Row="1" Margin="0,220,1.667,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditProduct.ReorderPoint}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,220,289,0"/>
+        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditableProduct.ReorderPoint}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,220,289,0"/>
 
         
         
         
         <Label Content="StandardCost" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Column="1" Grid.Row="1" Margin="0,10,169,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditProduct.StandardCost}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,10,25,0"/>
+        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditableProduct.StandardCost}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,10,25,0"/>
         
         <Label Content="ListPrice" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Column="1" Grid.Row="1" Margin="0,45,169,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditProduct.ListPrice}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,45,25,0"/>
+        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditableProduct.ListPrice}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,45,25,0"/>
        
         <Label Content="DaysToManufacture" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Column="1" Grid.Row="1" Margin="0,80,169,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditProduct.DaysToManufacture}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,80,25,0" RenderTransformOrigin="2.165,2.967"/>
+        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditableProduct.DaysToManufacture}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,80,25,0" RenderTransformOrigin="2.165,2.967"/>
         
         <Label Content="SellStartDate" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Column="1" Grid.Row="1" Margin="0,115,169,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditProduct.SellStartDate}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,115,25,0"/>
+        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditableProduct.SellStartDate}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,115,25,0"/>
         <!--<Label Content="ProductSubcategory" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="120" Grid.Column="1" Grid.Row="1" Margin="0,150,164,0"/>
         <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=EditProduct.ProductSubcategoryID}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,150,25,0"/>
         <Label Content="SellStartDate" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Column="1" Grid.Row="1" Margin="0,185,169,0" RenderTransformOrigin="0.717,0.5"/>
@@ -63,6 +63,6 @@
         
         <TextBlock HorizontalAlignment="Left" Margin="15,5,0,0" Grid.RowSpan="1" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="Edytuj produkt:" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0"/>
         
-        <Button Content="Zatwierdź zmiany" Grid.Column="1" HorizontalAlignment="Left" Margin="95,265,0,0" Grid.Row="1" VerticalAlignment="Top" Width="134" Grid.RowSpan="2" Height="30"/>
+        <Button Content="Zatwierdź zmiany" Command="{Binding ModifyProduct}" Grid.Column="1" HorizontalAlignment="Left" Margin="95,265,0,0" Grid.Row="1" VerticalAlignment="Top" Width="134" Grid.RowSpan="2" Height="30"/>
     </Grid>
 </UserControl>

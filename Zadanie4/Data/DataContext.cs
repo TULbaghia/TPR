@@ -17,19 +17,35 @@ namespace Data
 
         public void AddItem(Product item)
         {
-            item.ModifiedDate = DateTime.Now;
-            item.rowguid = Guid.NewGuid();
-            AdventureWorksDataContext.Products.InsertOnSubmit(item);
-            AdventureWorksDataContext.SubmitChanges();
-        }
+            try
+            {
+                item.ModifiedDate = DateTime.Now;
+                item.rowguid = Guid.NewGuid();
+                AdventureWorksDataContext.Products.InsertOnSubmit(item);
+                AdventureWorksDataContext.SubmitChanges();
+            } catch (Exception e)
+            {
+                AdventureWorksDataContext.Products.DeleteOnSubmit(item);
+                throw e;
+            }
 
+        }
+        
         public void DeleteItem(Product item)
         {
             Product product = GetItem(item.ProductID);
-            if (product != null)
+            try 
             {
-                AdventureWorksDataContext.Products.DeleteOnSubmit(product);
-                AdventureWorksDataContext.SubmitChanges(ConflictMode.ContinueOnConflict);
+                if (product != null)
+                {
+                    AdventureWorksDataContext.Products.DeleteOnSubmit(product);
+                    AdventureWorksDataContext.SubmitChanges(ConflictMode.ContinueOnConflict);
+                }
+            }
+            catch (Exception e)
+            {
+                AdventureWorksDataContext.Products.InsertOnSubmit(product);
+                throw e;
             }
         }
 
@@ -45,12 +61,28 @@ namespace Data
 
         public void UpdateItem(Product item)
         {
-            Product product = GetItem(item.ProductID);
-            foreach (PropertyInfo property in product.GetType().GetProperties())
+            try
             {
-                property.SetValue(product, property.GetValue(item));
+                Product product = GetItem(item.ProductID);
+                product.ProductID = item.ProductID;
+                product.Name = item.Name;
+                product.ProductNumber = item.ProductNumber;
+                product.MakeFlag = item.MakeFlag;
+                product.FinishedGoodsFlag = item.FinishedGoodsFlag;
+                product.SafetyStockLevel = item.SafetyStockLevel;
+                product.ReorderPoint = item.ReorderPoint;
+                product.StandardCost = item.StandardCost;
+                product.ListPrice = item.ListPrice;
+                product.DaysToManufacture = item.DaysToManufacture;
+                product.SellStartDate = item.SellStartDate;
+
+                AdventureWorksDataContext.SubmitChanges();
+            } catch (Exception e)
+            {
+                AdventureWorksDataContext.GetChangeSet().Updates.Clear();
+                throw e;
             }
-            AdventureWorksDataContext.SubmitChanges();
+
         }
     }
 }

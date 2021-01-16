@@ -21,18 +21,12 @@ namespace Service
 
         public void AddProduct(ProductModelService item)
         {
-            Task.Run(() =>
-            {
-                DataContext.AddItem(item.CreateProduct());
-            }).Wait();
+            DataContext.AddItem(item.CreateProduct());
         }
 
         public void DeleteProduct(ProductModelService item)
         {
-            Task.Run(() =>
-            {
-                DataContext.DeleteItem(item.CreateProduct());
-            }).Wait();
+            DataContext.DeleteItem(item.CreateProduct());
         }
 
         public ProductModelService GetProduct(int id)
@@ -47,10 +41,7 @@ namespace Service
 
         public void UpdateProduct(ProductModelService item)
         {
-            Task.Run(() =>
-            {
-                DataContext.UpdateItem(item.CreateProduct());
-            }).Wait();
+            DataContext.UpdateItem(item.CreateProduct());
         }
     }
 }

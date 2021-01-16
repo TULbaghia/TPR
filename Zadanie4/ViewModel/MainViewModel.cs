@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using PresenterModel;
 
@@ -20,23 +21,86 @@ namespace PresenterViewModel
             DisplayTextCommand = new ViewModelCommand(() => MessageBoxShowDelegate("Tekst"));
             ShowAddControl = new ViewModelCommand(() => ShowAdd(true));
             ShowEditControl = new ViewModelCommand(() => ShowAdd(false));
-            DeleteProduct = new ViewModelCommand(_DeleteProduct);
+            DeleteProduct = new ViewModelCommand(() => { Task.Run(_DeleteProduct); });
+            AppendProduct = new ViewModelCommand(() => { Task.Run(_AppendProduct); });
+            ModifyProduct = new ViewModelCommand(() => { Task.Run(_ModifyProduct); });
 
             EditProduct = new ProductModel();
-
+            Products = Model.GetProducts().ToList();
             ShowAdd(true);
         }
 
-        #region AddProduct, EditProduct Products
-        public ObservableCollection<ProductModel> Products { get => new ObservableCollection<ProductModel>(Model.GetProducts()); }
+        #region ModifyProduct commands
+        public ViewModelCommand ModifyProduct { get; private set; }
+        private void _ModifyProduct()
+        {
+            try
+            {
+                int tempProductID = EditProduct.ProductID;
+                Model.UpdateProduct(EditProduct);
+                Products = Model.GetProducts().ToList();
+                MessageBoxShowDelegate("Aktualizacja produktu przebiegła pomyślnie");
+                EditProduct = Products.Single(x => x.ProductID == tempProductID);
+            }
+            catch (Exception e)
+            {
+                MessageBoxShowDelegate("Wystąpił problem z edycją produktu");
+            }
+        }
+        #endregion
+
+        #region AppendProduct commands
+        public ViewModelCommand AppendProduct { get; private set; }
+        private void _AppendProduct()
+        {
+            try
+            {
+                Model.AddProduct(AddProduct);
+                Products = Model.GetProducts().ToList();
+                MessageBoxShowDelegate("Dodawanie nowego produktu przebiegło pomyślnie");
+                ShowAdd(true);
+            }
+            catch (Exception e)
+            {
+                MessageBoxShowDelegate(e.Message);
+            }
+        }
+        #endregion
+
+        #region Properties: AddProduct, EditProduct Products
+        private List<ProductModel> productList;
+        public List<ProductModel> Products
+        {
+            get => productList;
+            set
+            {
+                productList = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private ProductModel _EditProduct;
+        private ProductModel _EditableProduct;
         public ProductModel EditProduct
         {
             get => _EditProduct;
             set
             {
                 _EditProduct = value;
+                if (value != null)
+                {
+                    EditableProduct = new ProductModel(_EditProduct.CreateProduct());
+                }
+                ShowAdd(false);
+                NotifyPropertyChanged();
+            }
+        }
+        public ProductModel EditableProduct
+        {
+            get => _EditableProduct;
+            set
+            {
+                _EditableProduct = value;
                 ShowAdd(false);
                 NotifyPropertyChanged();
             }
@@ -140,9 +204,11 @@ namespace PresenterViewModel
             try
             {
                 Model.DeleteProduct(EditProduct);
+                Products = Model.GetProducts().ToList();
             } catch(Exception e)
             {
-                MessageBoxShowDelegate("Wystąpił problem z usunięciem produktu");
+                MessageBoxShowDelegate(e.Message);
+                //MessageBoxShowDelegate("Wystąpił problem z usunięciem produktu");
             }
         }
         #endregion

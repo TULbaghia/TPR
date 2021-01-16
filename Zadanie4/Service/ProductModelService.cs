@@ -20,6 +20,7 @@ namespace Service
         #endregion
         public ProductModelService() 
         {
+            SellStartDate = DateTime.Now;
         }
 
         public ProductModelService(Product x)

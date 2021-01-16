@@ -93,13 +93,13 @@ namespace Tests.Service
             {
                 ProductID = 1,
                 Name = "Test",
-                Weight = 2
+                MakeFlag = true
             });
 
             dataRepository.UpdateProduct(update);
 
             Assert.AreEqual("Test", dataRepository.GetProduct(1).Name);
-            Assert.AreEqual(2, dataRepository.GetProduct(1).Weight);
+            Assert.AreEqual(true, dataRepository.GetProduct(1).MakeFlag);
         }
     }
 }
