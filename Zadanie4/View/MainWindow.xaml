@@ -15,6 +15,9 @@
         <DataTemplate x:Key="AddViewPage" >
             <local:AddProduct/>
         </DataTemplate>
+        <DataTemplate x:Key="EditViewPage" >
+            <local:EditProduct/>
+        </DataTemplate>
     </Window.Resources>
 
     <Grid>
@@ -22,22 +25,24 @@
             <ColumnDefinition Width="8*"/>
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
-        <ListView HorizontalAlignment="Stretch" Height="498" Margin="5,10,0,10" VerticalAlignment="Stretch" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}" Grid.Column="0">
+        <ListView HorizontalAlignment="Stretch" Height="498" Margin="5,10,0,10" VerticalAlignment="Stretch" ItemsSource="{Binding Products}" SelectedItem="{Binding EditProduct}" Grid.Column="0">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Id" DisplayMemberBinding="{Binding ProductID}"/>
                     <GridViewColumn Header="Nazwa" DisplayMemberBinding="{Binding Name}"/>
                     <GridViewColumn Header="Ilość produktów" DisplayMemberBinding="{Binding ProductNumber}"/>
                     <GridViewColumn Header="Cena produktu" DisplayMemberBinding="{Binding StandardCost}"/>
-                    <GridViewColumn Header="Kolor" DisplayMemberBinding="{Binding Color}"/>
+                    <GridViewColumn Header="Czas produkcji" DisplayMemberBinding="{Binding DaysToManufacture}"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource AddViewPage}" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="294" VerticalAlignment="Top" Width="511" Grid.Column="1" />
+        <ContentControl Visibility="{Binding AddVisibility}" Content="{Binding}" ContentTemplate="{StaticResource AddViewPage}" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="340" VerticalAlignment="Top" Width="511" Grid.Column="1" />
+        <ContentControl Visibility="{Binding EditVisibility}" Content="{Binding}" ContentTemplate="{StaticResource EditViewPage}" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="340" VerticalAlignment="Top" Width="511" Grid.Column="1" />
+        
         <Button Content="Szczegóły" Grid.Column="1" HorizontalAlignment="Left" Margin="411,456,0,0" VerticalAlignment="Top" Width="100" Height="40" Command="{Binding ShowDetail}"/>
-        <Button Content="Dodaj produkt" Grid.Column="1" HorizontalAlignment="Left" Margin="10,456,0,0" VerticalAlignment="Top" Width="100" Height="40"/>
-        <Button Content="Usuń produkt" Grid.Column="1" HorizontalAlignment="Left" Margin="220,456,0,0" VerticalAlignment="Top" Width="100" Height="40"/>
-        <Button Content="Edytuj produkt" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="115,456,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.88,3.212"/>
+        <Button Content="Stwórz produkt" Grid.Column="1" HorizontalAlignment="Left" Margin="10,456,0,0" VerticalAlignment="Top" Width="100" Height="40" Command="{Binding ShowAddControl}"/>
+        <Button Content="Usuń produkt" Grid.Column="1" HorizontalAlignment="Left" Margin="220,456,0,0" VerticalAlignment="Top" Width="100" Height="40" Command="{Binding DeleteProduct}" />
+        <!--<Button Content="Edytuj produkt" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="115,456,0,0" VerticalAlignment="Top" Width="100" Command="{Binding ShowEditControl}" RenderTransformOrigin="0.88,3.212"/>-->
 
         <!--<Label Content="ProductID" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Column="1" Grid.Row="0" Margin="0,10,419,0"/>
         <Label Content="Name" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Column="1" Margin="0,45,419,0"/>

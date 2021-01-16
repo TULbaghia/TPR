@@ -22,5 +22,9 @@ namespace PresenterModel
         {
             return new ProductModel(DataRepository.GetProduct(id));
         }
+        public void DeleteProduct(ProductModel product)
+        {
+            DataRepository.DeleteProduct(product.CreateProduct());
+        }
     }
 }

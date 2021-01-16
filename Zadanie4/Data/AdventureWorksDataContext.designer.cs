@@ -108,7 +108,7 @@ namespace Data
     #endregion
 		
 		public AdventureWorksDataContext() : 
-				base(global::Data.Properties.Settings.Default.AdventureWorks2014ConnectionString, mappingSource)
+				base(global::Data.Properties.Settings.Default.AdventureWorks2014ConnectionString_Pawel, mappingSource)
 		{
 			OnCreated();
 		}

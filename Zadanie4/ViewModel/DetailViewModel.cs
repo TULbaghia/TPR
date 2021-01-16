@@ -43,7 +43,7 @@ namespace PresenterViewModel
 
         public void SetSelectedProduct(MainViewModel mvm)
         {
-            SelectedProduct = mvm.SelectedProduct;
+            SelectedProduct = mvm.EditProduct;
         }
     }
 }

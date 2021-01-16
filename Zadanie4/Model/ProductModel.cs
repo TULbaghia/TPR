@@ -1,19 +1,27 @@
 ﻿using Service;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace PresenterModel
 {
     public class ProductModel : INotifyPropertyChanged
     {
-        public ProductModelService ProductModelNew { get; private set; }
+        public ProductModelService ProductModelService { get; private set; }
 
         public ProductModel(ProductModelService x)
         {
-            ProductModelNew = x;
+            ProductModelService = x;
+        }
+
+        public ProductModel()
+        {
+            ProductModelService = new ProductModelService();
+        }
+
+        public ProductModelService CreateProduct()
+        {
+            return ProductModelService;
         }
 
         #region PropertyChangedEventHandler
@@ -30,129 +38,102 @@ namespace PresenterModel
         #region Product properties
         public int ProductID
         {
-            get { return ProductModelNew.ProductID; }
+            get => ProductModelService.ProductID;
             set
             {
-                ProductModelNew.ProductID = value;
+                ProductModelService.ProductID = value;
                 NotifyPropertyChanged();
             }
         }
         public string Name
         {
-            get { return ProductModelNew.Name; }
+            get => ProductModelService.Name;
             set
             {
-                ProductModelNew.Name = value;
+                ProductModelService.Name = value;
                 NotifyPropertyChanged();
             }
         }
         public string ProductNumber
         {
-            get { return ProductModelNew.ProductNumber; }
+            get => ProductModelService.ProductNumber;
             set
             {
-                ProductModelNew.ProductNumber = value;
+                ProductModelService.ProductNumber = value;
                 NotifyPropertyChanged();
             }
         }
-        public string Color
+        public bool MakeFlag
         {
-            get { return ProductModelNew.Color; }
+            get => ProductModelService.MakeFlag;
             set
             {
-                ProductModelNew.Color = value;
+                ProductModelService.MakeFlag = value;
+                NotifyPropertyChanged();
+            }
+        }
+        public bool FinishedGoodsFlag
+        {
+            get => ProductModelService.FinishedGoodsFlag;
+            set
+            {
+                ProductModelService.FinishedGoodsFlag = value;
+                NotifyPropertyChanged();
+            }
+        }
+        public short SafetyStockLevel
+        {
+            get => ProductModelService.SafetyStockLevel;
+            set
+            {
+                ProductModelService.SafetyStockLevel = value;
+                NotifyPropertyChanged();
+            }
+        }
+        public short ReorderPoint
+        {
+            get => ProductModelService.ReorderPoint;
+            set
+            {
+                ProductModelService.ReorderPoint = value;
                 NotifyPropertyChanged();
             }
         }
         public decimal StandardCost
         {
-            get { return ProductModelNew.StandardCost; }
+            get => ProductModelService.StandardCost;
             set
             {
-                ProductModelNew.StandardCost = value;
+                ProductModelService.StandardCost = value;
                 NotifyPropertyChanged();
             }
         }
         public decimal ListPrice
         {
-            get { return ProductModelNew.ListPrice; }
+            get => ProductModelService.ListPrice;
             set
             {
-                ProductModelNew.ListPrice = value;
+                ProductModelService.ListPrice = value;
                 NotifyPropertyChanged();
             }
         }
-        public decimal? Weight
+        public int DaysToManufacture
         {
-            get { return ProductModelNew.Weight; }
+            get => ProductModelService.DaysToManufacture;
             set
             {
-                ProductModelNew.Weight = value;
-                NotifyPropertyChanged();
-            }
-        }
-        public string Size
-        {
-            get { return ProductModelNew.Size; }
-            set
-            {
-                ProductModelNew.Size = value;
-                NotifyPropertyChanged();
-            }
-        }
-        public string ProductLine
-        {
-            get { return ProductModelNew.ProductLine; }
-            set
-            {
-                ProductModelNew.ProductLine = value;
-                NotifyPropertyChanged();
-            }
-        }
-        public string Class
-        {
-            get { return ProductModelNew.Class; }
-            set
-            {
-                ProductModelNew.Class = value;
-                NotifyPropertyChanged();
-            }
-        }
-        public string Style
-        {
-            get { return ProductModelNew.Style; }
-            set
-            {
-                ProductModelNew.Style = value;
-                NotifyPropertyChanged("Weight");
-            }
-        }
-        public int? ProductSubcategoryID
-        {
-            get { return ProductModelNew.ProductSubcategoryID; }
-            set
-            {
-                ProductModelNew.ProductSubcategoryID = value;
+                ProductModelService.DaysToManufacture = value;
                 NotifyPropertyChanged();
             }
         }
 
         public DateTime SellStartDate
         {
-            get { return ProductModelNew.SellStartDate; }
+            get => ProductModelService.SellStartDate;
             set
             {
-                ProductModelNew.SellStartDate = value;
-                NotifyPropertyChanged("SellStartDate");
-            }
-        }
-        public DateTime? SellEndDate
-        {
-            get { return ProductModelNew.SellEndDate; }
-            set
-            {
-                ProductModelNew.SellEndDate = value;
-                NotifyPropertyChanged("SellStartDate");
+                ProductModelService.SellStartDate = value;
+                NotifyPropertyChanged();
             }
         }
         #endregion

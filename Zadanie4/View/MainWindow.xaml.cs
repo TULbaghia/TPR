@@ -20,6 +20,7 @@ namespace PresenterView
             MainViewModel _viewModel = (MainViewModel) DataContext;
             _viewModel.DetailWindow = new Lazy<IDetail>(() => new DetailView());
             _viewModel.MainWindow = this;
+            _viewModel.MessageBoxShowDelegate = text => MessageBox.Show(text);
         }
     }
 }
