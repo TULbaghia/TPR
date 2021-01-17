@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PresenterView"
+             xmlns:validation="clr-namespace:PresenterView.validation"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800"
              Background="White" Height="330.793" Width="522.1">
@@ -20,47 +21,100 @@
         </Grid.RowDefinitions>
 
         <Label Content="ProductID" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Row="1" Margin="0,10,1.667,0"/>
-        <TextBox IsEnabled="False" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=AddProduct.ProductID}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,10,289,0"/>
+        <TextBox IsEnabled="False" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding AddProduct.ProductID}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,10,289,0"/>
 
         <Label Content="Name" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Row="1" Margin="0,45,1.667,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=AddProduct.Name}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,45,289,0"/>
+        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,45,289,0">
+            <TextBox.Text>
+                <Binding Path="AddProduct.Name" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validation:Validation50characters ValidationStep="RawProposedValue"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
         <Label Content="ProductNumber" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="100" Grid.Row="1" Margin="0,80,1.667,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=AddProduct.ProductNumber}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,80,289,0"/>
+        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,80,289,0">
+            <TextBox.Text>
+                <Binding Path="AddProduct.ProductNumber" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validation:Validation25characters ValidationStep="RawProposedValue"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
         <Label Content="MakeFlag" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Row="1" Margin="0,115,1.667,0"/>
-        <CheckBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" IsChecked="{Binding Path=AddProduct.MakeFlag}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,115,289,0"/>
+        <CheckBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" IsChecked="{Binding AddProduct.MakeFlag}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,115,289,0"/>
 
         <Label Content="FinishedGoodsFlag" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Margin="0,150,1.667,0" Grid.Row="1" RenderTransformOrigin="1.12,2.525"/>
-        <CheckBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" IsChecked="{Binding Path=AddProduct.FinishedGoodsFlag}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,150,289,0"/>
+        <CheckBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" IsChecked="{Binding AddProduct.FinishedGoodsFlag}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,150,289,0"/>
 
         <Label Content="SafetyStockLevel" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Row="1" Margin="0,185,1.667,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=AddProduct.SafetyStockLevel}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,185,289,0"/>
+        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,185,289,0">
+            <TextBox.Text>
+                <Binding Path="AddProduct.SafetyStockLevel" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validation:ValidatePositiveNumber ValidationStep="RawProposedValue"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
         <Label Content="ReorderPoint" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Row="1" Margin="0,220,1.667,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=AddProduct.ReorderPoint}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,220,289,0"/>
-
+        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="2.333,220,289,0">
+            <TextBox.Text>
+                <Binding Path="AddProduct.ReorderPoint" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validation:ValidatePositiveNumber ValidationStep="RawProposedValue"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
 
 
         <Label Content="StandardCost" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Column="1" Grid.Row="1" Margin="0,10,169,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=AddProduct.StandardCost}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,10,25,0"/>
+        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,10,25,0">
+            <TextBox.Text>
+                <Binding Path="AddProduct.StandardCost" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validation:ValidateNotNegativeDecimal ValidationStep="RawProposedValue"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
         <Label Content="ListPrice" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Column="1" Grid.Row="1" Margin="0,45,169,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=AddProduct.ListPrice}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,45,25,0"/>
+        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,45,25,0">
+            <TextBox.Text>
+                <Binding Path="AddProduct.ListPrice" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validation:ValidateNotNegativeDecimal ValidationStep="RawProposedValue"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
         <Label Content="DaysToManufacture" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Column="1" Grid.Row="1" Margin="0,80,169,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=AddProduct.DaysToManufacture}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,80,25,0" RenderTransformOrigin="2.165,2.967"/>
+        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,80,25,0" RenderTransformOrigin="2.165,2.967">
+            <TextBox.Text>
+                <Binding Path="AddProduct.DaysToManufacture" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <validation:ValidateNotNegativeInteger ValidationStep="RawProposedValue"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
         <Label Content="SellStartDate" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Column="1" Grid.Row="1" Margin="0,115,169,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=AddProduct.SellStartDate}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,115,25,0"/>
-        <!--<Label Content="ProductSubcategory" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="120" Grid.Column="1" Grid.Row="1" Margin="0,150,164,0"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=AddProduct.ProductSubcategoryID}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,150,25,0"/>
-        <Label Content="SellStartDate" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Column="1" Grid.Row="1" Margin="0,185,169,0" RenderTransformOrigin="0.717,0.5"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=AddProduct.SellStartDate}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,185,25,0"/>
-        <Label Content="SellEndDate" VerticalContentAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" Height="30" Width="92" Grid.Column="1" Grid.Row="1" Margin="0,220,169,0" RenderTransformOrigin="0.761,0.6"/>
-        <TextBox IsEnabled="True" HorizontalAlignment="Stretch" Height="30" TextWrapping="Wrap" Text="{Binding Path=AddProduct.SellEndDate}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,220,25,0"/>-->
-
+        <DatePicker Focusable="False" IsEnabled="True" HorizontalAlignment="Stretch" Height="30" SelectedDate="{Binding AddProduct.SellStartDate}" VerticalAlignment="Top" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="266.333,115,25,0">
+            <DatePicker.BlackoutDates>
+                <CalendarDateRange Start="1/1/0001" End="1/1/1753"/>
+            </DatePicker.BlackoutDates>
+        </DatePicker>
+    
         <TextBlock HorizontalAlignment="Left" Margin="15,5,0,0" Grid.RowSpan="1" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="Dodawanie produktu:" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0"/>
         <Button Content="Dodaj produkt" Command="{Binding AppendProduct}" Grid.Column="1" HorizontalAlignment="Left" Margin="95,265,0,0" Grid.Row="1" VerticalAlignment="Top" Width="134" Grid.RowSpan="2" Height="30"/>
     </Grid>

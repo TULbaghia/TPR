@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using PresenterModel;
 
 namespace PresenterViewModel
@@ -18,7 +16,6 @@ namespace PresenterViewModel
         {
             Model = new Model();
             ShowDetail = new ViewModelCommand(_ShowDetail);
-            DisplayTextCommand = new ViewModelCommand(() => MessageBoxShowDelegate("Tekst"));
             ShowAddControl = new ViewModelCommand(() => ShowAdd(true));
             ShowEditControl = new ViewModelCommand(() => ShowAdd(false));
             DeleteProduct = new ViewModelCommand(() => { Task.Run(_DeleteProduct); });
@@ -121,7 +118,6 @@ namespace PresenterViewModel
         #region HandleWindows
         public IWindow MainWindow { get; set; }
 
-        public ViewModelCommand DisplayTextCommand { get; private set; }
         public Action<string> MessageBoxShowDelegate { get; set; }
 
         public Lazy<IDetail> DetailWindow { get; set; }
@@ -205,6 +201,7 @@ namespace PresenterViewModel
             {
                 Model.DeleteProduct(EditProduct);
                 Products = Model.GetProducts().ToList();
+                ShowAdd(true);
             } catch(Exception e)
             {
                 MessageBoxShowDelegate(e.Message);

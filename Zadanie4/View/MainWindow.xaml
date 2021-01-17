@@ -29,9 +29,9 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Id" DisplayMemberBinding="{Binding ProductID}"/>
-                    <GridViewColumn Header="Nazwa" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Header="Ilość produktów" DisplayMemberBinding="{Binding ProductNumber}"/>
-                    <GridViewColumn Header="Cena produktu" DisplayMemberBinding="{Binding StandardCost}"/>
+                    <GridViewColumn Header="Nazwa produktu" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Kod produktu" DisplayMemberBinding="{Binding ProductNumber}"/>
+                    <GridViewColumn Header="Cena pozyskania" DisplayMemberBinding="{Binding StandardCost}"/>
                     <GridViewColumn Header="Czas produkcji" DisplayMemberBinding="{Binding DaysToManufacture}"/>
                 </GridView>
             </ListView.View>

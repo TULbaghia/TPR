@@ -57,6 +57,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="validation\ValidateNotNegativeDecimal.cs" />
+    <Compile Include="validation\ValidateNotNegativeInteger.cs" />
+    <Compile Include="validation\ValidatePositiveNumber.cs" />
+    <Compile Include="validation\Validation25characters.cs" />
+    <Compile Include="validation\Validation50characters.cs" />
     <Page Include="AddProduct.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -123,5 +128,6 @@
       <Name>PresenterViewModel</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
