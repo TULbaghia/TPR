@@ -10,25 +10,26 @@ namespace PresenterViewModel
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        public Model Model { get; private set; }
+        public IModel Model { get; private set; }
 
         public MainViewModel()
         {
             Model = new Model();
-            ShowDetail = new ViewModelCommand(_ShowDetail);
-            ShowAddControl = new ViewModelCommand(() => ShowAdd(true));
-            ShowEditControl = new ViewModelCommand(() => ShowAdd(false));
-            DeleteProduct = new ViewModelCommand(() => { Task.Run(_DeleteProduct); });
-            AppendProduct = new ViewModelCommand(() => { Task.Run(_AppendProduct); });
-            ModifyProduct = new ViewModelCommand(() => { Task.Run(_ModifyProduct); });
+            ShowDetail = new RelayCommand(_ShowDetail);
+            ShowAddControl = new RelayCommand(() => ShowAdd(true));
+            ShowEditControl = new RelayCommand(() => ShowAdd(false));
+            DeleteProduct = new RelayCommand(() => { Task.Run(_DeleteProduct); });
+            AppendProduct = new RelayCommand(() => { Task.Run(_AppendProduct); });
+            ModifyProduct = new RelayCommand(() => { Task.Run(_ModifyProduct); });
 
             EditProduct = new ProductModel();
             Products = Model.GetProducts().ToList();
             ShowAdd(true);
         }
 
+
         #region ModifyProduct commands
-        public ViewModelCommand ModifyProduct { get; private set; }
+        public RelayCommand ModifyProduct { get; private set; }
         private void _ModifyProduct()
         {
             try
@@ -47,7 +48,7 @@ namespace PresenterViewModel
         #endregion
 
         #region AppendProduct commands
-        public ViewModelCommand AppendProduct { get; private set; }
+        public RelayCommand AppendProduct { get; private set; }
         private void _AppendProduct()
         {
             try
@@ -59,7 +60,7 @@ namespace PresenterViewModel
             }
             catch (Exception e)
             {
-                MessageBoxShowDelegate(e.Message);
+                MessageBoxShowDelegate("Dodawanie nowego produktu zakończyło się niepowodzeniem");
             }
         }
         #endregion
@@ -121,7 +122,7 @@ namespace PresenterViewModel
         public Action<string> MessageBoxShowDelegate { get; set; }
 
         public Lazy<IDetail> DetailWindow { get; set; }
-        public ViewModelCommand ShowDetail { get; set; }
+        public RelayCommand ShowDetail { get; set; }
         private void _ShowDetail()
         {
             if (EditProduct.ProductID == 0)
@@ -146,8 +147,8 @@ namespace PresenterViewModel
         #endregion
 
         #region AddEditVisiblity
-        public ViewModelCommand ShowAddControl { get; set; }
-        public ViewModelCommand ShowEditControl { get; set; }
+        public RelayCommand ShowAddControl { get; set; }
+        public RelayCommand ShowEditControl { get; set; }
 
         private string _AddVisiblity;
         private string _EditVisibility;
@@ -183,12 +184,11 @@ namespace PresenterViewModel
                 AddVisibility = "Hidden";
                 EditVisibility = "Visible";
             }
-            int a = 5;
         }
         #endregion
 
         #region DeleteProduct
-        public ViewModelCommand DeleteProduct { get; private set; }
+        public RelayCommand DeleteProduct { get; private set; }
 
         private void _DeleteProduct()
         {
@@ -201,12 +201,29 @@ namespace PresenterViewModel
             {
                 Model.DeleteProduct(EditProduct);
                 Products = Model.GetProducts().ToList();
+                MessageBoxShowDelegate("Pomyślnie usunięto wybrany produkt");
                 ShowAdd(true);
             } catch(Exception e)
             {
-                MessageBoxShowDelegate(e.Message);
-                //MessageBoxShowDelegate("Wystąpił problem z usunięciem produktu");
+                MessageBoxShowDelegate("Wystąpił problem z usunięciem produktu");
             }
+        }
+        #endregion
+
+        #region Other
+        public MainViewModel(IModel model)
+        {
+            Model = model;
+            ShowDetail = new RelayCommand(_ShowDetail);
+            ShowAddControl = new RelayCommand(() => ShowAdd(true));
+            ShowEditControl = new RelayCommand(() => ShowAdd(false));
+            DeleteProduct = new RelayCommand(() => { _DeleteProduct(); });
+            AppendProduct = new RelayCommand(() => { _AppendProduct(); });
+            ModifyProduct = new RelayCommand(() => { _ModifyProduct(); });
+
+            EditProduct = new ProductModel();
+            Products = Model.GetProducts().ToList();
+            ShowAdd(true);
         }
         #endregion
     }

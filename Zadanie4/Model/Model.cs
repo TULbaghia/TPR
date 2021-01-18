@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PresenterModel
 {
-    public class Model
+    public class Model : IModel
     {
         private IDataRepository DataRepository { get; set; }
 

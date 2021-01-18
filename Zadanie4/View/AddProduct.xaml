@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800"
              Background="White" Height="330.793" Width="522.1">
-
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="35*"/>
